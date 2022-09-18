@@ -7,13 +7,13 @@ const WorkDetails = () => {
 
   const { projectId } = useParams();
 
-  useEffect(() => {
-    // Find the project with the id that matches the projectId we get from the URL with useParams
-    let project = projects.find((project) => project.id === projectId);
-    // Set the project state to the singleProject we found
-    setProject(project);
-    console.log(project);
-  }, [projectId]);
+  // useEffect(() => {
+  //   // Find the project with the id that matches the projectId we get from the URL with useParams
+  //   let project = projects.find((project) => project.id === projectId);
+  //   // Set the project state to the singleProject we found
+  //   setProject(project);
+
+  // }, [projectId]);
 
   return (
     <div className="container">
