@@ -30,7 +30,7 @@ function App() {
 
   return (
     <div className="App">
-      <CustomCursor />
+      {/* <CustomCursor /> */}
       {preloader ? (
         <div className="container">Loading...</div>
       ) : (

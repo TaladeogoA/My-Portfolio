@@ -3,22 +3,26 @@ import { useParams } from "react-router-dom";
 import projects from "../../projectdata";
 
 const WorkDetails = () => {
-  const [project, setProject] = useState("");
+  const [projectData, setProjectData] = useState([]);
 
   const { projectId } = useParams();
 
-  // useEffect(() => {
-  //   // Find the project with the id that matches the projectId we get from the URL with useParams
-  //   let project = projects.find((project) => project.id === projectId);
-  //   // Set the project state to the singleProject we found
-  //   setProject(project);
-
-  // }, [projectId]);
+  useEffect(() => {
+    if (projectId) {
+      const localData = localStorage.getItem(`project${projectId}`);
+      setProjectData([JSON.parse(localData)]);
+    }
+    return () => {
+      localStorage.removeItem(`project${projectId}`);
+    };
+  }, [projectId]);
 
   return (
     <div className="container">
-      <ul>{project && JSON.stringify(project)}</ul>
-      <h1>WorkDetails</h1>
+      {projectData.length > 0 &&
+        projectData.map((data) => {
+          return <p key={data?.id}>{data?.title}</p>;
+        })}
     </div>
   );
 };
