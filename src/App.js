@@ -14,8 +14,6 @@ function App() {
     setPreloader(false);
   };
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     id.current = window.setInterval(() => {
       setTimer((timer) => {

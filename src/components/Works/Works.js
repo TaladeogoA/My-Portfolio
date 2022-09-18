@@ -8,7 +8,8 @@ import styled from "styled-components";
 
 const Works = () => {
   const works = gsap.timeline();
-
+  
+  console.log(selectedProject);
   return (
     <div>
       <PageTransition timeline={works} />
@@ -17,7 +18,9 @@ const Works = () => {
         <ul>
           {projects.map((singleProject) => {
             return (
-              <Wrapper key={singleProject.id} to={`/works/${singleProject.id}`}>
+              <Wrapper key={singleProject.id} to={`/works/${singleProject.id}`} onClick={() => {
+                localStorage.setItem(`project${singleProject.id}`, JSON.stringify(singleProject)`);
+              }}>
                 <ListItem>
                   <h2>{singleProject.title}</h2>
                   <p>{singleProject.desc}</p>
