@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import NavBar from "./components/Navbar/NavBar";
+import { useEffect, useRef, useState } from "react";
+import CustomCursor from "./components/SpecialEffects/CustomCursor";
+import AppRoutes from "./AppRoutes";
 
 function App() {
+  const [preloader, setPreloader] = useState(true);
+  const [timer, setTimer] = useState(2);
+  const id = useRef(null);
+
+  const clear = () => {
+    window.clearInterval(id.current);
+    setPreloader(false);
+  };
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    id.current = window.setInterval(() => {
+      setTimer((timer) => {
+        if (timer === 0) {
+          clear();
+        }
+        return timer - 1;
+      });
+    }, 1000);
+    if (timer === 0) {
+      clear();
+    }
+  }, [timer]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CustomCursor />
+      {preloader ? (
+        <div className="container">Loading...</div>
+      ) : (
+        <>
+          <NavBar />
+          <AppRoutes />
+        </>
+      )}
     </div>
   );
 }
