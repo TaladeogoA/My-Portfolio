@@ -1,7 +1,6 @@
 import React from "react";
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
-import WorkDetails from "./WorkDetails";
 import { Link } from "react-router-dom";
 import projects from "../../projectdata";
 import styled from "styled-components";
@@ -10,11 +9,11 @@ const Works = () => {
   const works = gsap.timeline();
 
   return (
-    <div>
+    <main>
       <PageTransition timeline={works} />
       <div className="works-overlay"></div>
       <div className="container">
-        <ul>
+        <ListWrapper>
           {projects.map((singleProject) => {
             return (
               <Wrapper
@@ -31,14 +30,13 @@ const Works = () => {
                 <ListItem>
                   <h2>{singleProject.title}</h2>
                   <p>{singleProject.desc}</p>
-                  <span className="tags-wrapper">{singleProject.tags}</span>
                 </ListItem>
               </Wrapper>
             );
           })}
-        </ul>
+        </ListWrapper>
       </div>
-    </div>
+    </main>
   );
 };
 
@@ -46,13 +44,38 @@ export default Works;
 
 const Wrapper = styled(Link)`
   text-decoration: none;
-  color: inherit;
-  text-align: left;
+  margin-right: -2rem;
+  color: #000;
+
+  p {
+    color: #808080;
+  }
+
+  &:hover {
+    p {
+      color: #000;
+    }
+
+    h2 {
+      font-weight: 500;
+    }
+  }
+`;
+
+const ListWrapper = styled.ul`
+  position: relative;
+  right: -2rem;
 `;
 
 const ListItem = styled.li`
+  text-align: right;
+
   h2 {
     width: fit-content;
+    margin-left: auto;
+    font-size: 2.5rem;
+    font-weight: 300;
+    font-family: "Mate", serif;
   }
 
   &::after {
@@ -62,12 +85,12 @@ const ListItem = styled.li`
     transform: scale(0);
     height: 1px;
     background-color: black;
-    transform-origin: bottom left;
+    transform-origin: bottom right;
     transition: transform 0.25s ease-out;
   }
 
   &:hover::after {
     transform: scale(1);
-    transform-origin: bottom left;
+    transform-origin: bottom right;
   }
 `;

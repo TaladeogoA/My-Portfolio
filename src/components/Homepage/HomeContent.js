@@ -57,6 +57,7 @@ const HomeContainer = styled.div`
   display: flex;
   gap: 3rem;
   align-items: flex-end;
+  margin-left: 2rem;
 
   .flower-two {
     position: absolute;
@@ -66,6 +67,8 @@ const HomeContainer = styled.div`
 `;
 
 const HomeText = styled.div`
+  width: 85%;
+
   h1 {
     text-transform: uppercase;
     font-size: 5rem;
@@ -73,15 +76,15 @@ const HomeText = styled.div`
   }
 
   p {
-    // font-family: "Indie Flower", cursive;
     font-family: "Mate", serif;
     font-size: 1.2rem;
     font-weight: 400;
+    margin-top: 1rem;
   }
 
   h2 {
     font-family: "Mate", serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-top: 1.5rem;
     font-weight: 400;
   }
