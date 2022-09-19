@@ -1,8 +1,6 @@
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
 import HomeContent from "./HomeContent";
-import NavBar from "../Navbar/NavBar";
-// import CustomCursor from "../SpecialEffects/CustomCursor";
 
 const Home = () => {
   const home = gsap.timeline();
