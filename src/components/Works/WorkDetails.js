@@ -20,7 +20,7 @@ const WorkDetails = () => {
   }, [projectId]);
 
   return (
-    <main className="container">
+    <Main className="container">
       {projectData.length > 0 &&
         projectData.map((data) => {
           return (
@@ -57,12 +57,20 @@ const WorkDetails = () => {
                     <p>{data.tags}</p>
                   </div>
                 </div>
+                <div className="project-content">
+                  <div className="title">
+                    <p>Timeline</p>
+                  </div>
+                  <div>
+                    <p>{data.timeline}</p>
+                  </div>
+                </div>
                 <div className="project-content project-links">
                   <div className="title">
                     <p>Live Site</p>
                   </div>
                   <div>
-                    <a target="_blank" href={data.live}>
+                    <a target="_blank" rel="noreferrer" href={data.live}>
                       <span>View Live</span>
                     </a>
                   </div>
@@ -72,7 +80,7 @@ const WorkDetails = () => {
                     <p>Source Code</p>
                   </div>
                   <div>
-                    <a target="_blank" href={data.source}>
+                    <a target="_blank" rel="noreferrer" href={data.source}>
                       <span>View Source</span>
                     </a>
                   </div>
@@ -93,11 +101,15 @@ const WorkDetails = () => {
             </Wrapper>
           );
         })}
-    </main>
+    </Main>
   );
 };
 
 export default WorkDetails;
+
+const Main = styled.main`
+  left: 45%;
+`;
 
 const Wrapper = styled.article`
   font-family: "Mate", serif;

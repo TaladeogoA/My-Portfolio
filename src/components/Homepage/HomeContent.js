@@ -3,8 +3,6 @@ import styled from "styled-components";
 // import "../index.css";
 import Talade from "../../assets/Talade.png";
 import TaladeWaving from "../../assets/Talade-waving.png";
-import FlowerOne from "../../assets/flower-one.png";
-import FlowerTwo from "../../assets/flower-two.png";
 
 function Logo({ background, hoverBackground }) {
   return (
@@ -26,7 +24,6 @@ const HomeContent = () => {
 
   return (
     <HomeContainer className="container">
-      {/* <img className="flower-two" src={FlowerTwo} alt="" /> */}
       <HomeText>
         <h1>
           I'm <br /> talade.
@@ -53,17 +50,11 @@ const HomeContent = () => {
 
 export default HomeContent;
 
-const HomeContainer = styled.div`
+const HomeContainer = styled.main`
   display: flex;
   gap: 3rem;
   align-items: flex-end;
-  margin-left: 2rem;
-
-  .flower-two {
-    position: absolute;
-    bottom: -20rem;
-    left: -15rem;
-  }
+  left: 55%;
 `;
 
 const HomeText = styled.div`

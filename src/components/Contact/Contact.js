@@ -8,7 +8,6 @@ const Contact = () => {
 
   return (
     <div>
-      {/* <NavBar /> */}
       <PageTransition timeline={contact} />
       <div className="contact-overlay"></div>
       <ContactContent />

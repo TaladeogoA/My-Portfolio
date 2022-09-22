@@ -7,7 +7,6 @@ const Home = () => {
 
   return (
     <div>
-      {/* <NavBar /> */}
       <PageTransition timeline={home} />
       <div className="home-overlay"></div>
       <HomeContent />

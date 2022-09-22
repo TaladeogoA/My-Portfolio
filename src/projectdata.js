@@ -10,6 +10,7 @@ const data = [
     image: "placeholder-one.png",
     live: "",
     source: "",
+    timeline: "June 2021",
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const data = [
     image: "winery-mockup.png",
     live: "",
     source: "https://github.com/TaladeogoA/The-Good-Winery",
+    timeline: "May 2020",
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ const data = [
     image: "",
     live: "",
     source: "",
+    timeline: "May 2020",
   },
   {
     id: 4,
@@ -46,6 +49,20 @@ const data = [
     image: "",
     live: "",
     source: "",
+    timeline: "May 2020",
+  },
+  {
+    id: 5,
+    title: "Travel Advisor",
+    desc: "A travel advisor app built with React, Material UI, Google Maps API and Open Weather API",
+    tagline: "This is a tagline",
+    tags: "React | Material UI | Google Maps API | Open Weather API",
+    details:
+      "This is a travel advisor app built with React, Material UI, Google Maps API and Open Weather API. The app uses the Google Maps API to display the location of the places and the Open Weather API to display the weather of the places. The app is fully responsive and works on all devices. The app is hosted on Firebase.",
+    image: "",
+    live: "",
+    source: "",
+    timeline: "May 2020",
   },
 ];
 

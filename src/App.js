@@ -1,7 +1,7 @@
 import "./App.css";
 import NavBar from "./components/Navbar/NavBar";
 import { useEffect, useRef, useState } from "react";
-import CustomCursor from "./components/SpecialEffects/CustomCursor";
+// import CustomCursor from "./components/SpecialEffects/CustomCursor";
 import AppRoutes from "./AppRoutes";
 
 function App() {

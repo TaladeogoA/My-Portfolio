@@ -9,10 +9,10 @@ const Works = () => {
   const works = gsap.timeline();
 
   return (
-    <main>
+    <div>
       <PageTransition timeline={works} />
       <div className="works-overlay"></div>
-      <div className="container">
+      <Main className="container">
         <ListWrapper>
           {projects.map((singleProject) => {
             return (
@@ -28,19 +28,26 @@ const Works = () => {
                 }}
               >
                 <ListItem>
-                  <h2>{singleProject.title}</h2>
+                  <h2>
+                    <sup>2022 / </sup>
+                    {singleProject.title}
+                  </h2>
                   <p>{singleProject.desc}</p>
                 </ListItem>
               </Wrapper>
             );
           })}
         </ListWrapper>
-      </div>
-    </main>
+      </Main>
+    </div>
   );
 };
 
 export default Works;
+
+const Main = styled.main`
+  left: 45%;
+`;
 
 const Wrapper = styled(Link)`
   text-decoration: none;
@@ -64,7 +71,7 @@ const Wrapper = styled(Link)`
 
 const ListWrapper = styled.ul`
   position: relative;
-  right: -2rem;
+  margin-right: -2.5rem;
 `;
 
 const ListItem = styled.li`
@@ -76,6 +83,10 @@ const ListItem = styled.li`
     font-size: 2.5rem;
     font-weight: 300;
     font-family: "Mate", serif;
+
+    sup {
+      font-size: 1rem;
+    }
   }
 
   &::after {
@@ -86,7 +97,7 @@ const ListItem = styled.li`
     height: 1px;
     background-color: black;
     transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
+    transition: transform 0.2s ease-out;
   }
 
   &:hover::after {
