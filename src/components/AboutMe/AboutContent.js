@@ -113,6 +113,7 @@ const AboutContent = () => {
               <img src={tailwind} alt="tailwind" />
               <span>Tailwind</span>
             </li>
+            {/* add material ui */}
           </ul>
         </div>
       </AboutSkills>

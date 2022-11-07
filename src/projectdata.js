@@ -1,4 +1,4 @@
-const data = [
+export const data = [
   {
     id: 1,
     title: "Netflix Clone",
@@ -66,4 +66,4 @@ const data = [
   },
 ];
 
-export default data;
+// export default data;

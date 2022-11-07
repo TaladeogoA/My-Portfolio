@@ -2,7 +2,7 @@ import React from "react";
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
-import projects from "../../projectdata";
+import { data } from "../../projectdata";
 import styled from "styled-components";
 
 const Works = () => {
@@ -14,7 +14,7 @@ const Works = () => {
       <div className="works-overlay"></div>
       <Main className="container">
         <ListWrapper>
-          {projects.map((singleProject) => {
+          {data.map((singleProject) => {
             return (
               <Wrapper
                 key={singleProject.id}
@@ -93,15 +93,25 @@ const ListItem = styled.li`
     content: "";
     display: block;
     width: 100%;
-    transform: scale(0);
-    height: 1px;
-    background-color: black;
+    /* transform: scale(0); */
+    border-bottom: 1px solid #fff;
+    margin-top: 1rem;
+    transition: all 0.3s ease-in-out;
+    /* height: 1px; */
+    /* background-color: black;
     transform-origin: bottom right;
-    transition: transform 0.2s ease-out;
+    transition: transform 0.2s ease-out; */
   }
 
   &:hover::after {
-    transform: scale(1);
-    transform-origin: bottom right;
+    /* transform: scale(1);
+    transform-origin: bottom right; */
+    /* border-bottom: 1px solid #000; */
+  }
+
+  &:hover h2 {
+    background-color: #000;
+    color: white;
+    transition: background-color 0.3s ease-out;
   }
 `;
