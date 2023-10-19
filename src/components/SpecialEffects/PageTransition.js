@@ -6,7 +6,7 @@ const PageTransition = ({ timeline }) => {
   const trans = useRef(null);
   useEffect(() => {
     timeline.to(trans.current, {
-      duration: 4,
+      duration: 2,
       x: 2500,
       ease: Power4.easeOut,
     });

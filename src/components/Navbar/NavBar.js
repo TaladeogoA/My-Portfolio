@@ -1,29 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink as Link } from "react-router-dom";
+import { DispatchCursor, CURSOR_EXCLUSION } from "haspr-cursor";
 import styled from "styled-components";
 import Logo from "../../assets/logo.png";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { GoX } from "react-icons/go";
 
 const NavBar = () => {
+  const dispatch = DispatchCursor();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    console.log(isOpen);
+  }, [isOpen]);
+
   return (
-    <Nav>
-      <NavLink to="/contact">
-        <h5>004</h5>
-        <h3>Contact</h3>
-      </NavLink>
-      <NavLink to="/works">
-        <h5>003</h5>
-        <h3>Works</h3>
-      </NavLink>
-      <NavLink to="/about">
-        <h5>002</h5>
-        <h3>About</h3>
-      </NavLink>
-      <NavLink to="/">
-        <h5>001</h5>
-        <img className="logo" src={Logo} alt="Logo" />
-        <h3>Home</h3>
-      </NavLink>
-    </Nav>
+    <>
+      <Nav>
+        <NavLink
+          to="/contact"
+          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
+          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
+        >
+          <h5>004</h5>
+          <h3>Contact</h3>
+        </NavLink>
+        <NavLink
+          to="/works"
+          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
+          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
+        >
+          <h5>003</h5>
+          <h3>Works</h3>
+        </NavLink>
+        <NavLink
+          to="/about"
+          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
+          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
+        >
+          <h5>002</h5>
+          <h3>About</h3>
+        </NavLink>
+        <NavLink
+          to="/"
+          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
+          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
+        >
+          <h5>001</h5>
+          <img className="logo" src={Logo} alt="Logo" />
+          <h3>Home</h3>
+        </NavLink>
+      </Nav>
+
+      <MobileNav className="mobile-nav">
+        <Link to="/">
+          <img className="nav-logo" src={Logo} alt="logo" />
+        </Link>
+
+        <div className={isOpen ? "nav-menu active" : "nav-menu"}>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+
+            <li>
+              <Link to="/works">Works</Link>
+            </li>
+
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          {isOpen ? <GoX /> : <RxHamburgerMenu />}
+        </button>
+      </MobileNav>
+    </>
   );
 };
 
@@ -31,6 +93,10 @@ export default NavBar;
 
 const Nav = styled.nav`
   display: flex;
+
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
 `;
 
 const NavLink = styled(Link)`
@@ -67,6 +133,38 @@ const NavLink = styled(Link)`
     color: #fff;
     .logo {
       filter: invert(1);
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+  }
+`;
+
+const MobileNav = styled.nav`
+  display: none;
+  position: relative;
+
+  @media screen and (max-width: 992px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    height: max-content;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      text-align: center;
+
+      li {
+        color: inherit;
+        text-decoration: none;
+      }
     }
   }
 `;

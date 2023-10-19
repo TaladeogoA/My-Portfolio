@@ -1,9 +1,11 @@
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
+
 import HomeContent from "./HomeContent";
 
 const Home = () => {
   const home = gsap.timeline();
+
 
   return (
     <div>

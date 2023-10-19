@@ -1,18 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-// import "../index.css";
 import Talade from "../../assets/Talade.png";
 import TaladeWaving from "../../assets/Talade-waving.png";
-
-function Logo({ background, hoverBackground }) {
-  return (
-    <Logo
-      background={background}
-      hoverBackground={hoverBackground}
-      className="logo"
-    ></Logo>
-  );
-}
+import { animateText } from "../../utils/Animation";
+import gsap from "gsap";
 
 const HomeContent = () => {
   const logos = [
@@ -22,14 +13,40 @@ const HomeContent = () => {
     },
   ];
 
+  const textRefs = useRef([]);
+  const timeline = useRef(gsap.timeline());
+
+  useEffect(() => {
+    const textElements = textRefs.current;
+
+    textElements.forEach((element) => {
+      timeline.current.add(animateText(element));
+    });
+    timeline.current.from(".new-text", {
+      autoAlpha: 0,
+      duration: 0.7,
+    });
+
+    timeline.current.play();
+  }, []);
+
   return (
     <HomeContainer className="container">
       <HomeText>
-        <h1>
-          I'm <br /> talade.
-        </h1>
-        <p>(Taladeogo if you're feeling brave.)</p>
-        <h2>
+        <Block className="text-block" ref={(el) => (textRefs.current[0] = el)}>
+          <Text className="h1">Hi, I'm</Text>
+        </Block>
+
+        <Block className="text-block">
+          <Text className="h1" ref={(el) => (textRefs.current[1] = el)}>
+            Talade.
+          </Text>
+          <Text className="p new-text">
+            (Taladeogo if you're feeling brave.)
+          </Text>
+        </Block>
+
+        <h2 className="new-text">
           Front-end developer, UI Designer and Illustrator
           <span> (sometimes).</span>
         </h2>
@@ -60,19 +77,6 @@ const HomeContainer = styled.main`
 const HomeText = styled.div`
   width: 85%;
 
-  h1 {
-    text-transform: uppercase;
-    font-size: 5rem;
-    font-weight: 400;
-  }
-
-  p {
-    font-family: "Mate", serif;
-    font-size: 1.2rem;
-    font-weight: 400;
-    margin-top: 1rem;
-  }
-
   h2 {
     font-family: "Mate", serif;
     font-size: 1.2rem;
@@ -83,6 +87,26 @@ const HomeText = styled.div`
   span {
     font-size: 1rem;
     font-family: "Indie Flower", cursive;
+  }
+`;
+
+const Block = styled.div``;
+
+const Text = styled.div`
+  font-size: 1.2rem;
+  font-weight: 400;
+
+  &.h1 {
+    text-transform: uppercase;
+    font-size: 5rem;
+    font-weight: 400;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  &.p {
+    font-family: "Mate", serif;
+    font-size: 1.2rem;
+    font-weight: 400;
   }
 `;
 

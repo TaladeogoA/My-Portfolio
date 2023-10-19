@@ -35,7 +35,8 @@ const WorkDetails = () => {
               <span className="quotes">
                 <RiDoubleQuotesL />
               </span>
-              <h1>{data.tagline}</h1>
+              {data.tagline && <h1>{data.tagline}</h1>}
+
               <span className="quotes">
                 <RiDoubleQuotesR />
               </span>
@@ -89,10 +90,12 @@ const WorkDetails = () => {
 
               <Content>
                 <div className="project-img">
-                  <img
-                    src={require(`../../assets/${data.image}`)}
-                    alt={data.title}
-                  />
+                  {data.image && (
+                    <img
+                      src={require(`../../assets/${data.image}`)}
+                      alt={data.title}
+                    />
+                  )}
                 </div>
                 <div className="project-desc">
                   <p>{data.details}</p>

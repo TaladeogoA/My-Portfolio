@@ -2,19 +2,50 @@ import React from "react";
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
-import { data } from "../../projectdata";
+import { data } from "../../data/projectdata";
 import styled from "styled-components";
+import { useState, useEffect } from "react";
+import Pagination from "../../utils/Pagination";
 
 const Works = () => {
   const works = gsap.timeline();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [projectsPerPage, setProjectsPerPage] = useState(4);
+
+  useEffect(() => {
+    const updateProjectsPerPage = () => {
+      const screenHeight = window.innerHeight;
+      if (screenHeight <= 500) {
+        setProjectsPerPage(2);
+      } else if (screenHeight <= 800) {
+        setProjectsPerPage(3);
+      } else if (screenHeight <= 1023) {
+        setProjectsPerPage(4);
+      } else {
+        setProjectsPerPage(5);
+      }
+    };
+
+    updateProjectsPerPage();
+    window.addEventListener("resize", updateProjectsPerPage);
+
+    return () => {
+      window.removeEventListener("resize", updateProjectsPerPage);
+    };
+  }, []);
+
+  // Get current projects
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = data.slice(indexOfFirstProject, indexOfLastProject);
 
   return (
-    <div>
+    <>
       <PageTransition timeline={works} />
       <div className="works-overlay"></div>
       <Main className="container">
         <ListWrapper>
-          {data.map((singleProject) => {
+          {currentProjects.map((singleProject) => {
             return (
               <Wrapper
                 key={singleProject.id}
@@ -38,8 +69,15 @@ const Works = () => {
             );
           })}
         </ListWrapper>
+
+        <Pagination
+          projectsPerPage={projectsPerPage}
+          totalProjects={data.length}
+          paginate={(pageNumber) => setCurrentPage(pageNumber)}
+          currentPage={currentPage}
+        />
       </Main>
-    </div>
+    </>
   );
 };
 
@@ -47,6 +85,15 @@ export default Works;
 
 const Main = styled.main`
   left: 45%;
+  top: 55%;
+  height: 60%;
+
+  > div {
+    position: absolute;
+    bottom: -5rem;
+    left: 0;
+    right: 0;
+  }
 `;
 
 const Wrapper = styled(Link)`
@@ -80,7 +127,7 @@ const ListItem = styled.li`
   h2 {
     width: fit-content;
     margin-left: auto;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 300;
     font-family: "Mate", serif;
 
@@ -93,20 +140,9 @@ const ListItem = styled.li`
     content: "";
     display: block;
     width: 100%;
-    /* transform: scale(0); */
     border-bottom: 1px solid #fff;
     margin-top: 1rem;
     transition: all 0.3s ease-in-out;
-    /* height: 1px; */
-    /* background-color: black;
-    transform-origin: bottom right;
-    transition: transform 0.2s ease-out; */
-  }
-
-  &:hover::after {
-    /* transform: scale(1);
-    transform-origin: bottom right; */
-    /* border-bottom: 1px solid #000; */
   }
 
   &:hover h2 {
