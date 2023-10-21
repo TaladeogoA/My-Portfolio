@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Taladeogo from "../../assets/taladeogo.jpg";
 
 const PictureAnimation = () => {
+  const [isHovered, setIsHovered] = useState(false);
   const text = "Taladeogo - Front-end developer - UI Designer - Illustrator -";
   const textWithSpans = text.split("").map((char, i) => (
     <span
@@ -16,8 +17,11 @@ const PictureAnimation = () => {
   ));
 
   return (
-    <Container>
-      <div className="circle">
+    <Container
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`circle ${isHovered ? "hovered" : ""}`}>
         <div className="logo"></div>
         <p className="text">{textWithSpans}</p>
       </div>
@@ -56,7 +60,7 @@ const Container = styled.div`
       position: absolute;
       width: 100%;
       height: 100%;
-      animation: rotateText 50s linear infinite;
+      animation: rotateText 45s linear infinite;
 
       @keyframes rotateText {
         0% {
@@ -73,6 +77,10 @@ const Container = styled.div`
         font-size: 1.2rem;
         transform-origin: 0 150px;
       }
+    }
+
+    &.hovered .text {
+      animation-play-state: paused;
     }
   }
 `;

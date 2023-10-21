@@ -42,7 +42,7 @@ const HomeContent = () => {
             Talade.
           </Text>
           <Text className="p new-text">
-            (Taladeogo if you're feeling brave.)
+            (Táládeogó if you're feeling brave.)
           </Text>
         </Block>
 

@@ -4,78 +4,51 @@ import gsap from "gsap";
 import { Link } from "react-router-dom";
 import { data } from "../../data/projectdata";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
-import Pagination from "../../utils/Pagination";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 
 const Works = () => {
   const works = gsap.timeline();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [projectsPerPage, setProjectsPerPage] = useState(4);
-
-  useEffect(() => {
-    const updateProjectsPerPage = () => {
-      const screenHeight = window.innerHeight;
-      if (screenHeight <= 500) {
-        setProjectsPerPage(2);
-      } else if (screenHeight <= 800) {
-        setProjectsPerPage(3);
-      } else if (screenHeight <= 1023) {
-        setProjectsPerPage(4);
-      } else {
-        setProjectsPerPage(5);
-      }
-    };
-
-    updateProjectsPerPage();
-    window.addEventListener("resize", updateProjectsPerPage);
-
-    return () => {
-      window.removeEventListener("resize", updateProjectsPerPage);
-    };
-  }, []);
-
-  // Get current projects
-  const indexOfLastProject = currentPage * projectsPerPage;
-  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  const currentProjects = data.slice(indexOfFirstProject, indexOfLastProject);
 
   return (
     <>
       <PageTransition timeline={works} />
       <div className="works-overlay"></div>
       <Main className="container">
-        <ListWrapper>
-          {currentProjects.map((singleProject) => {
-            return (
-              <Wrapper
-                key={singleProject.id}
-                to={`/works/${singleProject.id}`}
-                onClick={() => {
-                  // we want to save the data for the specific project into local storage whenever its clicked on
-                  localStorage.setItem(
-                    `project${singleProject?.id}`,
-                    JSON.stringify(singleProject)
-                  );
-                }}
-              >
-                <ListItem>
-                  <h2>
-                    <sup>2022 / </sup>
-                    {singleProject.title}
-                  </h2>
-                  <p>{singleProject.desc}</p>
-                </ListItem>
-              </Wrapper>
-            );
-          })}
-        </ListWrapper>
+        <div className="splide">
+          <Splide
+            tag="section"
+            options={{
+              rewind: true,
+              perPage: 2.5,
+              perMove: 1,
+              gap: ".5rem",
+              pagination: false,
+              breakpoints: {
+                768: {
+                  perPage: 2,
+                },
+                480: {
+                  perPage: 1,
+                },
+              },
+            }}
+          >
+            {data.map((project) => {
+              return (
+                <SplideSlide key={project.id}>
+                  <ProjectCard>
+                    <div className="image">
+                      <img src={project.img} alt={project.title} />
+                    </div>
 
-        <Pagination
-          projectsPerPage={projectsPerPage}
-          totalProjects={data.length}
-          paginate={(pageNumber) => setCurrentPage(pageNumber)}
-          currentPage={currentPage}
-        />
+                    <p>{project.title}</p>
+                  </ProjectCard>
+                </SplideSlide>
+              );
+            })}
+          </Splide>
+        </div>
       </Main>
     </>
   );
@@ -84,70 +57,46 @@ const Works = () => {
 export default Works;
 
 const Main = styled.main`
-  left: 45%;
-  top: 55%;
-  height: 60%;
+  max-width: 70vw;
+  margin: auto;
+  margin-left: -4rem;
 
-  > div {
-    position: absolute;
-    bottom: -5rem;
-    left: 0;
-    right: 0;
+  ::-webkit-scrollbar {
+    height: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #fff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c7c5c5;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a7a7;
   }
 `;
 
-const Wrapper = styled(Link)`
-  text-decoration: none;
-  margin-right: -2rem;
-  color: #000;
+const ProjectCard = styled.div`
+  flex: 0 0 auto;
+  width: 300px;
+  height: 300px;
+  margin-bottom: 2rem;
+
+  .image {
+    border: 1px solid blue;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   p {
-    color: #808080;
-  }
-
-  &:hover {
-    p {
-      color: #000;
-    }
-
-    h2 {
-      font-weight: 500;
-    }
-  }
-`;
-
-const ListWrapper = styled.ul`
-  position: relative;
-  margin-right: -2.5rem;
-`;
-
-const ListItem = styled.li`
-  text-align: right;
-
-  h2 {
-    width: fit-content;
-    margin-left: auto;
-    font-size: 2rem;
-    font-weight: 300;
+    font-size: 1rem;
+    margin-top: 0.5rem;
     font-family: "Mate", serif;
-
-    sup {
-      font-size: 1rem;
-    }
-  }
-
-  &::after {
-    content: "";
-    display: block;
-    width: 100%;
-    border-bottom: 1px solid #fff;
-    margin-top: 1rem;
-    transition: all 0.3s ease-in-out;
-  }
-
-  &:hover h2 {
-    background-color: #000;
-    color: white;
-    transition: background-color 0.3s ease-out;
+    font-weight: 600;
   }
 `;
