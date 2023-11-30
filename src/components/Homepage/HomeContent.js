@@ -1,18 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import Talade from "../../assets/Talade.png";
-import TaladeWaving from "../../assets/Talade-waving.png";
+import FloatingTalade from "../../assets/talade-floating.png";
 import { animateText } from "../../utils/Animation";
 import gsap from "gsap";
 
 const HomeContent = () => {
-  const logos = [
-    {
-      url: Talade,
-      hoverUrl: TaladeWaving,
-    },
-  ];
-
   const textRefs = useRef([]);
   const timeline = useRef(gsap.timeline());
 
@@ -52,15 +44,10 @@ const HomeContent = () => {
         </h2>
       </HomeText>
 
-      {logos.map((item, index) => {
-        return (
-          <Logos
-            key={index}
-            background={item.url}
-            hoverBackground={item.hoverUrl}
-          />
-        );
-      })}
+      <HomeImgContainer>
+        <HomeImg src={FloatingTalade} alt="Avatar version of me floating" />
+        <ShadowOverlay />
+      </HomeImgContainer>
     </HomeContainer>
   );
 };
@@ -69,13 +56,14 @@ export default HomeContent;
 
 const HomeContainer = styled.main`
   display: flex;
-  gap: 3rem;
-  align-items: flex-end;
+  align-items: center;
   left: 55%;
+  width: max-content;
+  max-width: 70vw;
 `;
 
 const HomeText = styled.div`
-  width: 85%;
+  margin-left: 5rem;
 
   h2 {
     font-family: "Mate", serif;
@@ -110,17 +98,49 @@ const Text = styled.div`
   }
 `;
 
-const Logos = styled.div`
-  background: ${(props) => `url(${props.background})`};
-  background-size: cover;
-  width: 21rem;
-  height: 26rem;
-  transition: all 0.5s ease-in-out;
+const HomeImgContainer = styled.div`
+  position: relative;
+  width: 50%;
+`;
 
-  &:hover {
-    background: ${(props) => `url(${props.hoverBackground})`};
-    background-size: cover;
-    width: 21rem;
-    height: 26rem;
+const HomeImg = styled.img`
+  animation: float 6s ease-in-out infinite both;
+  width: 100%;
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+`;
+
+const ShadowOverlay = styled.div`
+  width: 80%;
+  border-radius: 50%;
+  margin-left: 10%;
+  height: 1.5rem;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  animation: shadowGrowAndShrink 6s ease-in-out infinite both;
+
+  @keyframes shadowGrowAndShrink {
+    0% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(2);
+    }
+    100% {
+      transform: scaleY(1);
+    }
   }
 `;
