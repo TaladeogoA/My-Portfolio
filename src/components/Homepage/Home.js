@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <div>
-      <div class="image-overlay">
+      <div className="image-overlay">
         <img src="./black-white-code.png" alt="html background" />
       </div>
       <PageTransition timeline={home} />
