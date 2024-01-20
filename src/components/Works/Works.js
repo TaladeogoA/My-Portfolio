@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
@@ -9,6 +9,14 @@ import "@splidejs/react-splide/css";
 
 const Works = () => {
   const works = gsap.timeline();
+  const [hoveredColor, setHoveredColor] = useState("#fff");
+  const handleMouseEnter = (color) => {
+    setHoveredColor(color);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredColor("#fff");
+  };
 
   return (
     <>
@@ -37,7 +45,11 @@ const Works = () => {
             {data.map((project) => {
               return (
                 <SplideSlide key={project.id}>
-                  <ProjectCard>
+                  <ProjectCard
+                    hoveredColor={hoveredColor}
+                    onMouseEnter={() => handleMouseEnter(project.hoverColor)}
+                    onMouseLeave={handleMouseLeave}
+                  >
                     <div className="image">
                       <img src={project.img} alt={project.title} />
                     </div>
@@ -91,6 +103,13 @@ const ProjectCard = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0); /* Initial box-shadow is transparent */
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 0 30px ${(props) => props.hoveredColor};
+      scale: 1.02;
+    }
   }
 
   p {
@@ -98,5 +117,11 @@ const ProjectCard = styled.div`
     margin-top: 0.5rem;
     font-family: "Mate", serif;
     font-weight: 600;
+  }
+
+  &:hover {
+    cursor: pointer;
+    /* transform: scale(1.05);
+    transition: transform 0.2s ease-in-out; */
   }
 `;

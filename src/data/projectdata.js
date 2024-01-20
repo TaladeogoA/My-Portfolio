@@ -11,6 +11,7 @@ export const data = [
     live: "",
     source: "https://github.com/TaladeogoA/The-Good-Winery",
     timeline: "May 2020",
+    hoverColor: "#98c4e3",
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ export const data = [
     live: "",
     source: "",
     timeline: "May 2020",
+    hoverColor: "#cc9de0",
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ export const data = [
     live: "",
     source: "",
     timeline: "May 2020",
+    hoverColor: "#f9d9a6",
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ export const data = [
     live: "",
     source: "",
     timeline: "May 2020",
+    hoverColor: "#a6f9c7",
   },
   {
     id: 5,
@@ -63,5 +67,6 @@ export const data = [
     live: "",
     source: "",
     timeline: "May 2020",
+    hoverColor: "#fc986a",
   },
 ];
