@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavLink as Link } from "react-router-dom";
-import { DispatchCursor, CURSOR_EXCLUSION } from "haspr-cursor";
 import styled from "styled-components";
 import Logo from "../../assets/logo.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { GoX } from "react-icons/go";
 
 const NavBar = () => {
-  const dispatch = DispatchCursor();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -17,35 +15,19 @@ const NavBar = () => {
   return (
     <>
       <Nav>
-        <NavLink
-          to="/contact"
-          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
-          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
-        >
+        <NavLink className="nav-link" to="/contact">
           <h5>004</h5>
           <h3>Contact</h3>
         </NavLink>
-        <NavLink
-          to="/works"
-          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
-          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
-        >
+        <NavLink className="nav-link" to="/works">
           <h5>003</h5>
           <h3>Works</h3>
         </NavLink>
-        <NavLink
-          to="/about"
-          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
-          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
-        >
+        <NavLink className="nav-link" to="/about">
           <h5>002</h5>
           <h3>About</h3>
         </NavLink>
-        <NavLink
-          to="/"
-          onMouseEnter={() => CURSOR_EXCLUSION(dispatch, "START", "LARGE")}
-          onMouseLeave={() => CURSOR_EXCLUSION(dispatch, "END")}
-        >
+        <NavLink className="nav-link" to="/">
           <h5>001</h5>
           <img className="logo" src={Logo} alt="Logo" />
           <h3>Home</h3>
