@@ -7,12 +7,11 @@ const About = () => {
   const about = gsap.timeline();
 
   return (
-    <div>
-      {/* <NavBar /> */}
+    <>
       <PageTransition timeline={about} />
-      <div className="about-overlay"></div>
+      <div className="overlay"></div>
       <AboutContent />
-    </div>
+    </>
   );
 };
 

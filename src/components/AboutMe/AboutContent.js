@@ -4,7 +4,7 @@ import PictureAnimation from "./PictureAnimation";
 
 const AboutContent = () => {
   return (
-    <Container className="container">
+    <Container>
       <PictureContainer>
         <PictureAnimation />
         <button>View my Resume</button>
@@ -85,6 +85,25 @@ const Container = styled.div`
   align-items: flex-start;
   gap: 3rem;
   width: 70%;
+  max-width: 70vw;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  @media screen and (max-width: 992px) {
+    position: static;
+    transform: translate(0, 0);
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5rem;
+    padding: 0 1rem;
+    /* min-height: 100%; */
+    overflow: auto;
+  }
 `;
 
 const AboutText = styled.article`
@@ -94,6 +113,13 @@ const AboutText = styled.article`
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
+  @media screen and (max-width: 992px) {
+    max-height: none;
+    overflow-y: visible;
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
+  }
 
   h4 {
     font-size: 1.1rem;
