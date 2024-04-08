@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../assets/logo.png";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { GoX } from "react-icons/go";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,39 +31,23 @@ const NavBar = () => {
           <h3>Home</h3>
         </NavLink>
       </Nav>
-
-      <MobileNav className="mobile-nav">
-        <Link to="/">
-          <img className="nav-logo" src={Logo} alt="logo" />
-        </Link>
-
-        <div className={isOpen ? "nav-menu active" : "nav-menu"}>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-
-            <li>
-              <Link to="/works">Works</Link>
-            </li>
-
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
-        </div>
-
-        <button
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-        >
-          {isOpen ? <GoX /> : <RxHamburgerMenu />}
-        </button>
+      <MobileNav>
+        <MobileLink to="/contact" activeClassName="active">
+          <p>004</p>
+          <p className="text">Contact</p>
+        </MobileLink>
+        <MobileLink to="/works">
+          <p>003</p>
+          <p className="text">Works</p>
+        </MobileLink>
+        <MobileLink to="/about">
+          <p>002</p>
+          <p className="text">About</p>
+        </MobileLink>
+        <MobileLink to="/">
+          <p>001</p>
+          <p className="text">Home</p>
+        </MobileLink>
       </MobileNav>
     </>
   );
@@ -124,29 +106,69 @@ const NavLink = styled(Link)`
 
 const MobileNav = styled.nav`
   display: none;
-  position: relative;
+  position: fixed;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+  width: 80%;
+  margin: 0 auto;
 
   @media screen and (max-width: 992px) {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    height: max-content;
-    background-color: #fff;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+`;
 
-    ul {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      list-style: none;
-      text-align: center;
+const MobileLink = styled(Link)`
+  width: 100%;
+  text-decoration: none;
+  color: #000;
 
-      li {
-        color: inherit;
-        text-decoration: none;
-      }
+  p {
+    text-align: center;
+
+    &.text {
+      font-size: 1.4rem;
+      font-weight: 600;
+      font-family: "Mate", serif;
+    }
+  }
+
+  &:active {
+    background-color: #000;
+    color: #fff;
+
+    .text {
+      font-weight: 400;
+      text-decoration: underline;
     }
   }
 `;
+
+// const MobileNav = styled.nav`
+//   display: none;
+//   position: relative;
+
+//   @media screen and (max-width: 992px) {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     padding: 1rem 2rem;
+//     height: max-content;
+//     background-color: #fff;
+//     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+//     ul {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       align-items: center;
+//       list-style: none;
+//       text-align: center;
+
+//       li {
+//         color: inherit;
+//         text-decoration: none;
+//       }
+//     }
+//   }
+// `;
