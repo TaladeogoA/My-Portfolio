@@ -9,7 +9,6 @@ const About = () => {
   return (
     <>
       <PageTransition timeline={about} />
-      <div className="overlay"></div>
       <AboutContent />
     </>
   );

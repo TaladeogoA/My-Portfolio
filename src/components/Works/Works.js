@@ -1,3 +1,4 @@
+import React from "react";
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
 import WorksContent from "./WorksContent";
@@ -8,7 +9,6 @@ const Works = () => {
   return (
     <>
       <PageTransition timeline={works} />
-      <div className="works-overlay"></div>
       <WorksContent />
     </>
   );

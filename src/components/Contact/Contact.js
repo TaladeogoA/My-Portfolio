@@ -9,7 +9,6 @@ const Contact = () => {
   return (
     <div>
       <PageTransition timeline={contact} />
-      <div className="contact-overlay"></div>
       <ContactContent />
     </div>
   );

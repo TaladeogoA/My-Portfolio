@@ -1,3 +1,4 @@
+import React from "react";
 import PageTransition from "../SpecialEffects/PageTransition";
 import gsap from "gsap";
 
@@ -12,7 +13,6 @@ const Home = () => {
         <img src="./black-white-code.png" alt="html background" />
       </div>
       <PageTransition timeline={home} />
-      <div className="home-overlay"></div>
       <HomeContent />
     </div>
   );
