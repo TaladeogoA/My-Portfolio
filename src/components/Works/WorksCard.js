@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 const WorksCard = ({
   handleMouseMove,
@@ -6,12 +7,13 @@ const WorksCard = ({
   title,
   serial,
   image,
+  onClick,
 }) => {
   return (
     <Container
-      href="#"
       onMouseMove={(e) => handleMouseMove(e, image)}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
     >
       <div>
         <h2>{title}</h2>
@@ -23,7 +25,7 @@ const WorksCard = ({
 
 export default WorksCard;
 
-const Container = styled.a`
+const Container = styled.div`
   text-decoration: none;
   color: inherit;
   height: 100%;
@@ -31,6 +33,12 @@ const Container = styled.a`
   gap: 1rem;
   position: relative;
   border-right: 1px solid darkgray;
+  cursor: pointer;
+
+  &:hover {
+    padding-bottom: 3rem;
+    transition: all 0.5s ease;
+  }
 
   > div {
     position: relative;
