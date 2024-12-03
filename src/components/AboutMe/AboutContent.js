@@ -204,7 +204,6 @@ const PictureContainer = styled.div`
 
     &:hover {
       width: 90%;
-      font-weight: 600;
     }
   }
 `;

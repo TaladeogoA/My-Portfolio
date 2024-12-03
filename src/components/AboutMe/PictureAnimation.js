@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Taladeogo from "../../assets/taladeogo.jpg";
+import Taladeogo from "../../assets/talade-about.jpg";
 
 const PictureAnimation = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -51,6 +51,7 @@ const Container = styled.div`
       height: 240px;
       background: url(${Taladeogo});
       background-size: cover;
+      background-position: center;
       border-radius: 50%;
       z-index: 1;
     }
