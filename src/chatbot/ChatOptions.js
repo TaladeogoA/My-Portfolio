@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const ChatOptions = (props) => {
@@ -61,7 +60,6 @@ const OptionsContainer = styled.div`
 `;
 
 const OptionButton = styled.button`
-  font-family: "Mate", sans-serif;
   background-color: #fff;
   width: max-content;
   border: solid 1px #000;

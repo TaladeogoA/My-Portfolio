@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const Pagination = ({
@@ -51,7 +50,6 @@ const PaginationWrapper = styled.div`
     font-size: 2rem;
     font-weight: 500;
     text-decoration: none;
-    font-family: "Mate", serif;
 
     .page-item {
       cursor: pointer;

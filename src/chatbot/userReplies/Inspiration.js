@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const Inspiration = () => {
@@ -18,7 +17,6 @@ const Container = styled.div`
 `;
 
 const OptionButton = styled.span`
-  font-family: "Mate", sans-serif;
   background-color: #fff;
   width: max-content;
   border: solid 1px #000;

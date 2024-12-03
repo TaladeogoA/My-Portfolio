@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../assets/logo.png";
@@ -107,11 +107,14 @@ const NavLink = styled(Link)`
 const MobileNav = styled.nav`
   display: none;
   position: fixed;
-  bottom: 3rem;
+  bottom: 2rem;
   left: 0;
   right: 0;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
+  background-color: black;
+  color: #fff;
+  border-radius: 1rem;
 
   @media screen and (max-width: 992px) {
     display: flex;
@@ -121,7 +124,7 @@ const MobileNav = styled.nav`
 const MobileLink = styled(Link)`
   width: 100%;
   text-decoration: none;
-  color: #000;
+  color: #fff;
 
   p {
     text-align: center;
@@ -129,7 +132,6 @@ const MobileLink = styled(Link)`
     &.text {
       font-size: 1.4rem;
       font-weight: 600;
-      font-family: "Mate", serif;
     }
   }
 

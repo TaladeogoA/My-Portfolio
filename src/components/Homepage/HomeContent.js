@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.png";
 import { animateText } from "../../utils/Animation";
-import gsap from "gsap";
 
 const HomeContent = () => {
   const textRefs = useRef([]);
@@ -10,16 +10,26 @@ const HomeContent = () => {
 
   useEffect(() => {
     const textElements = textRefs.current;
+    const tl = timeline.current;
+
+    tl.clear();
+
+    gsap.set(".new-text", { opacity: 0 });
 
     textElements.forEach((element) => {
-      timeline.current.add(animateText(element));
-    });
-    timeline.current.from(".new-text", {
-      autoAlpha: 0,
-      duration: 0.7,
+      tl.add(animateText(element));
     });
 
-    timeline.current.play();
+    tl.to(
+      ".new-text",
+      {
+        opacity: 1,
+        duration: 0.7,
+      },
+      ">"
+    );
+
+    tl.play();
   }, []);
 
   return (
@@ -60,13 +70,26 @@ const HomeContainer = styled.main`
   left: 55%;
   width: max-content;
   max-width: 70vw;
+
+  @media (max-width: 992px) {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 767px) {
+    flex-direction: column-reverse;
+    justify-content: center;
+    padding-bottom: 7rem;
+    padding-inline: 1rem;
+  }
 `;
 
 const HomeText = styled.div`
   margin-left: 5rem;
 
   h2 {
-    font-family: "Mate", serif;
     font-size: 1.2rem;
     margin-top: 1.5rem;
     font-weight: 400;
@@ -74,7 +97,11 @@ const HomeText = styled.div`
 
   span {
     font-size: 1rem;
-    font-family: "Indie Flower", cursive;
+  }
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+    text-align: center;
   }
 `;
 
@@ -92,15 +119,28 @@ const Text = styled.div`
   }
 
   &.p {
-    font-family: "Mate", serif;
     font-size: 1.2rem;
     font-weight: 400;
+  }
+
+  @media (max-width: 767px) {
+    &.h1 {
+      font-size: 3rem;
+    }
+
+    &.p {
+      font-size: 1rem;
+    }
   }
 `;
 
 const HomeImgContainer = styled.div`
   position: relative;
   width: 50%;
+
+  @media (max-width: 767px) {
+    width: 80%;
+  }
 `;
 
 const HomeImg = styled.img`

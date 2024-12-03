@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { LoaderContext } from "../../context/LoaderContext";
 
@@ -39,6 +39,5 @@ const LoaderContainer = styled.section`
   p {
     font-size: 1.5rem;
     font-weight: 400;
-    font-family: "Mate", serif;
   }
 `;

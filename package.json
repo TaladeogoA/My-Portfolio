@@ -9,6 +9,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@trendyol-js/react-carousel": "^3.0.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "gsap": "^3.11.1",
     "primereact": "^10.0.5",
     "react": "^18.2.0",
@@ -46,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.34"
   }
 }

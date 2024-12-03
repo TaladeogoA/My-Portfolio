@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import PictureAnimation from "./PictureAnimation";
 
@@ -80,7 +79,6 @@ const AboutContent = () => {
 export default AboutContent;
 
 const Container = styled.div`
-  font-family: "Mate", serif;
   display: flex;
   align-items: flex-start;
   gap: 3rem;
@@ -194,7 +192,6 @@ const PictureContainer = styled.div`
   gap: 3rem;
 
   button {
-    font-family: "Mate", serif;
     font-size: 1.2rem;
     background-color: black;
     color: white;

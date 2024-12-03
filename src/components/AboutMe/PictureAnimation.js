@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Taladeogo from "../../assets/taladeogo.jpg";
 
@@ -32,7 +32,6 @@ const PictureAnimation = () => {
 export default PictureAnimation;
 
 const Container = styled.div`
-  font-family: "Mate", serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;

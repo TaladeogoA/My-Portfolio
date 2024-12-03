@@ -1,15 +1,11 @@
-import React from "react";
 // import Chatbot from "react-chatbot-kit";
-import "react-chatbot-kit/build/main.css";
-import styled from "styled-components";
-import config from "../../chatbot/config";
-import ActionProvider from "../../chatbot/ActionProvider";
-import MessageParser from "../../chatbot/MessageParser";
-import { useState } from "react";
-import { AiOutlineMessage, AiOutlineClose } from "react-icons/ai";
 import gsap from "gsap";
-import "./Chatbot.css";
+import { useState } from "react";
+import "react-chatbot-kit/build/main.css";
+import { AiOutlineClose, AiOutlineMessage } from "react-icons/ai";
+import styled from "styled-components";
 import Chatbot from "./Chatbot";
+import "./Chatbot.css";
 
 const ContactContent = () => {
   const [chatOpen, setChatOpen] = useState(false);
@@ -90,7 +86,7 @@ const Container = styled.main`
     font-size: 2rem;
     line-height: 2.5rem;
     font-weight: 400;
-    font-family: "Mate", serif;
+
     margin-bottom: 1rem;
 
     a {

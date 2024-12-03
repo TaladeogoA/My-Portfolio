@@ -8,7 +8,7 @@ const Home = () => {
   const home = gsap.timeline();
 
   return (
-    <div>
+    <div className="home-container">
       <div className="image-overlay">
         <img src="./black-white-code.png" alt="html background" />
       </div>

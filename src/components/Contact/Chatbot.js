@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { PulseLoader } from "react-spinners";
 import styled from "styled-components";
 import TaladeAvatar from "../../assets/talade-avatar.jpg";
-import { useEffect } from "react";
-import { PulseLoader } from "react-spinners";
 
 const Chatbot = () => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -134,7 +133,6 @@ const Chatbot = () => {
 export default Chatbot;
 
 const ChatContainer = styled.div`
-  font-family: "Mate", sans-serif;
   position: absolute;
   bottom: -4rem;
   left: -3rem;
@@ -175,7 +173,6 @@ const OptionsContainer = styled.div`
 `;
 
 const OptionButton = styled.button`
-  font-family: "Mate", sans-serif;
   font-size: 0.8rem;
   background-color: #fff;
   width: max-content;
@@ -195,7 +192,7 @@ const ChatHeader = styled.div`
   color: #fff;
   padding: 0.6rem;
   width: 100%;
-  font-family: "Mate", sans-serif;
+
   display: flex;
   align-items: center;
 
