@@ -27,7 +27,7 @@ const Container = styled.div`
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  background: #f5f5f5;
+  background: #fff;
   color: #1a1a1a;
   border-right: 1px solid #e0e0e0;
 

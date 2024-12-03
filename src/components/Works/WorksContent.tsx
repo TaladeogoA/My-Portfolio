@@ -25,15 +25,12 @@ const WorksContent: React.FC = () => {
 };
 
 const Container = styled.div`
-  width: 80%;
+  width: 100%;
   height: 100%;
-  max-width: 92vw;
-  position: absolute;
-  left: 45%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
   overflow: hidden;
 `;
 

@@ -1,18 +1,17 @@
 import React, { Suspense } from "react";
 import AnimatedCursor from "react-animated-cursor";
 import "./App.css";
-import AppRoutes from "./AppRoutes.tsx";
+import AppRoutes from "./AppRoutes";
 import ErrorBoundary from "./components/Common/ErrorBoundary";
-import LoadingSpinner from "./components/Common/LoadingSpinner.tsx";
-import NavBar from "./components/Navbar/NavBar.tsx";
-import { useMediaQuery } from "./hooks/useMediaQuery.ts";
+import LoadingSpinner from "./components/Common/LoadingSpinner";
+import PageLayout from "./components/Layout/PageLayout";
+import { useMediaQuery } from "./hooks/useMediaQuery";
 
 const App: React.FC = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <div className="App" role="main">
-      {/* Hide cursor animation on mobile devices */}
       {!isMobile && (
         <AnimatedCursor
           color="0, 0, 0"
@@ -24,8 +23,9 @@ const App: React.FC = () => {
       )}
       <ErrorBoundary>
         <Suspense fallback={<LoadingSpinner />}>
-          <NavBar />
-          <AppRoutes />
+          <PageLayout>
+            <AppRoutes />
+          </PageLayout>
         </Suspense>
       </ErrorBoundary>
     </div>
