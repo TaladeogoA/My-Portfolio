@@ -1,50 +1,89 @@
-import { useEffect, useState } from "react";
-import { NavLink as Link } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import React, { useCallback, useState } from "react";
+import { NavLink as Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+// @ts-ignore
 import Logo from "../../assets/logo.png";
+import LoaderIcon from "./LoaderIcon.tsx";
 
-const NavBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface NavLinkProps {
+  isActive?: boolean;
+}
 
-  useEffect(() => {
-    console.log(isOpen);
-  }, [isOpen]);
+interface MobileLinkProps {
+  isActive?: boolean;
+}
+
+const NavBar: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavigation = useCallback(
+    (to: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      setIsLoading(true);
+
+      navigate(to);
+
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 700);
+
+      return () => clearTimeout(timer);
+    },
+    [navigate]
+  );
 
   return (
     <>
+      <AnimatePresence>{isLoading && <LoaderIcon />}</AnimatePresence>
+
       <Nav>
-        <NavLink className="nav-link" to="/contact">
+        <NavLink
+          className="nav-link"
+          to="/contact"
+          onClick={handleNavigation("/contact")}
+        >
           <h5>004</h5>
           <h3>Contact</h3>
         </NavLink>
-        <NavLink className="nav-link" to="/works">
+        <NavLink
+          className="nav-link"
+          to="/works"
+          onClick={handleNavigation("/works")}
+        >
           <h5>003</h5>
           <h3>Works</h3>
         </NavLink>
-        <NavLink className="nav-link" to="/about">
+        <NavLink
+          className="nav-link"
+          to="/about"
+          onClick={handleNavigation("/about")}
+        >
           <h5>002</h5>
           <h3>About</h3>
         </NavLink>
-        <NavLink className="nav-link" to="/">
+        <NavLink className="nav-link" to="/" onClick={handleNavigation("/")}>
           <h5>001</h5>
           <img className="logo" src={Logo} alt="Logo" />
           <h3>Home</h3>
         </NavLink>
       </Nav>
+
       <MobileNav>
-        <MobileLink to="/contact" activeClassName="active">
+        <MobileLink to="/contact" onClick={handleNavigation("/contact")}>
           <p>004</p>
           <p className="text">Contact</p>
         </MobileLink>
-        <MobileLink to="/works">
+        <MobileLink to="/works" onClick={handleNavigation("/works")}>
           <p>003</p>
           <p className="text">Works</p>
         </MobileLink>
-        <MobileLink to="/about">
+        <MobileLink to="/about" onClick={handleNavigation("/about")}>
           <p>002</p>
           <p className="text">About</p>
         </MobileLink>
-        <MobileLink to="/">
+        <MobileLink to="/" onClick={handleNavigation("/")}>
           <p>001</p>
           <p className="text">Home</p>
         </MobileLink>
@@ -52,8 +91,6 @@ const NavBar = () => {
     </>
   );
 };
-
-export default NavBar;
 
 const Nav = styled.nav`
   display: flex;
@@ -63,7 +100,7 @@ const Nav = styled.nav`
   }
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled(Link)<NavLinkProps>`
   height: 100vh;
   width: 50px;
   border-right: 1px solid #000;
@@ -99,9 +136,6 @@ const NavLink = styled(Link)`
       filter: invert(1);
     }
   }
-
-  @media screen and (max-width: 992px) {
-  }
 `;
 
 const MobileNav = styled.nav`
@@ -121,7 +155,7 @@ const MobileNav = styled.nav`
   }
 `;
 
-const MobileLink = styled(Link)`
+const MobileLink = styled(Link)<MobileLinkProps>`
   width: 100%;
   text-decoration: none;
   color: #fff;
@@ -146,31 +180,4 @@ const MobileLink = styled(Link)`
   }
 `;
 
-// const MobileNav = styled.nav`
-//   display: none;
-//   position: relative;
-
-//   @media screen and (max-width: 992px) {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     padding: 1rem 2rem;
-//     height: max-content;
-//     background-color: #fff;
-//     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-
-//     ul {
-//       display: flex;
-//       flex-direction: column;
-//       justify-content: center;
-//       align-items: center;
-//       list-style: none;
-//       text-align: center;
-
-//       li {
-//         color: inherit;
-//         text-decoration: none;
-//       }
-//     }
-//   }
-// `;
+export default NavBar;

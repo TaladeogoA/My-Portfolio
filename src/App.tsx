@@ -4,11 +4,10 @@ import "./App.css";
 import AppRoutes from "./AppRoutes.tsx";
 import ErrorBoundary from "./components/Common/ErrorBoundary";
 import LoadingSpinner from "./components/Common/LoadingSpinner.tsx";
-import NavBar from "./components/Navbar/NavBar";
+import NavBar from "./components/Navbar/NavBar.tsx";
 import { useMediaQuery } from "./hooks/useMediaQuery.ts";
 
 const App: React.FC = () => {
-  // Custom hook for responsive design
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
