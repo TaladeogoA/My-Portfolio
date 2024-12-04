@@ -43,7 +43,7 @@ const NavBar: React.FC = () => {
         <LeftNav>
           {Object.entries(NAV_ORDER)
             .filter(([_, order]) => order > currentOrder)
-            .sort((a, b) => b[1] - a[1]) // Sort in descending order for left side
+            .sort((a, b) => b[1] - a[1])
             .map(([path, order]) => (
               <NavLink
                 key={path}
@@ -138,7 +138,14 @@ const NavLink = styled(Link)<NavLinkStyleProps>`
   color: #000;
   padding: 2rem 0;
   cursor: pointer;
-  transition: transform 0.5s ease;
+  will-change: transform;
+
+  h3,
+  h5,
+  .logo {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
 
   h5 {
     letter-spacing: 3px;
@@ -149,7 +156,11 @@ const NavLink = styled(Link)<NavLinkStyleProps>`
   }
 
   &:hover {
-    padding-bottom: 3rem;
+    h3,
+    h5,
+    .logo {
+      transform: translate3d(0, -1rem, 0);
+    }
   }
 
   &.active {

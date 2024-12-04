@@ -1,12 +1,19 @@
 import styled from "styled-components";
+import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
 import PictureAnimation from "./PictureAnimation";
 
 const AboutContent = () => {
+  const handleResumeClick = () => {
+    window.open(Resume, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <Container>
       <PictureContainer>
         <PictureAnimation />
-        <button>View my Resume</button>
+        <button onClick={handleResumeClick} aria-label="Open resume in new tab">
+          View my Resume
+        </button>
       </PictureContainer>
       <AboutText>
         <p>
@@ -15,31 +22,39 @@ const AboutContent = () => {
           My name is Táládeogó, but everybody calls me Talade. You can too.
         </p>
         <p>
-          I'm a frontend dev with a passion for crafting captivating web
-          experiences. I'm also a UI designer and illustrator with a knack for a
-          clean and minimal aesthetic.
+          I'm a cross-platform developer specializing in web and mobile
+          experiences. When I'm not coding, I'm a UI designer and illustrator
+          with an eye for clean, minimal aesthetics.
         </p>
         <p>
-          I've always been on the cusp of art and tech, from my architecture
-          days, to web design and development, and my interests in game and AR
-          development now. It's a journey where creativity and technology
-          intertwine seamlessly.
+          My journey spans art and technology - from architecture to web
+          development, and now diving into native mobile development. Currently,
+          I'm expanding my toolkit with Java for Android, while building apps
+          with React Native. It's all about creating seamless experiences across
+          every screen.
         </p>
         <p>
-          Fun fact: I have an unbroken streak of using Toshiba PCs since the
-          beginning of my web development journey. It's my secret weapon now 🙂.
+          Fun fact: I started as a web developer but got hooked on mobile
+          development after building my first React Native app. Now I'm
+          exploring the native side of things 📱
         </p>
         <p>Here's some of the tech I'm familiar with:</p>
         <div className="skill-container">
           <h4>Frontend Development:</h4>
           <div className="skills">
-            <span className="tag">Next</span> <span className="tag">React</span>{" "}
-            <span className="tag">Context</span>{" "}
-            <span className="tag">GSAP</span>{" "}
-            <span className="tag">JavaScript (ES6+)</span>{" "}
-            <span className="tag">HTML5</span> <span className="tag">CSS3</span>{" "}
-            <span className="tag">Styled Components</span>{" "}
-            <span className="tag">Chakra UI</span>{" "}
+            <span className="tag">React</span>
+            <span className="tag">React Native</span>
+            <span className="tag">Next.js</span>
+            <span className="tag">JavaScript (ES6+)</span>
+            <span className="tag">TypeScript</span>
+            <span className="tag">HTML5</span>
+            <span className="tag">CSS3</span>
+            <span className="tag">SASS</span>
+            <span className="tag">Tailwind</span>
+            <span className="tag">GSAP</span>
+            <span className="tag">Three.js</span>
+            <span className="tag">Styled Components</span>
+            <span className="tag">Chakra UI</span>
             <span className="tag">RTL</span>
           </div>
         </div>
@@ -47,16 +62,16 @@ const AboutContent = () => {
         <div className="skill-container">
           <h4>UI Design:</h4>
           <div className="skills">
-            <span className="tag inverted">Figma</span>{" "}
-            <span className="tag inverted">Adobe XD</span>{" "}
-            <span className="tag inverted">Blender</span>{" "}
+            <span className="tag inverted">Figma</span>
+            <span className="tag inverted">Adobe XD</span>
+            <span className="tag inverted">Blender</span>
           </div>
         </div>
 
         <div className="skill-container">
           <h4>Collaboration Tools:</h4>
           <div className="skills">
-            <span className="tag">Git</span> <span className="tag">Jira</span>{" "}
+            <span className="tag">Git</span> <span className="tag">Jira</span>
             <span className="tag">Confluence</span>
           </div>
         </div>
@@ -64,10 +79,10 @@ const AboutContent = () => {
         <div className="skill-container">
           <h4>Currently Learning:</h4>
           <div className="skills">
-            <span className="tag inverted">C#</span>{" "}
-            <span className="tag inverted">Unity</span>{" "}
-            <span className="tag inverted">AR Core</span>{" "}
-            <span className="tag inverted">AR Foundation</span>{" "}
+            <span className="tag inverted">Java</span>
+            <span className="tag inverted">Unity</span>
+            <span className="tag inverted">AR Core</span>
+            <span className="tag inverted">AR Foundation</span>
             <span className="tag inverted">Vuforia</span>
           </div>
         </div>
@@ -81,36 +96,35 @@ export default AboutContent;
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 3rem;
+  justify-content: center;
+  gap: 5rem;
+  height: 100vh;
+  padding: 3rem;
+  overflow: hidden;
 
   @media screen and (max-width: 992px) {
-    position: static;
-    transform: translate(0, 0);
+    height: auto;
     width: 100%;
-    max-width: 100%;
-    overflow: auto;
+    overflow: visible;
     flex-direction: column;
     align-items: center;
     margin-top: 5rem;
     padding: 0 1rem;
-    /* min-height: 100%; */
-    overflow: auto;
   }
 `;
 
 const AboutText = styled.article`
-  display: flex;
-  flex-direction: column;
-  max-height: 80vh;
+  width: 60%;
+  height: calc(100vh - 6rem);
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  padding-right: 1rem;
 
   @media screen and (max-width: 992px) {
-    max-height: none;
+    height: auto;
     overflow-y: visible;
-    scrollbar-width: auto;
-    -ms-overflow-style: auto;
+    padding-right: 0;
   }
 
   h4 {
@@ -180,10 +194,18 @@ const AboutText = styled.article`
 `;
 
 const PictureContainer = styled.div`
+  position: sticky;
+  top: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3rem;
+  height: fit-content;
+
+  @media screen and (max-width: 992px) {
+    position: static;
+    margin-bottom: 2rem;
+  }
 
   button {
     font-size: 1.2rem;

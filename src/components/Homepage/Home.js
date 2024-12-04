@@ -57,8 +57,8 @@ const Home = () => {
           </Block>
 
           <h2 className="new-text">
-            Cross-platform developer, from web to mobile, and everything in
-            between.
+            Cross-platform developer, from web to mobile, and <br /> everything
+            in between.
           </h2>
         </HomeText>
 
@@ -151,7 +151,7 @@ const Text = styled.div`
 
 const HomeImgContainer = styled.div`
   position: relative;
-  width: 30%;
+  width: 35%;
 
   @media (max-width: 767px) {
     width: 80%;
