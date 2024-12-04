@@ -29,7 +29,7 @@ const Container = styled.div`
   height: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+
   overflow: hidden;
 `;
 
