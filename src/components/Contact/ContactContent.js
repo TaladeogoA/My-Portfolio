@@ -80,8 +80,6 @@ const ContactContent = () => {
 export default ContactContent;
 
 const Container = styled.main`
-  left: 40%;
-
   p {
     font-size: 2rem;
     line-height: 2.5rem;

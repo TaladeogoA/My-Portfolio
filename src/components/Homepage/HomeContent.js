@@ -67,9 +67,6 @@ export default HomeContent;
 const HomeContainer = styled.main`
   display: flex;
   align-items: center;
-  left: 55%;
-  width: max-content;
-  max-width: 70vw;
 
   @media (max-width: 992px) {
     width: 100%;

@@ -82,12 +82,6 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 3rem;
-  width: 70%;
-  max-width: 70vw;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 
   @media screen and (max-width: 992px) {
     position: static;
