@@ -33,12 +33,12 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home-container">
+    <MainContainer>
       <div className="image-overlay">
         <img src="./black-white-code.png" alt="html background" />
       </div>
 
-      <HomeContainer className="container">
+      <ContentContainer>
         <HomeText>
           <Block
             className="text-block"
@@ -57,8 +57,8 @@ const Home = () => {
           </Block>
 
           <h2 className="new-text">
-            Front-end developer, UI Designer and Illustrator
-            <span> (sometimes).</span>
+            Cross-platform developer, from web to mobile, and everything in
+            between.
           </h2>
         </HomeText>
 
@@ -66,16 +66,24 @@ const Home = () => {
           <HomeImg src={FloatingTalade} alt="Avatar version of me floating" />
           <ShadowOverlay />
         </HomeImgContainer>
-      </HomeContainer>
-    </div>
+      </ContentContainer>
+    </MainContainer>
   );
 };
 
 export default Home;
 
-const HomeContainer = styled.main`
+const MainContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const ContentContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 
   @media (max-width: 992px) {
     width: 100%;
@@ -94,6 +102,7 @@ const HomeContainer = styled.main`
 
 const HomeText = styled.div`
   margin-left: 5rem;
+  width: 50%;
 
   h2 {
     font-size: 1.2rem;
@@ -142,7 +151,7 @@ const Text = styled.div`
 
 const HomeImgContainer = styled.div`
   position: relative;
-  width: 50%;
+  width: 30%;
 
   @media (max-width: 767px) {
     width: 80%;
