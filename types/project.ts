@@ -1,14 +1,15 @@
 export interface Project {
   id: string;
   title: string;
-  desc: string;
-  tagline: string;
-  tags: string;
-  details: string;
+  problem: string;
+  solution: string;
+  technicalHighlights: string[];
+  techStack: string;
   image: string;
-  live: string;
-  source: string;
-  timeline: string;
+  live?: string;
+  source?: string;
+  duration: string;
+  year: string;
 }
 
 export interface ProjectListProps {

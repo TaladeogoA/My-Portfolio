@@ -1,8 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
+import { Button } from "../Common/Button";
+import { H2, Text } from "../Common/Typography";
 import PictureAnimation from "./PictureAnimation";
 
 const AboutContent = () => {
+  const navigate = useNavigate();
   const handleResumeClick = () => {
     window.open(Resume, "_blank", "noopener,noreferrer");
   };
@@ -11,81 +15,75 @@ const AboutContent = () => {
     <Container>
       <PictureContainer>
         <PictureAnimation />
-        <button onClick={handleResumeClick} aria-label="Open resume in new tab">
+        <Button
+          variant="secondary"
+          $fontSize="1rem"
+          onClick={handleResumeClick}
+          aria-label="Open resume in new tab"
+        >
           View my Resume
-        </button>
+        </Button>
       </PictureContainer>
+
       <AboutText>
-        <p>
-          <span className="bold">Heyyy, </span>
-          <br />
-          My name is Táládeogó, but everybody calls me Talade. You can too.
-        </p>
-        <p>
-          I'm a cross-platform developer specializing in web and mobile
-          experiences. When I'm not coding, I'm a UI designer and illustrator
-          with an eye for clean, minimal aesthetics.
-        </p>
-        <p>
-          My journey spans art and technology - from architecture to web
-          development, and now diving into native mobile development. Currently,
-          I'm expanding my toolkit with Java for Android, while building apps
-          with React Native. It's all about creating seamless experiences across
-          every screen.
-        </p>
-        <p>
-          Fun fact: I started as a web developer but got hooked on mobile
-          development after building my first React Native app. Now I'm
-          exploring the native side of things 📱
-        </p>
-        <p>Here's some of the tech I'm familiar with:</p>
-        <div className="skill-container">
-          <h4>Frontend Development:</h4>
-          <div className="skills">
-            <span className="tag">React</span>
-            <span className="tag">React Native</span>
-            <span className="tag">Next.js</span>
-            <span className="tag">JavaScript (ES6+)</span>
-            <span className="tag">TypeScript</span>
-            <span className="tag">HTML5</span>
-            <span className="tag">CSS3</span>
-            <span className="tag">SASS</span>
-            <span className="tag">Tailwind</span>
-            <span className="tag">GSAP</span>
-            <span className="tag">Three.js</span>
-            <span className="tag">Styled Components</span>
-            <span className="tag">Chakra UI</span>
-            <span className="tag">RTL</span>
-          </div>
-        </div>
+        <IntroSection>
+          <H2>Heyyy, </H2>
+          <LargeText $margin="0 0 1rem">
+            My name is <Highlight>Táládeogó</Highlight>, but everybody calls me{" "}
+            <Highlight>Talade</Highlight>. You can too.
+          </LargeText>
 
-        <div className="skill-container">
-          <h4>UI Design:</h4>
-          <div className="skills">
-            <span className="tag inverted">Figma</span>
-            <span className="tag inverted">Adobe XD</span>
-            <span className="tag inverted">Blender</span>
-          </div>
-        </div>
+          <Text $margin="0 0 2rem">
+            I'm a cross-platform developer creating seamless digital experiences
+            across web and mobile. With a background in construction and design,
+            I bring a unique perspective to every project, blending form and
+            function into intuitive, engaging interfaces.
+          </Text>
 
-        <div className="skill-container">
-          <h4>Collaboration Tools:</h4>
-          <div className="skills">
-            <span className="tag">Git</span> <span className="tag">Jira</span>
-            <span className="tag">Confluence</span>
-          </div>
-        </div>
+          <Text $margin="0 0 2rem">
+            Over the past few years, I've had the opportunity to work on diverse
+            projects across healthcare, education, and enterprise sectors. Here
+            are some highlights:
+          </Text>
 
-        <div className="skill-container">
-          <h4>Currently Learning:</h4>
-          <div className="skills">
-            <span className="tag inverted">Java</span>
-            <span className="tag inverted">Unity</span>
-            <span className="tag inverted">AR Core</span>
-            <span className="tag inverted">AR Foundation</span>
-            <span className="tag inverted">Vuforia</span>
-          </div>
-        </div>
+          <ServicesList>
+            <ServiceItem>
+              <Text>
+                3+ years developing frontend applications in health tech.
+              </Text>
+            </ServiceItem>
+            <ServiceItem>
+              <Text>
+                Led frontend development for Learning Management System at
+                Mobann Technologies.
+              </Text>
+            </ServiceItem>
+            <ServiceItem>
+              <Text>
+                Built React Native apps with 7k+ combined downloads for OctoDoc.
+              </Text>
+            </ServiceItem>
+            <ServiceItem>
+              <Text>
+                Collaborated with international teams to deliver complex web and
+                mobile solutions.
+              </Text>
+            </ServiceItem>
+          </ServicesList>
+
+          <CTASection>
+            <Text $margin="0 0 2rem">
+              Have a project in mind? Let's create something amazing together.
+            </Text>
+            <Button
+              variant="primary"
+              onClick={() => navigate("/contact")}
+              $padding="1rem 2rem"
+            >
+              Let's Talk
+            </Button>
+          </CTASection>
+        </IntroSection>
       </AboutText>
     </Container>
   );
@@ -101,25 +99,29 @@ const Container = styled.div`
   height: 100vh;
   padding: 3rem;
   overflow: hidden;
+`;
+
+const PictureContainer = styled.div`
+  position: sticky;
+  top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  height: fit-content;
 
   @media screen and (max-width: 992px) {
-    height: auto;
-    width: 100%;
-    overflow: visible;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5rem;
-    padding: 0 1rem;
+    position: static;
+    margin-bottom: 2rem;
   }
 `;
 
 const AboutText = styled.article`
-  width: 60%;
+  width: 65%;
   height: calc(100vh - 6rem);
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding-right: 1rem;
 
   @media screen and (max-width: 992px) {
     height: auto;
@@ -156,25 +158,6 @@ const AboutText = styled.article`
     }
   }
 
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-    margin-right: 2rem;
-
-    span {
-      &.bold {
-        font-weight: 700;
-        font-size: 1.8rem;
-      }
-
-      &.semiBold {
-        font-weight: 600;
-        font-size: 1.1rem;
-      }
-    }
-  }
-
   ::-webkit-scrollbar {
     width: 7px;
   }
@@ -193,33 +176,59 @@ const AboutText = styled.article`
   }
 `;
 
-const PictureContainer = styled.div`
-  position: sticky;
-  top: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3rem;
-  height: fit-content;
+const IntroSection = styled.section``;
+
+const Highlight = styled.span`
+  color: black;
+  font-weight: 600;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: black;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+`;
+
+const LargeText = styled(Text)`
+  font-size: 1.4rem;
+  line-height: 1.4;
 
   @media screen and (max-width: 992px) {
-    position: static;
-    margin-bottom: 2rem;
+    font-size: 1.4rem;
   }
+`;
 
-  button {
-    font-size: 1.2rem;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 30px;
-    cursor: pointer;
-    width: 80%;
-    transition: width 0.3s ease-in-out;
+const ServicesList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0 0 3rem;
+`;
 
-    &:hover {
-      width: 90%;
-    }
+const ServiceItem = styled.li`
+  line-height: 1.6;
+  padding-left: 2rem;
+  position: relative;
+
+  &:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: black;
   }
+`;
+
+const CTASection = styled.div`
+  padding-inline: 2rem;
+  text-align: center;
 `;

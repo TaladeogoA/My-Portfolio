@@ -1,6 +1,7 @@
 import React, { memo, useCallback } from "react";
 import styled from "styled-components";
 import { Project } from "../../../types/project";
+import { H2, Text } from "../Common/Typography";
 
 interface ProjectListProps {
   projects: Project[];
@@ -44,8 +45,11 @@ const ProjectList: React.FC<ProjectListProps> = memo(
             tabIndex={project.id === selectedId ? 0 : -1}
             onKeyDown={(e) => handleKeyDown(e, project)}
           >
-            <h2>{project.title}</h2>
-            <Description>{project.desc}</Description>
+            <H2>{project.title}</H2>
+            <Description>
+              <Text>{project.duration}</Text>
+              <Text>{project.year}</Text>
+            </Description>
           </ProjectItem>
         ))}
       </Container>
@@ -77,27 +81,23 @@ const ProjectItem = styled.div<ProjectItemProps>`
   cursor: pointer;
   border-bottom: 1px solid black;
   background: ${({ isSelected }) => (isSelected ? "black" : "white")};
-  color: ${({ isSelected }) => (isSelected ? "white" : "black")};
   transition: all 0.3s ease;
+
+  ${H2}, ${Text} {
+    color: ${({ isSelected }) => (isSelected ? "white" : "black")};
+    transition: color 0.3s ease;
+  }
 
   &:hover {
     background: ${({ isSelected }) => (isSelected ? "black" : "#f0f0f0")};
   }
-
-  &:focus {
-    outline: 2px solid #0066cc;
-    outline-offset: -2px;
-  }
-
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
 `;
 
 const Description = styled.p`
-  font-size: 1.1rem;
-  line-height: 1.4;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin-top: 1rem;
 `;
 
 const EmptyState = styled.div`

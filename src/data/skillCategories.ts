@@ -1,0 +1,41 @@
+export const skillCategories = [
+  {
+    id: "frontend",
+    title: "Frontend Development",
+    inverted: false,
+    skills: [
+      "React",
+      "React Native",
+      "Next.js",
+      "JavaScript (ES6+)",
+      "TypeScript",
+      "HTML5",
+      "CSS3",
+      "SASS",
+      "Tailwind",
+      "GSAP",
+      "Three.js",
+      "Styled Components",
+      "Chakra UI",
+      "RTL",
+    ],
+  },
+  {
+    id: "design",
+    title: "UI Design",
+    inverted: true,
+    skills: ["Figma", "Adobe XD", "Blender"],
+  },
+  {
+    id: "collaboration",
+    title: "Collaboration Tools",
+    inverted: false,
+    skills: ["Git", "Jira", "Confluence"],
+  },
+  {
+    id: "learning",
+    title: "Currently Learning",
+    inverted: true,
+    skills: ["Java", "Unity", "AR Core", "AR Foundation", "Vuforia"],
+  },
+];
