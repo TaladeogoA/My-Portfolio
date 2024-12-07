@@ -17,7 +17,6 @@ const AboutContent = () => {
         <PictureAnimation />
         <Button
           variant="secondary"
-          $fontSize="1rem"
           onClick={handleResumeClick}
           aria-label="Open resume in new tab"
         >
