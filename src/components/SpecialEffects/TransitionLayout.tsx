@@ -18,14 +18,13 @@ const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
           exit={{ opacity: 0 }}
           transition={{
             duration: 0.3,
-            delay: 0.5,
           }}
         >
           {children}
         </PageContent>
       </AnimatePresence>
 
-      <AnimatePresence mode="wait">
+      {/* <AnimatePresence mode="wait">
         {shouldAnimate && (
           <Overlay
             key={`overlay-${key}`}
@@ -48,7 +47,7 @@ const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
             </TransitionText>
           </Overlay>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </>
   );
 };
