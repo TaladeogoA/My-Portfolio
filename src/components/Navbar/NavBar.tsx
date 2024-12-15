@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useCallback } from "react";
 import { NavLink as Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useTransitionState } from "../../hooks/useTransitionState";
 // @ts-ignore
 import Logo from "../../assets/logo.png";
 
@@ -21,7 +20,6 @@ interface NavLinkStyleProps {
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { direction } = useTransitionState();
   const currentOrder =
     NAV_ORDER[location.pathname as keyof typeof NAV_ORDER] || 1;
 
@@ -54,29 +52,6 @@ const NavBar: React.FC = () => {
         ease: "easeOut",
       },
     },
-  };
-
-  const mobileSlideVariants = {
-    initial: (direction: "up" | "down") => ({
-      y: direction === "down" ? "-100%" : "100%",
-      opacity: 0,
-    }),
-    animate: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.645, 0.045, 0.355, 1],
-      },
-    },
-    exit: (direction: "up" | "down") => ({
-      y: direction === "up" ? "-100%" : "100%",
-      opacity: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut",
-      },
-    }),
   };
 
   return (
@@ -139,55 +114,16 @@ const NavBar: React.FC = () => {
       </Navigation>
 
       <MobileNav>
-        <TopMobileNav>
-          <AnimatePresence mode="wait">
-            {Object.entries(NAV_ORDER)
-              .sort(([_, a], [__, b]) => b - a)
-              .filter(([_, order]) => order > currentOrder)
-              .map(([path, order]) => (
-                <MobileLink
-                  key={path}
-                  to={path}
-                  onClick={handleNavigation(path)}
-                  custom={order > currentOrder ? "down" : "up"}
-                  variants={mobileSlideVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  $isActive={location.pathname === path}
-                >
-                  <p className="number">{`00${order}`}</p>
-                  <p className="text">{path.slice(1)}</p>
-                </MobileLink>
-              ))}
-          </AnimatePresence>
-        </TopMobileNav>
-
-        <BottomMobileNav>
-          <AnimatePresence mode="wait">
-            {Object.entries(NAV_ORDER)
-              .filter(([_, order]) => order <= currentOrder)
-              .reverse()
-              .map(([path, order]) => (
-                <MobileLink
-                  key={path}
-                  to={path}
-                  onClick={handleNavigation(path)}
-                  custom={order > currentOrder ? "down" : "up"}
-                  variants={mobileSlideVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  $isActive={location.pathname === path}
-                >
-                  <p className="number">{`00${order}`}</p>
-                  <p className="text">
-                    {path === "/" ? "Home" : path.slice(1)}
-                  </p>
-                </MobileLink>
-              ))}
-          </AnimatePresence>
-        </BottomMobileNav>
+        {Object.entries(NAV_ORDER).map(([path, order]) => (
+          <MobileLink
+            key={path}
+            to={path}
+            onClick={handleNavigation(path)}
+            $isActive={location.pathname === path}
+          >
+            <p className="text">{path === "/" ? "Home" : path.slice(1)}</p>
+          </MobileLink>
+        ))}
       </MobileNav>
     </>
   );
@@ -275,63 +211,35 @@ const NavLink = styled(motion(Link))<NavLinkStyleProps>`
 const MobileNav = styled.nav`
   display: none;
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 60px;
+  background: white;
+  border-top: 1px solid black;
   z-index: 100;
-  pointer-events: none; // Match desktop nav
 
   @media screen and (max-width: 992px) {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between; // Stack at top and bottom
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
   }
 `;
 
-const TopMobileNav = styled.div`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  pointer-events: all;
-`;
-
-const BottomMobileNav = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  pointer-events: all;
-`;
-
-const MobileLink = styled(motion(Link))<{ $isActive?: boolean }>`
-  height: 50px; // Match desktop nav width
-  width: 100%;
+const MobileLink = styled(Link)<{ $isActive?: boolean }>`
   text-decoration: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2rem;
-  background: ${({ $isActive }) => ($isActive ? "black" : "white")};
-  color: ${({ $isActive }) => ($isActive ? "white" : "black")};
-  border-bottom: 1px solid black;
-  will-change: transform;
-  transition: background-color 0.3s ease 0.2s, color 0.3s ease 0.2s;
+  color: black;
+  text-decoration: ${({ $isActive }) => ($isActive ? "underline" : "none")};
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
 
-  p {
+  .text {
     margin: 0;
-
-    &.number {
-      letter-spacing: 3px;
-    }
-
-    &.text {
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
+    text-transform: capitalize;
   }
 `;
 
