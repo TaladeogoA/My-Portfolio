@@ -29,19 +29,6 @@ button {
   -moz-osx-font-smoothing: inherit;
 }
 
-.image-overlay {
-  position: fixed;
-  top: 0;
-  left: 10rem;
-  opacity: 0.4;
-}
-
-.image-overlay img {
-  width: 80%;
-  height: 100%;
-  object-fit: cover;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

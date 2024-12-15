@@ -58,9 +58,9 @@ const MainContent = styled.main<{
   transition: padding 0.5s ease;
 
   @media screen and (max-width: 992px) {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-bottom: 5rem;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 60px;
   }
 `;
 

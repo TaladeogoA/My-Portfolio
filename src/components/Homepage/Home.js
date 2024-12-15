@@ -34,9 +34,13 @@ const Home = () => {
 
   return (
     <MainContainer>
-      <div className="image-overlay">
-        <img src="./black-white-code.png" alt="html background" />
-      </div>
+      <BackgroundOverlay>
+        <img
+          src="./black-white-code.png"
+          alt="html background"
+          loading="lazy"
+        />
+      </BackgroundOverlay>
 
       <ContentContainer>
         <HomeText>
@@ -75,67 +79,71 @@ export default Home;
 
 const MainContainer = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  width: min(90%, 1400px);
+  margin: 0 auto;
+  min-height: 100vh;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: clamp(1rem, 3vw, 3rem);
 
   @media (max-width: 992px) {
-    width: 100%;
-    max-width: 100%;
-    height: 100vh;
-    margin: 0 auto;
+    gap: 3rem;
   }
 
   @media (max-width: 767px) {
     flex-direction: column-reverse;
     justify-content: center;
-    padding-bottom: 7rem;
-    padding-inline: 1rem;
+    padding-bottom: max(7rem, 15vh);
+    gap: 2rem;
   }
 `;
 
 const HomeText = styled.div`
-  margin-left: 5rem;
-  width: 50%;
+  flex: 1;
+  max-width: 600px;
 
   h2 {
-    font-size: 1.2rem;
-    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+    margin-top: clamp(1rem, 2vw, 1.5rem);
     font-weight: 400;
+    line-height: 1.4;
   }
 
   span {
-    font-size: 1rem;
+    font-size: clamp(0.875rem, 1vw, 1rem);
   }
 
   @media (max-width: 767px) {
-    margin-left: 0;
     text-align: center;
+    max-width: 100%;
   }
 `;
 
 const Block = styled.div``;
 
 const Text = styled.div`
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
   font-weight: 400;
 
   &.h1 {
     text-transform: uppercase;
-    font-size: 5rem;
+    font-size: clamp(2.5rem, 6vw, 5rem);
     font-weight: 400;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    line-height: 1.1;
   }
 
   &.p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
     font-weight: 400;
+    margin-top: 0.5rem;
   }
 
   @media (max-width: 767px) {
@@ -151,35 +159,39 @@ const Text = styled.div`
 
 const HomeImgContainer = styled.div`
   position: relative;
-  width: 35%;
+  width: min(35%, 400px);
+  aspect-ratio: 1;
 
   @media (max-width: 767px) {
-    width: 80%;
+    width: min(80%, 300px);
   }
 `;
 
 const HomeImg = styled.img`
-  animation: float 6s ease-in-out infinite both;
   width: 100%;
+  height: auto;
+  will-change: transform;
+  animation: float 6s ease-in-out infinite both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 
   @keyframes float {
-    0% {
-      transform: translateY(0px);
+    0%,
+    100% {
+      transform: translateY(0);
     }
     50% {
-      transform: translateY(-20px);
-    }
-    100% {
-      transform: translateY(0px);
+      transform: translateY(clamp(-15px, -2vw, -20px));
     }
   }
 `;
 
 const ShadowOverlay = styled.div`
   width: 80%;
-  border-radius: 50%;
-  margin-left: 10%;
-  height: 1.5rem;
+  margin-inline: auto;
+  height: clamp(1rem, 1.5vw, 1.5rem);
   background: radial-gradient(
     ellipse at center,
     rgba(0, 0, 0, 0.35) 0%,
@@ -187,15 +199,35 @@ const ShadowOverlay = styled.div`
   );
   animation: shadowGrowAndShrink 6s ease-in-out infinite both;
 
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
   @keyframes shadowGrowAndShrink {
-    0% {
-      transform: scaleY(1);
-    }
-    50% {
-      transform: scaleY(2);
-    }
+    0%,
     100% {
       transform: scaleY(1);
     }
+    50% {
+      transform: scaleY(clamp(1.5, 2vw, 2));
+    }
+  }
+`;
+
+const BackgroundOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 10rem;
+  opacity: 0.4;
+
+  img {
+    width: 80%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1);
+  }
+
+  @media (max-width: 767px) {
+    display: none;
   }
 `;
