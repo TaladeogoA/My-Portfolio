@@ -76,12 +76,17 @@ const Container = styled.div`
 `;
 
 const ProjectItem = styled.div<ProjectItemProps>`
-  height: 30vh;
+  height: clamp(100px, 30vh, 200px);
   padding: 2rem;
   cursor: pointer;
   border-bottom: 1px solid black;
   background: ${({ isSelected }) => (isSelected ? "black" : "white")};
   transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    height: clamp(80px, 15vh, 120px);
+    padding: 1.5rem;
+  }
 
   ${H2}, ${Text} {
     color: ${({ isSelected }) => (isSelected ? "white" : "black")};

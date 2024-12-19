@@ -94,10 +94,16 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: 5rem;
-  height: 100vh;
-  padding: 3rem;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: 100vh;
+  padding: clamp(1.5rem, 3vw, 3rem);
   overflow: hidden;
+
+  @media screen and (max-width: 992px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
 `;
 
 const PictureContainer = styled.div`
@@ -106,26 +112,30 @@ const PictureContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
-  height: fit-content;
+  gap: 2rem;
+  width: min(35%, 400px);
 
   @media screen and (max-width: 992px) {
     position: static;
-    margin-bottom: 2rem;
+    width: min(100%, 300px);
+    margin-bottom: 1rem;
   }
 `;
 
 const AboutText = styled.article`
-  width: 65%;
-  height: calc(100vh - 6rem);
+  width: min(65%, 800px);
+  height: calc(100vh - clamp(3rem, 6vw, 6rem));
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  padding-right: clamp(1rem, 2vw, 2rem);
 
   @media screen and (max-width: 992px) {
+    width: 100%;
     height: auto;
     overflow-y: visible;
     padding-right: 0;
+    padding-bottom: 5rem;
   }
 
   h4 {
@@ -200,7 +210,7 @@ const Highlight = styled.span`
 `;
 
 const LargeText = styled(Text)`
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 1.4vw, 1.4rem);
   line-height: 1.4;
 
   @media screen and (max-width: 992px) {
@@ -218,6 +228,8 @@ const ServiceItem = styled.li`
   line-height: 1.6;
   padding-left: 2rem;
   position: relative;
+  margin-bottom: 1rem;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
 
   &:before {
     content: "→";
@@ -228,6 +240,7 @@ const ServiceItem = styled.li`
 `;
 
 const CTASection = styled.div`
-  padding-inline: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
   text-align: center;
+  margin-top: clamp(2rem, 4vw, 3rem);
 `;

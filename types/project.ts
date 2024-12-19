@@ -20,6 +20,10 @@ export interface ProjectListProps {
 
 export interface ProjectDetailsProps {
   project: Project;
+  onNextProject?: () => void;
+  onPrevProject?: () => void;
+  hasNext?: boolean;
+  hasPrev?: boolean;
 }
 
 export interface ProjectImagesProps {
