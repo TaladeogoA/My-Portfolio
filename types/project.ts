@@ -5,7 +5,7 @@ export interface Project {
   solution: string;
   technicalHighlights: string[];
   techStack: string;
-  image: string;
+  images: string[];
   live?: string;
   source?: string;
   duration: string;
@@ -20,10 +20,7 @@ export interface ProjectListProps {
 
 export interface ProjectDetailsProps {
   project: Project;
-  onNextProject?: () => void;
-  onPrevProject?: () => void;
-  hasNext?: boolean;
-  hasPrev?: boolean;
+  isMobileExpanded?: boolean;
 }
 
 export interface ProjectImagesProps {

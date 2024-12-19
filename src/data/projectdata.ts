@@ -19,7 +19,11 @@ export const data: Project[] = [
     ],
     techStack:
       "Next.js 14 • TypeScript • Tailwind CSS • Sanity CMS • React Query • Framer Motion",
-    image: "https://picsum.photos/500/300?random=1",
+    images: [
+      "https://picsum.photos/500/300?random=1",
+      "https://picsum.photos/500/300?random=2",
+      "https://picsum.photos/500/300?random=3",
+    ],
     live: "https://gather-recipes.vercel.app",
     source: "https://github.com/example/gather",
     duration: "1 month",
@@ -41,7 +45,11 @@ export const data: Project[] = [
       "Advanced charting with D3.js",
     ],
     techStack: "Next.js 14 • TypeScript • TailwindCSS • Prisma • tRPC • D3.js",
-    image: "https://picsum.photos/500/300?random=2",
+    images: [
+      "https://picsum.photos/500/300?random=1",
+      "https://picsum.photos/500/300?random=2",
+      "https://picsum.photos/500/300?random=3",
+    ],
     live: "https://dashboard-demo.com",
     source: "https://github.com/example/dashboard",
     duration: "3 months",
@@ -63,7 +71,11 @@ export const data: Project[] = [
       "Progressive asset loading",
     ],
     techStack: "React Native • TypeScript • ARKit • ARCore • Three.js • Redux",
-    image: "https://picsum.photos/500/300?random=3",
+    images: [
+      "https://picsum.photos/500/300?random=1",
+      "https://picsum.photos/500/300?random=2",
+      "https://picsum.photos/500/300?random=3",
+    ],
     live: "https://apps.apple.com/app",
     source: "https://github.com/example/ar-viewer",
     duration: "6 months",
@@ -86,7 +98,11 @@ export const data: Project[] = [
     ],
     techStack:
       "React Native • TypeScript • Redux • React Query • Realm • TensorFlow Lite",
-    image: "https://picsum.photos/500/300?random=4",
+    images: [
+      "https://picsum.photos/500/300?random=1",
+      "https://picsum.photos/500/300?random=2",
+      "https://picsum.photos/500/300?random=3",
+    ],
     live: "https://play.google.com/store",
     source: "https://github.com/example/fitness",
     duration: "5 months",

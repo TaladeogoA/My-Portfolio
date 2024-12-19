@@ -1,7 +1,11 @@
-import React, { memo, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { memo, useRef } from "react";
 import styled from "styled-components";
 import { Project } from "../../../types/project";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { usePreventScroll } from "../../hooks/usePreventScroll";
 import { H2, Text } from "../Common/Typography";
+import ProjectDetails from "./ProjectDetails";
 
 interface ProjectListProps {
   projects: Project[];
@@ -15,49 +19,100 @@ interface ProjectItemProps {
 
 const ProjectList: React.FC<ProjectListProps> = memo(
   ({ projects, selectedId, onSelectProject }) => {
-    const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent, project: Project) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onSelectProject(project);
-        }
-      },
-      [onSelectProject]
-    );
+    const isMobile = useMediaQuery("(max-width: 1200px)");
+    const containerRef = useRef<HTMLDivElement>(null);
+    usePreventScroll(!!selectedId);
 
-    if (!projects?.length) {
-      return (
-        <Container>
-          <EmptyState>No projects available</EmptyState>
-        </Container>
-      );
-    }
+    const CLOSE_DURATION = 0.4;
+    const TRANSITION_GAP = 0.2;
+    const TOTAL_DURATION = (CLOSE_DURATION + TRANSITION_GAP) * 1000;
+
+    const handleProjectClick = (project: Project, element: HTMLElement) => {
+      const currentScroll = containerRef.current?.scrollTop || 0;
+
+      if (selectedId && selectedId !== project.id) {
+        onSelectProject({ id: "" } as Project);
+
+        setTimeout(() => {
+          onSelectProject(project);
+          if (containerRef.current) {
+            containerRef.current.scrollTop = currentScroll;
+          }
+        }, TOTAL_DURATION);
+      } else {
+        onSelectProject(project);
+      }
+    };
 
     return (
-      <Container role="listbox" aria-label="Projects list" tabIndex={0}>
-        {projects.map((project) => (
-          <ProjectItem
-            key={project.id}
-            isSelected={project.id === selectedId}
-            onClick={() => onSelectProject(project)}
-            role="option"
-            aria-selected={project.id === selectedId}
-            tabIndex={project.id === selectedId ? 0 : -1}
-            onKeyDown={(e) => handleKeyDown(e, project)}
-          >
-            <H2>{project.title}</H2>
-            <Description>
-              <Text>{project.duration}</Text>
-              <Text>{project.year}</Text>
-            </Description>
-          </ProjectItem>
-        ))}
+      <Container
+        ref={containerRef}
+        role="listbox"
+        aria-label="Projects list"
+        tabIndex={0}
+      >
+        {projects.map((project) => {
+          const isExpanded = project.id === selectedId;
+
+          return (
+            <React.Fragment key={project.id}>
+              <ProjectItem
+                isSelected={isExpanded}
+                onClick={(e) => handleProjectClick(project, e.currentTarget)}
+                role="option"
+                aria-selected={isExpanded}
+                tabIndex={isExpanded ? 0 : -1}
+              >
+                <H2>{project.title}</H2>
+                <Description>
+                  <Text>{project.duration}</Text>
+                  <Text>{project.year}</Text>
+                </Description>
+              </ProjectItem>
+
+              {isMobile && (
+                <AnimatePresence>
+                  {isExpanded && (
+                    <ExpandedContent
+                      initial={{ height: 0 }}
+                      animate={{ height: "auto" }}
+                      exit={{
+                        height: 0,
+                        transition: {
+                          duration: CLOSE_DURATION,
+                          ease: [0.4, 0, 0.2, 1],
+                        },
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: [0.4, 0, 0.2, 1],
+                      }}
+                    >
+                      <div style={{ overflow: "hidden", position: "relative" }}>
+                        <ProjectDetails
+                          project={project}
+                          isMobileExpanded={true}
+                        />
+                      </div>
+                    </ExpandedContent>
+                  )}
+                </AnimatePresence>
+              )}
+            </React.Fragment>
+          );
+        })}
       </Container>
     );
   }
 );
 
 ProjectList.displayName = "ProjectList";
+
+const ExpandedContent = styled(motion.div)`
+  overflow: hidden;
+  background: #fff;
+  border-bottom: 1px solid black;
+`;
 
 const Container = styled.div`
   height: 100%;
@@ -103,12 +158,6 @@ const Description = styled.p`
   justify-content: space-between;
   font-size: 1rem;
   margin-top: 1rem;
-`;
-
-const EmptyState = styled.div`
-  padding: 2rem;
-  text-align: center;
-  color: #666;
 `;
 
 export default ProjectList;
