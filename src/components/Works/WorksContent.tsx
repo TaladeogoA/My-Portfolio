@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Project } from "../../../types/project";
 import { data as ProjectData } from "../../data/projectdata";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { Project } from "../../types/project";
 import ProjectDetails from "./ProjectDetails";
 import ProjectImages from "./ProjectImages";
 import ProjectList from "./ProjectList";
 
 const WorksContent: React.FC = () => {
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<string>(
+    ProjectData[0]?.id || ""
+  );
   const isMobile = useMediaQuery("(max-width: 1200px)");
 
   const selectedProject =
@@ -60,7 +62,7 @@ const Container = styled.div`
 const DesktopLayout = styled.div`
   display: none;
   height: 100%;
-  grid-template-columns: minmax(300px, 1fr) minmax(400px, 2fr) minmax(
+  grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr) minmax(
       300px,
       1fr
     );

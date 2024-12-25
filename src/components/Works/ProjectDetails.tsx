@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import styled from "styled-components";
-import { ProjectDetailsProps } from "../../../types/project";
+import { Asset, ProjectDetailsProps } from "../../types/project";
 import { H1, H2, Text } from "../Common/Typography";
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
@@ -36,13 +36,27 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
       ],
     };
 
+    const AssetSlide = ({ asset }: { asset: Asset }) => {
+      if (asset.type === "video") {
+        return (
+          <VideoWrapper>
+            <video autoPlay muted loop playsInline src={asset.url} />
+          </VideoWrapper>
+        );
+      }
+
+      return (
+        <ImageSlide>
+          <img src={asset.url} alt="Project view" />
+        </ImageSlide>
+      );
+    };
+
     const ImageCarousel = () => (
       <CarouselWrapper>
         <Slider {...carouselSettings}>
-          {project.images.map((image, index) => (
-            <ImageSlide key={index}>
-              <img src={image} alt={`${project.title} view ${index + 1}`} />
-            </ImageSlide>
+          {project.assets.map((asset, index) => (
+            <AssetSlide key={index} asset={asset} />
           ))}
         </Slider>
       </CarouselWrapper>
@@ -77,12 +91,12 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
 
             <Section>
               <H2>Problem</H2>
-              <Text>{project.problem}</Text>
+              <Text>{project.description}</Text>
             </Section>
 
             <Section>
               <H2>Solution</H2>
-              <Text>{project.solution}</Text>
+              <Text>{project.contribution}</Text>
             </Section>
 
             <Section>
@@ -106,7 +120,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
           {isMobile && <ImageCarousel />}
 
           <ContentSection>
-            <H1>{project.title}</H1>
+            <H1>{project.subtitle}</H1>
 
             <Links>
               {project.live && (
@@ -130,13 +144,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
             </Links>
 
             <Section>
-              <H2>Problem</H2>
-              <Text>{project.problem}</Text>
+              <Text>{project.description}</Text>
             </Section>
 
             <Section>
-              <H2>Solution</H2>
-              <Text>{project.solution}</Text>
+              <Text>{project.contribution}</Text>
             </Section>
 
             <Section>
@@ -197,13 +209,21 @@ const ImageSlide = styled.div`
 `;
 
 const MobileExpandedContent = styled.div`
-  padding: 1rem;
-
   img {
     width: 100%;
     height: 40vh;
     object-fit: cover;
     margin-bottom: 2rem;
+  }
+`;
+
+const VideoWrapper = styled.div`
+  padding: 0 0.5rem;
+
+  video {
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
   }
 `;
 
@@ -247,9 +267,12 @@ const HighlightsList = styled.ul`
 
 const Links = styled.div`
   display: flex;
-  justify-content: center;
   gap: 2rem;
-  margin: 1.5rem 0;
+
+  @media (max-width: 1200px) {
+    justify-content: center;
+    margin: 1.5rem 0;
+  }
 `;
 
 const LinkButton = styled.a`

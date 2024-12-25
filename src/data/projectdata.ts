@@ -1,13 +1,18 @@
-import { Project } from "../../types/project";
+import GatherMockup from "../assets/gather-mac-mockup.png";
+import GatherPhone from "../assets/gather-phone.png";
+import GatherTab from "../assets/gather-tab.png";
+import GatherDemo from "../assets/screen-capture.webm";
+import { Project } from "../types/project";
 
 export const data: Project[] = [
   {
     id: "01",
-    title: "Gather - Culinary Portfolio",
-    problem:
-      "Professional chefs and culinary artists needed a modern platform to showcase their recipes and expertise. Traditional recipe websites lacked the visual appeal needed for culinary presentation, while existing portfolio solutions weren't optimized for recipe content.",
-    solution:
-      "I developed a chef-centric platform that prioritizes visual presentation and content management. The solution leverages Next.js 14 and Sanity CMS to deliver a seamless content management experience, while maintaining the performance and responsiveness needed for image-heavy culinary portfolios.",
+    title: "Gather",
+    subtitle: "Gather - A Culinary Journey Through Global Flavors",
+    description:
+      "Gather is the digital home of Chef Maria Rossi, where she shares her multicultural heritage and culinary expertise through beautifully crafted recipes that blend traditional techniques with modern approaches.",
+    contribution:
+      "I designed and developed a personalized platform that brings Chef Maria's vision to life, creating an intimate space where her stories and recipes intertwine. The website transforms her global culinary adventures into an accessible, visually rich experience that invites home cooks to explore world cuisines with confidence.",
     technicalHighlights: [
       "Headless CMS integration with Sanity for content management",
       "Advanced image optimization with blur placeholders",
@@ -19,23 +24,33 @@ export const data: Project[] = [
     ],
     techStack:
       "Next.js 14 • TypeScript • Tailwind CSS • Sanity CMS • React Query • Framer Motion",
-    images: [
-      "https://picsum.photos/500/300?random=1",
-      "https://picsum.photos/500/300?random=2",
-      "https://picsum.photos/500/300?random=3",
+    assets: [
+      {
+        type: "image",
+        url: GatherPhone,
+      },
+      {
+        type: "image",
+        url: GatherMockup,
+      },
+      {
+        type: "image",
+        url: GatherTab,
+      },
     ],
-    live: "https://gather-recipes.vercel.app",
-    source: "https://github.com/example/gather",
+    live: "https://recipe-website-sigma.vercel.app/",
+    source: "https://github.com/TaladeogoA/recipe-website",
     duration: "1 month",
     year: "2024",
   },
   {
     id: "02",
-    title: "E-commerce Dashboard",
-    problem:
-      "E-commerce businesses needed a comprehensive dashboard to monitor sales, track performance, and manage inventory. Existing solutions were either too complex and bloated or lacked essential features.",
-    solution:
-      "I developed a modern dashboard application that provides a unified interface for e-commerce store management. The solution offers real-time updates, role-based access control, and advanced reporting features to help businesses make informed decisions.",
+    title: "Statwise",
+    subtitle: "Statwise - Making Data Analytics Human",
+    description:
+      "Statwise transforms complex business analytics into clear, actionable insights for small business owners. The platform replaces overwhelming spreadsheets with intuitive visualizations and plain-language recommendations.",
+    contribution:
+      "I created an approachable dashboard that makes data analytics accessible to non-technical users. The design emphasizes visual storytelling and actionable insights, helping business owners make confident decisions without getting lost in the numbers.",
     technicalHighlights: [
       "Server components and streaming for faster page loads",
       "Real-time updates with Server-Sent Events",
@@ -45,10 +60,15 @@ export const data: Project[] = [
       "Advanced charting with D3.js",
     ],
     techStack: "Next.js 14 • TypeScript • TailwindCSS • Prisma • tRPC • D3.js",
-    images: [
-      "https://picsum.photos/500/300?random=1",
-      "https://picsum.photos/500/300?random=2",
-      "https://picsum.photos/500/300?random=3",
+    assets: [
+      {
+        type: "video",
+        url: GatherDemo,
+      },
+      {
+        type: "image",
+        url: GatherMockup,
+      },
     ],
     live: "https://dashboard-demo.com",
     source: "https://github.com/example/dashboard",
@@ -57,11 +77,12 @@ export const data: Project[] = [
   },
   {
     id: "03",
-    title: "AR Product Viewer",
-    problem:
-      "E-commerce businesses needed a way to showcase products in AR to improve customer engagement and drive sales. Existing AR solutions were fragmented and lacked support for older devices.",
-    solution:
-      "I developed a cross-platform AR viewer application that allows users to visualize products in their physical space. The solution leverages ARKit and ARCore to provide a consistent AR experience across iOS and Android devices, while optimizing performance for older smartphones.",
+    title: "RoomLens",
+    subtitle: "RoomLens - Try Before You Buy",
+    description:
+      "RoomLens helps furniture shoppers make confident purchases by bringing products into their homes through AR. This innovative platform bridges the gap between online shopping and the showroom experience.",
+    contribution:
+      "I developed an intuitive AR experience that makes virtual product placement feel natural and effortless. The solution helps retailers reduce returns while giving shoppers the confidence to make bigger purchases online.",
     technicalHighlights: [
       "Platform-specific AR implementations unified API",
       "3D model optimization and caching",
@@ -71,10 +92,15 @@ export const data: Project[] = [
       "Progressive asset loading",
     ],
     techStack: "React Native • TypeScript • ARKit • ARCore • Three.js • Redux",
-    images: [
-      "https://picsum.photos/500/300?random=1",
-      "https://picsum.photos/500/300?random=2",
-      "https://picsum.photos/500/300?random=3",
+    assets: [
+      {
+        type: "video",
+        url: GatherDemo,
+      },
+      {
+        type: "image",
+        url: GatherMockup,
+      },
     ],
     live: "https://apps.apple.com/app",
     source: "https://github.com/example/ar-viewer",
@@ -83,11 +109,12 @@ export const data: Project[] = [
   },
   {
     id: "04",
-    title: "Health & Fitness Tracker",
-    problem:
-      "Fitness enthusiasts needed a comprehensive health and fitness tracking app to monitor their progress and stay motivated. Existing fitness apps were either too complex and overwhelming or lacked essential features.",
-    solution:
-      "I developed a user-centric fitness tracking app that focuses on simplicity and usability. The solution offers seamless integration with HealthKit and Google Fit, background activity monitoring, and intelligent workout suggestions to help users achieve their fitness goals.",
+    title: "MoveWell",
+    subtitle: "MoveWell - Your Personal Fitness Journey",
+    description:
+      "MoveWell transforms fitness tracking into a personal wellness story, helping users build sustainable habits through mindful movement and achievable goals.",
+    contribution:
+      "I designed an encouraging, judgment-free space that celebrates progress over perfection. The app's intelligent features adapt to each user's journey, providing personalized guidance while maintaining simplicity and ease of use.",
     technicalHighlights: [
       "HealthKit and Google Fit integration",
       "Background step counting and activity monitoring",
@@ -98,10 +125,15 @@ export const data: Project[] = [
     ],
     techStack:
       "React Native • TypeScript • Redux • React Query • Realm • TensorFlow Lite",
-    images: [
-      "https://picsum.photos/500/300?random=1",
-      "https://picsum.photos/500/300?random=2",
-      "https://picsum.photos/500/300?random=3",
+    assets: [
+      {
+        type: "video",
+        url: GatherDemo,
+      },
+      {
+        type: "image",
+        url: GatherMockup,
+      },
     ],
     live: "https://play.google.com/store",
     source: "https://github.com/example/fitness",

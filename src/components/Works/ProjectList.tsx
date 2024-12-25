@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { memo, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Project } from "../../../types/project";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { usePreventScroll } from "../../hooks/usePreventScroll";
+import { Project } from "../../types/project";
 import { H2, Text } from "../Common/Typography";
 import ProjectDetails from "./ProjectDetails";
 
@@ -21,7 +21,20 @@ const ProjectList: React.FC<ProjectListProps> = memo(
   ({ projects, selectedId, onSelectProject }) => {
     const isMobile = useMediaQuery("(max-width: 1200px)");
     const containerRef = useRef<HTMLDivElement>(null);
+    const isFirstRender = useRef(true);
     usePreventScroll(!!selectedId);
+
+    useEffect(() => {
+      if (
+        isFirstRender.current &&
+        projects.length > 0 &&
+        !selectedId &&
+        isMobile
+      ) {
+        onSelectProject(projects[0]);
+        isFirstRender.current = false;
+      }
+    }, [projects, selectedId, onSelectProject, isMobile]);
 
     const CLOSE_DURATION = 0.4;
     const TRANSITION_GAP = 0.2;

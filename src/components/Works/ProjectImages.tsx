@@ -1,26 +1,47 @@
 import React from "react";
 import styled from "styled-components";
-import { ProjectImagesProps } from "../../../types/project";
+import { ProjectImagesProps } from "../../types/project";
 
 const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
-  const images = [
-    "https://picsum.photos/800/600?random=1",
-    "https://picsum.photos/800/600?random=2",
-    "https://picsum.photos/800/600?random=3",
-  ];
-
   return (
     <Container>
-      {images.map((src, index) => (
-        <ProjectImage
-          key={index}
-          src={src}
-          alt={`${project.title} view ${index + 1}`}
-        />
+      {project.assets.map((asset, index) => (
+        <React.Fragment key={index}>
+          <AssetContainer>
+            {asset.type === "video" ? (
+              <ProjectVideo autoPlay muted loop playsInline src={asset.url} />
+            ) : (
+              <ProjectImage
+                src={asset.url}
+                alt={`${project.title} view ${index + 1}`}
+              />
+            )}
+          </AssetContainer>
+          {/* {index < project.assets.length - 1 && <Separator />} */}
+        </React.Fragment>
       ))}
     </Container>
   );
 };
+
+const AssetContainer = styled.div`
+  width: 100%;
+  height: 45vh;
+`;
+
+const ProjectVideo = styled.video`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+`;
+
+const ProjectImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+`;
 
 const Container = styled.div`
   height: 100%;
@@ -33,11 +54,11 @@ const Container = styled.div`
   }
 `;
 
-const ProjectImage = styled.img`
+const Separator = styled.div`
   width: 100%;
-  height: 40vh;
-  object-fit: cover;
-  display: block;
+  height: 1px;
+  background-color: black;
+  margin: 0;
 `;
 
 export default ProjectImages;

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import styled from "styled-components";
-import { useTransitionState } from "../../hooks/useTransitionState.ts";
+import { useTransitionState } from "../../hooks/useTransitionState";
 
 const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
   children,

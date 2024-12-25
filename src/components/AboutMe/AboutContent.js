@@ -15,11 +15,7 @@ const AboutContent = () => {
     <Container>
       <PictureContainer>
         <PictureAnimation />
-        <Button
-          variant="secondary"
-          onClick={handleResumeClick}
-          aria-label="Open resume in new tab"
-        >
+        <Button onClick={handleResumeClick} aria-label="Open resume in new tab">
           View my Resume
         </Button>
       </PictureContainer>
@@ -27,19 +23,19 @@ const AboutContent = () => {
       <AboutText>
         <IntroSection>
           <H2>Heyyy, </H2>
-          <LargeText $margin="0 0 1rem">
+          <Text $margin="0 0 1rem">
             My name is <Highlight>Táládeogó</Highlight>, but everybody calls me{" "}
             <Highlight>Talade</Highlight>. You can too.
-          </LargeText>
+          </Text>
 
-          <Text $margin="0 0 2rem">
+          <Text $margin="0 0 1rem">
             I'm a cross-platform developer creating seamless digital experiences
             across web and mobile. With a background in construction and design,
             I bring a unique perspective to every project, blending form and
             function into intuitive, engaging interfaces.
           </Text>
 
-          <Text $margin="0 0 2rem">
+          <Text $margin="0 0 1rem">
             Over the past few years, I've had the opportunity to work on diverse
             projects across healthcare, education, and enterprise sectors. Here
             are some highlights:
@@ -119,6 +115,12 @@ const PictureContainer = styled.div`
     position: static;
     width: min(100%, 300px);
     margin-bottom: 1rem;
+    gap: 1rem;
+
+    > div:first-child {
+      transform: scale(0.8);
+      margin: -2rem 0;
+    }
   }
 `;
 
@@ -240,7 +242,7 @@ const ServiceItem = styled.li`
 `;
 
 const CTASection = styled.div`
-  padding: clamp(1.5rem, 3vw, 2rem);
+  /* padding: clamp(1.5rem, 3vw, 2rem); */
   text-align: center;
-  margin-top: clamp(2rem, 4vw, 3rem);
+  /* margin-top: clamp(2rem, 4vw, 3rem); */
 `;
