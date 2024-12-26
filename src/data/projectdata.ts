@@ -1,12 +1,68 @@
-import GatherMockup from "../assets/gather-mac-mockup.png";
+import GatherDesktop from "../assets/gather-pc.png";
 import GatherPhone from "../assets/gather-phone.png";
 import GatherTab from "../assets/gather-tab.png";
-import GatherDemo from "../assets/screen-capture.webm";
+import LauncherFour from "../assets/launcher-four.png";
+import LauncherOne from "../assets/launcher-one.png";
+import LauncherThree from "../assets/launcher-three.png";
+import LauncherTwo from "../assets/launcher-two.png";
+import MarketplaceFour from "../assets/marketplace-four.png";
+import MarketplaceOne from "../assets/marketplace-one.png";
+import MarketplaceThree from "../assets/marketplace-three.png";
+import MarketplaceTwo from "../assets/marketplace-two.png";
+import MobannOne from "../assets/mobann-one.png";
+import MobannThree from "../assets/mobann-three.png";
+import MobannTwo from "../assets/mobann-two.png";
+import OctodocFour from "../assets/octodoc-four.png";
+import OctodocOne from "../assets/octodoc-one.png";
+import OctodocThree from "../assets/octodoc-three.png";
+import OctodocTwo from "../assets/octodoc-two.jpg";
+
 import { Project } from "../types/project";
 
 export const data: Project[] = [
   {
     id: "01",
+    title: "OctoDoc Mobile",
+    subtitle: "OctoDoc - Revolutionizing Healthcare Access",
+    description:
+      "OctoDoc is a comprehensive healthcare platform that connects patients with healthcare providers through real-time communication and appointment management. The mobile app enables seamless healthcare delivery and consultation.",
+    contribution:
+      "I played a key role in enhancing the React Native application, implementing critical features like real-time native call alerts and modernizing the codebase. Led a major dependency update project that involved substantial rewriting to improve app performance and user experience.",
+    technicalHighlights: [
+      "Real-time native call feature implementation",
+      "Major dependency updates and codebase modernization",
+      "Performance optimization and bug fixes",
+      "Cross-platform compatibility for iOS and Android",
+      "Integration with backend services for real-time communication",
+      "Comprehensive testing and quality assurance",
+    ],
+    techStack:
+      "React Native • TypeScript • React Query • React Testing Library",
+    assets: [
+      {
+        type: "image",
+        url: OctodocTwo,
+      },
+      {
+        type: "image",
+        url: OctodocOne,
+      },
+      {
+        type: "image",
+        url: OctodocThree,
+      },
+      {
+        type: "image",
+        url: OctodocFour,
+      },
+    ],
+    live: "https://play.google.com/store/apps/details?id=ai.octosoft.octodoc",
+    source: "",
+    duration: "Ongoing",
+    year: "2023",
+  },
+  {
+    id: "02",
     title: "Gather",
     subtitle: "Gather - A Culinary Journey Through Global Flavors",
     description:
@@ -27,15 +83,15 @@ export const data: Project[] = [
     assets: [
       {
         type: "image",
-        url: GatherPhone,
-      },
-      {
-        type: "image",
-        url: GatherMockup,
+        url: GatherDesktop,
       },
       {
         type: "image",
         url: GatherTab,
+      },
+      {
+        type: "image",
+        url: GatherPhone,
       },
     ],
     live: "https://recipe-website-sigma.vercel.app/",
@@ -44,100 +100,121 @@ export const data: Project[] = [
     year: "2024",
   },
   {
-    id: "02",
-    title: "Statwise",
-    subtitle: "Statwise - Making Data Analytics Human",
+    id: "03",
+    title: "Mobann LMS",
+    subtitle: "Learning Management System for DevOps Training",
     description:
-      "Statwise transforms complex business analytics into clear, actionable insights for small business owners. The platform replaces overwhelming spreadsheets with intuitive visualizations and plain-language recommendations.",
+      "A comprehensive Learning Management System designed specifically for DevOps training, enabling students to learn and practice DevOps concepts through an interactive platform. The system provides structured course delivery with real-time progress tracking.",
     contribution:
-      "I created an approachable dashboard that makes data analytics accessible to non-technical users. The design emphasizes visual storytelling and actionable insights, helping business owners make confident decisions without getting lost in the numbers.",
+      "I led the frontend development of the entire LMS platform, creating an intuitive interface that enhances the learning experience. The implementation includes interactive assessments, real-time progress tracking, and seamless content delivery.",
     technicalHighlights: [
-      "Server components and streaming for faster page loads",
-      "Real-time updates with Server-Sent Events",
-      "Dynamic PDF generation for reports",
-      "Role-based access control",
-      "Optimistic UI updates for better UX",
-      "Advanced charting with D3.js",
+      "Responsive interface optimized for various learning contexts",
+      "Real-time progress tracking system with WebSocket integration",
+      "Custom assessment module with various question types",
+      "RESTful API integration for course content delivery",
+      "Cross-browser compatibility optimization",
+      "Performance optimization for concurrent users",
     ],
-    techStack: "Next.js 14 • TypeScript • TailwindCSS • Prisma • tRPC • D3.js",
+    techStack:
+      "Next.js • TypeScript • Chakra UI • Redux • Context API • React Query",
     assets: [
       {
-        type: "video",
-        url: GatherDemo,
+        type: "image",
+        url: MobannOne,
       },
       {
         type: "image",
-        url: GatherMockup,
+        url: MobannTwo,
+      },
+      {
+        type: "image",
+        url: MobannThree,
       },
     ],
-    live: "https://dashboard-demo.com",
-    source: "https://github.com/example/dashboard",
+    live: "https://www.mobanntechnologies.com/",
+    source: "",
+    duration: "4 months",
+    year: "2024",
+  },
+  {
+    id: "04",
+    title: "Health Plan Marketplace",
+    subtitle: "Octodoc Marketplace - Simplified Health Plan Selection",
+    description:
+      "A user-centric marketplace that enables customers to compare and purchase health plans from various providers. The platform simplifies the decision-making process through intuitive comparison tools and streamlined purchasing.",
+    contribution:
+      "Working in a two-person team, I worked on the frontend development of key marketplace features including plan comparison, advanced filtering, and purchase flow integration. Collaborated on implementing post-purchase automation for beneficiary detail collection and user onboarding.",
+    technicalHighlights: [
+      "Side-by-side plan comparison interface",
+      "Advanced filtering system based on price and coverage",
+      "Flutterwave payment integration",
+      "Automated email system for beneficiary data collection",
+      "Responsive design for all devices",
+      "Performance optimization for large datasets",
+    ],
+    techStack: "Next.js • TypeScript • Tailwind CSS • React Query",
+    assets: [
+      {
+        type: "image",
+        url: MarketplaceTwo,
+      },
+      {
+        type: "image",
+        url: MarketplaceThree,
+      },
+      {
+        type: "image",
+        url: MarketplaceOne,
+      },
+      {
+        type: "image",
+        url: MarketplaceFour,
+      },
+    ],
+    live: "https://www.octodoc.com/",
+    source: "",
     duration: "3 months",
     year: "2023",
   },
   {
-    id: "03",
-    title: "RoomLens",
-    subtitle: "RoomLens - Try Before You Buy",
+    id: "05",
+    title: "Mosaic",
+    subtitle: "Mosaic - Your Home Screen, Your Canvas",
     description:
-      "RoomLens helps furniture shoppers make confident purchases by bringing products into their homes through AR. This innovative platform bridges the gap between online shopping and the showroom experience.",
+      "Mosaic is a hybrid Android launcher that transforms your home screen with dynamic widgets and deep customization options. Combines React Native's modern UI with Java for system-level integration.",
     contribution:
-      "I developed an intuitive AR experience that makes virtual product placement feel natural and effortless. The solution helps retailers reduce returns while giving shoppers the confidence to make bigger purchases online.",
+      "Currently developing this launcher from the ground up, creating a powerful widget creation system and implementing seamless integration between React Native's UI capabilities and Android's system features.",
     technicalHighlights: [
-      "Platform-specific AR implementations unified API",
-      "3D model optimization and caching",
-      "Custom gesture handling for object manipulation",
-      "Lighting estimation and shadow rendering",
-      "Performance optimization for older devices",
-      "Progressive asset loading",
+      "Custom widget creation framework with React Native",
+      "Native Android integration using Java for system-level access",
+      "Advanced widget layout engine for flexible arrangements",
+      "Real-time widget updates and data synchronization",
+      "Custom animations and transitions system",
+      "Deep system integration for notifications and interactive widgets",
+      "Efficient state management for widget data",
     ],
-    techStack: "React Native • TypeScript • ARKit • ARCore • Three.js • Redux",
+    techStack: "React Native • Java • TypeScript • Android SDK",
     assets: [
       {
-        type: "video",
-        url: GatherDemo,
+        type: "image",
+        url: LauncherOne,
       },
       {
         type: "image",
-        url: GatherMockup,
-      },
-    ],
-    live: "https://apps.apple.com/app",
-    source: "https://github.com/example/ar-viewer",
-    duration: "6 months",
-    year: "2023",
-  },
-  {
-    id: "04",
-    title: "MoveWell",
-    subtitle: "MoveWell - Your Personal Fitness Journey",
-    description:
-      "MoveWell transforms fitness tracking into a personal wellness story, helping users build sustainable habits through mindful movement and achievable goals.",
-    contribution:
-      "I designed an encouraging, judgment-free space that celebrates progress over perfection. The app's intelligent features adapt to each user's journey, providing personalized guidance while maintaining simplicity and ease of use.",
-    technicalHighlights: [
-      "HealthKit and Google Fit integration",
-      "Background step counting and activity monitoring",
-      "Offline workout tracking with sync queue",
-      "Custom animation system for workout illustrations",
-      "Intelligent workout suggestions using local ML",
-      "Battery and performance optimizations",
-    ],
-    techStack:
-      "React Native • TypeScript • Redux • React Query • Realm • TensorFlow Lite",
-    assets: [
-      {
-        type: "video",
-        url: GatherDemo,
+        url: LauncherTwo,
       },
       {
         type: "image",
-        url: GatherMockup,
+        url: LauncherThree,
+      },
+      {
+        type: "image",
+        url: LauncherFour,
       },
     ],
-    live: "https://play.google.com/store",
-    source: "https://github.com/example/fitness",
-    duration: "5 months",
-    year: "2023",
+    live: "",
+    source: "",
+    duration: "Ongoing",
+    year: "2024",
   },
 ];

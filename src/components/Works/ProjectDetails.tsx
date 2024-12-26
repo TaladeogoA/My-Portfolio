@@ -200,18 +200,21 @@ const CarouselWrapper = styled.div`
 
 const ImageSlide = styled.div`
   padding: 0 0.5rem;
+  height: 500px;
+  width: 100%;
 
   img {
     width: 100%;
-    height: 40vh;
+    height: 100%;
     object-fit: cover;
+    object-fit: contain;
   }
 `;
 
 const MobileExpandedContent = styled.div`
   img {
     width: 100%;
-    height: 40vh;
+    height: 100%;
     object-fit: cover;
     margin-bottom: 2rem;
   }
@@ -259,6 +262,10 @@ const ContentSection = styled.div`
 
 const Section = styled.div`
   margin: 2.5rem 0;
+
+  &:last-child {
+    padding-bottom: 2rem;
+  }
 `;
 
 const HighlightsList = styled.ul`

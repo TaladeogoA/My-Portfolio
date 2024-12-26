@@ -144,7 +144,7 @@ const Container = styled.div`
 `;
 
 const ProjectItem = styled.div<ProjectItemProps>`
-  height: clamp(100px, 30vh, 200px);
+  height: clamp(100px, 28vh, 180px);
   padding: 2rem;
   cursor: pointer;
   border-bottom: 1px solid black;

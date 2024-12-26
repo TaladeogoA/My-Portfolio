@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { ProjectImagesProps } from "../../types/project";
+import { Asset, ProjectImagesProps } from "../../types/project";
+import ImageModal from "./ImageModal";
 
 const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
+  const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
+
+  const handleAssetClick = (asset: Asset) => {
+    setSelectedAsset(asset);
+  };
+
   return (
     <Container>
       {project.assets.map((asset, index) => (
         <React.Fragment key={index}>
-          <AssetContainer>
+          <AssetContainer onClick={() => handleAssetClick(asset)}>
             {asset.type === "video" ? (
               <ProjectVideo autoPlay muted loop playsInline src={asset.url} />
             ) : (
@@ -17,9 +24,14 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
               />
             )}
           </AssetContainer>
-          {/* {index < project.assets.length - 1 && <Separator />} */}
         </React.Fragment>
       ))}
+
+      <ImageModal
+        asset={selectedAsset!}
+        isOpen={!!selectedAsset}
+        onClose={() => setSelectedAsset(null)}
+      />
     </Container>
   );
 };
@@ -27,6 +39,12 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
 const AssetContainer = styled.div`
   width: 100%;
   height: 45vh;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const ProjectVideo = styled.video`
@@ -52,13 +70,6 @@ const Container = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const Separator = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: black;
-  margin: 0;
 `;
 
 export default ProjectImages;
