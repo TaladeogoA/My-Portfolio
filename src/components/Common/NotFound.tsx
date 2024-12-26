@@ -1,13 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { MetaTags } from "../SEO/MetaTags";
 
 const NotFound: React.FC = () => (
-  <Container>
-    <Title>404</Title>
-    <Message>Page not found</Message>
-    <StyledLink to="/">Return Home</StyledLink>
-  </Container>
+  <>
+    <MetaTags
+      title="404 | Page Not Found | Talade"
+      description="The page you're looking for doesn't exist. Let's get you back on track."
+    />
+    <Container>
+      <Title>404</Title>
+      <Message>Page not found</Message>
+      <StyledLink to="/">Return Home</StyledLink>
+    </Container>
+  </>
 );
 
 const Container = styled.div`

@@ -1,36 +1,43 @@
 import styled from "styled-components";
 import { StyledLink } from "../Common/StyledLink";
 import { Text } from "../Common/Typography";
+import { MetaTags } from "../SEO/MetaTags";
 import ContactForm from "./ContactForm";
 
 const ContactContent = () => {
   return (
-    <Container>
-      <Wrapper>
-        <ContentSection>
-          <Text>
-            Don't be a stranger, say hello! <br /> Send me an email at{" "}
-            <StyledLink href="mailto:ataladeogo@gmail.com">
-              ataladeogo@gmail.com
-            </StyledLink>{" "}
-            or reach out on{" "}
-            <StyledLink
-              href="https://www.linkedin.com/in/taladeogo/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </StyledLink>{" "}
-            .
-          </Text>
-          <Text>Or send a direct message below:</Text>
-        </ContentSection>
+    <>
+      <MetaTags
+        title="Contact | Talade"
+        description="Get in touch to discuss your next project or explore collaboration opportunities."
+      />
+      <Container>
+        <Wrapper>
+          <ContentSection>
+            <Text>
+              Don't be a stranger, say hello! <br /> Send me an email at{" "}
+              <StyledLink href="mailto:ataladeogo@gmail.com">
+                ataladeogo@gmail.com
+              </StyledLink>{" "}
+              or reach out on{" "}
+              <StyledLink
+                href="https://www.linkedin.com/in/taladeogo/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </StyledLink>{" "}
+              .
+            </Text>
+            <Text>Or send a direct message below:</Text>
+          </ContentSection>
 
-        <FormSection>
-          <ContactForm />
-        </FormSection>
-      </Wrapper>
-    </Container>
+          <FormSection>
+            <ContactForm />
+          </FormSection>
+        </Wrapper>
+      </Container>
+    </>
   );
 };
 

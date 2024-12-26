@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.png";
 import { animateText } from "../../utils/Animation";
+import { MetaTags } from "../SEO/MetaTags";
 
 const Home = () => {
   const textRefs = useRef([]);
@@ -33,45 +34,51 @@ const Home = () => {
   }, []);
 
   return (
-    <MainContainer>
-      <BackgroundOverlay>
-        <img
-          src="./black-white-code.png"
-          alt="html background"
-          loading="lazy"
-        />
-      </BackgroundOverlay>
+    <>
+      <MetaTags
+        title="Talade | Frontend Engineer"
+        description="Frontend engineer crafting exceptional digital experiences with React, React Native, and modern web technologies."
+      />
+      <MainContainer>
+        <BackgroundOverlay>
+          <img
+            src="./black-white-code.png"
+            alt="html background"
+            loading="lazy"
+          />
+        </BackgroundOverlay>
 
-      <ContentContainer>
-        <HomeText>
-          <Block
-            className="text-block"
-            ref={(el) => (textRefs.current[0] = el)}
-          >
-            <Text className="h1">Hi, I'm</Text>
-          </Block>
+        <ContentContainer>
+          <HomeText>
+            <Block
+              className="text-block"
+              ref={(el) => (textRefs.current[0] = el)}
+            >
+              <Text className="h1">Hi, I'm</Text>
+            </Block>
 
-          <Block className="text-block">
-            <Text className="h1" ref={(el) => (textRefs.current[1] = el)}>
-              Talade.
-            </Text>
-            <Text className="p new-text">
-              (Táládeogó if you're feeling brave.)
-            </Text>
-          </Block>
+            <Block className="text-block">
+              <Text className="h1" ref={(el) => (textRefs.current[1] = el)}>
+                Talade.
+              </Text>
+              <Text className="p new-text">
+                (Táládeogó if you're feeling brave.)
+              </Text>
+            </Block>
 
-          <h2 className="new-text">
-            Cross-platform developer, from web to mobile, and <br /> everything
-            in between.
-          </h2>
-        </HomeText>
+            <h2 className="new-text">
+              Cross-platform developer, from web to mobile, and <br />{" "}
+              everything in between.
+            </h2>
+          </HomeText>
 
-        <HomeImgContainer>
-          <HomeImg src={FloatingTalade} alt="Avatar version of me floating" />
-          <ShadowOverlay />
-        </HomeImgContainer>
-      </ContentContainer>
-    </MainContainer>
+          <HomeImgContainer>
+            <HomeImg src={FloatingTalade} alt="Avatar version of me floating" />
+            <ShadowOverlay />
+          </HomeImgContainer>
+        </ContentContainer>
+      </MainContainer>
+    </>
   );
 };
 

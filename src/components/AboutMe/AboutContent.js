@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
 import { Button } from "../Common/Button";
 import { H2, Text } from "../Common/Typography";
+import { MetaTags } from "../SEO/MetaTags";
 import PictureAnimation from "./PictureAnimation";
 
 const AboutContent = () => {
@@ -12,75 +13,86 @@ const AboutContent = () => {
   };
 
   return (
-    <Container>
-      <PictureContainer>
-        <PictureAnimation />
-        <Button onClick={handleResumeClick} aria-label="Open resume in new tab">
-          View my Resume
-        </Button>
-      </PictureContainer>
+    <>
+      <MetaTags
+        title="About | Talade"
+        description="Learn about my journey in software development, skills, and experience building innovative web and mobile solutions."
+      />
+      <Container>
+        <PictureContainer>
+          <PictureAnimation />
+          <Button
+            onClick={handleResumeClick}
+            aria-label="Open resume in new tab"
+          >
+            View my Resume
+          </Button>
+        </PictureContainer>
 
-      <AboutText>
-        <IntroSection>
-          <H2>Heyyy, </H2>
-          <Text $margin="0 0 1rem">
-            My name is <Highlight>Táládeogó</Highlight>, but everybody calls me{" "}
-            <Highlight>Talade</Highlight>. You can too.
-          </Text>
-
-          <Text $margin="0 0 1rem">
-            I'm a cross-platform developer creating seamless digital experiences
-            across web and mobile. With a background in construction and design,
-            I bring a unique perspective to every project, blending form and
-            function into intuitive, engaging interfaces.
-          </Text>
-
-          <Text $margin="0 0 1rem">
-            Over the past few years, I've had the opportunity to work on diverse
-            projects across healthcare, education, and enterprise sectors. Here
-            are some highlights:
-          </Text>
-
-          <ServicesList>
-            <ServiceItem>
-              <Text>
-                3+ years developing frontend applications in health tech.
-              </Text>
-            </ServiceItem>
-            <ServiceItem>
-              <Text>
-                Led frontend development for Learning Management System at
-                Mobann Technologies.
-              </Text>
-            </ServiceItem>
-            <ServiceItem>
-              <Text>
-                Built React Native apps with 7k+ combined downloads for OctoDoc.
-              </Text>
-            </ServiceItem>
-            <ServiceItem>
-              <Text>
-                Collaborated with international teams to deliver complex web and
-                mobile solutions.
-              </Text>
-            </ServiceItem>
-          </ServicesList>
-
-          <CTASection>
-            <Text $margin="0 0 2rem">
-              Have a project in mind? Let's create something amazing together.
+        <AboutText>
+          <IntroSection>
+            <H2>Heyyy, </H2>
+            <Text $margin="0 0 1rem">
+              My name is <Highlight>Táládeogó</Highlight>, but everybody calls
+              me <Highlight>Talade</Highlight>. You can too.
             </Text>
-            <Button
-              variant="primary"
-              onClick={() => navigate("/contact")}
-              $padding="1rem 2rem"
-            >
-              Let's Talk
-            </Button>
-          </CTASection>
-        </IntroSection>
-      </AboutText>
-    </Container>
+
+            <Text $margin="0 0 1rem">
+              I'm a cross-platform developer creating seamless digital
+              experiences across web and mobile. With a background in
+              construction and design, I bring a unique perspective to every
+              project, blending form and function into intuitive, engaging
+              interfaces.
+            </Text>
+
+            <Text $margin="0 0 1rem">
+              Over the past few years, I've had the opportunity to work on
+              diverse projects across healthcare, education, and enterprise
+              sectors. Here are some highlights:
+            </Text>
+
+            <ServicesList>
+              <ServiceItem>
+                <Text>
+                  3+ years developing frontend applications in health tech.
+                </Text>
+              </ServiceItem>
+              <ServiceItem>
+                <Text>
+                  Led frontend development for Learning Management System at
+                  Mobann Technologies.
+                </Text>
+              </ServiceItem>
+              <ServiceItem>
+                <Text>
+                  Built React Native apps with 7k+ combined downloads for
+                  OctoDoc.
+                </Text>
+              </ServiceItem>
+              <ServiceItem>
+                <Text>
+                  Collaborated with international teams to deliver complex web
+                  and mobile solutions.
+                </Text>
+              </ServiceItem>
+            </ServicesList>
+
+            <CTASection>
+              <Text $margin="0 0 2rem">
+                Have a project in mind? Let's create something amazing together.
+              </Text>
+              <Button
+                variant="primary"
+                onClick={() => navigate("/contact")}
+                $padding="1rem 2rem"
+              >
+                Let's Talk
+              </Button>
+            </CTASection>
+          </IntroSection>
+        </AboutText>
+      </Container>
+    </>
   );
 };
 

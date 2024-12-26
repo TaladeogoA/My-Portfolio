@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { data as ProjectData } from "../../data/projectdata";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { Project } from "../../types/project";
+import { MetaTags } from "../SEO/MetaTags";
 import ProjectDetails from "./ProjectDetails";
 import ProjectImages from "./ProjectImages";
 import ProjectList from "./ProjectList";
@@ -25,25 +26,39 @@ const WorksContent: React.FC = () => {
   };
 
   return (
-    <Container>
-      {isMobile ? (
-        <ProjectList
-          projects={ProjectData}
-          selectedId={selectedId}
-          onSelectProject={handleProjectSelect}
-        />
-      ) : (
-        <DesktopLayout>
+    <>
+      <MetaTags
+        title={
+          selectedProject
+            ? `${selectedProject.title} | Works | Talade`
+            : "Works | Talade"
+        }
+        description={
+          selectedProject
+            ? selectedProject.description
+            : "Explore my portfolio of web and mobile applications, showcasing innovative solutions and technical expertise."
+        }
+      />
+      <Container>
+        {isMobile ? (
           <ProjectList
             projects={ProjectData}
             selectedId={selectedId}
             onSelectProject={handleProjectSelect}
           />
-          <ProjectDetails project={selectedProject} />
-          <ProjectImages project={selectedProject} />
-        </DesktopLayout>
-      )}
-    </Container>
+        ) : (
+          <DesktopLayout>
+            <ProjectList
+              projects={ProjectData}
+              selectedId={selectedId}
+              onSelectProject={handleProjectSelect}
+            />
+            <ProjectDetails project={selectedProject} />
+            <ProjectImages project={selectedProject} />
+          </DesktopLayout>
+        )}
+      </Container>
+    </>
   );
 };
 
