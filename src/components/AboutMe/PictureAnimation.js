@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Taladeogo from "../../assets/talade-about.jpg";
+import { OptimizedImage } from "../Works/OptimizedImage";
 
 const PictureAnimation = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -22,14 +23,23 @@ const PictureAnimation = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={`circle ${isHovered ? "hovered" : ""}`}>
-        <div className="logo"></div>
+        <ImageContainer>
+          <OptimizedImage src={Taladeogo} alt="Taladeogo Abraham" />
+        </ImageContainer>
         <p className="text">{textWithSpans}</p>
       </div>
     </Container>
   );
 };
 
-export default PictureAnimation;
+const ImageContainer = styled.div`
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+`;
 
 const Container = styled.div`
   margin: 0;
@@ -44,17 +54,6 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    .logo {
-      position: absolute;
-      width: 240px;
-      height: 240px;
-      background: url(${Taladeogo});
-      background-size: cover;
-      background-position: center;
-      border-radius: 50%;
-      z-index: 1;
-    }
 
     .text {
       position: absolute;
@@ -84,3 +83,5 @@ const Container = styled.div`
     }
   }
 `;
+
+export default PictureAnimation;

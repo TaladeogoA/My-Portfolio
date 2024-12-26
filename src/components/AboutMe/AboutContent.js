@@ -223,15 +223,6 @@ const Highlight = styled.span`
   }
 `;
 
-const LargeText = styled(Text)`
-  font-size: clamp(1.2rem, 1.4vw, 1.4rem);
-  line-height: 1.4;
-
-  @media screen and (max-width: 992px) {
-    font-size: 1.4rem;
-  }
-`;
-
 const ServicesList = styled.ul`
   list-style: none;
   padding: 0;
@@ -254,7 +245,5 @@ const ServiceItem = styled.li`
 `;
 
 const CTASection = styled.div`
-  /* padding: clamp(1.5rem, 3vw, 2rem); */
   text-align: center;
-  /* margin-top: clamp(2rem, 4vw, 3rem); */
 `;
