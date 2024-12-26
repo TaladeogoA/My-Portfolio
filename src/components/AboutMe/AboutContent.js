@@ -33,7 +33,7 @@ const AboutContent = () => {
           <IntroSection>
             <H2>Heyyy, </H2>
             <Text $margin="0 0 1rem">
-              My name is <Highlight>Táládeogó</Highlight>, but everybody calls
+              My name is <Highlight>Taládéògo</Highlight>, but everybody calls
               me <Highlight>Talade</Highlight>. You can too.
             </Text>
 

@@ -62,7 +62,7 @@ const Home = () => {
                 Talade.
               </Text>
               <Text className="p new-text">
-                (Táládeogó if you're feeling brave.)
+                (Taládéògo if you're feeling brave.)
               </Text>
             </Block>
 
