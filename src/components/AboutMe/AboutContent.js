@@ -246,4 +246,5 @@ const ServiceItem = styled.li`
 
 const CTASection = styled.div`
   text-align: center;
+  margin-bottom: 2rem;
 `;
