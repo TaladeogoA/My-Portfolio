@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Asset, ProjectImagesProps } from "../../types/project";
 import ImageModal from "./ImageModal";
+import { OptimizedImage } from "./OptimizedImage";
 
 const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
@@ -18,7 +19,7 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
             {asset.type === "video" ? (
               <ProjectVideo autoPlay muted loop playsInline src={asset.url} />
             ) : (
-              <ProjectImage
+              <OptimizedImage
                 src={asset.url}
                 alt={`${project.title} view ${index + 1}`}
               />
@@ -26,7 +27,6 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
           </AssetContainer>
         </React.Fragment>
       ))}
-
       <ImageModal
         asset={selectedAsset!}
         isOpen={!!selectedAsset}

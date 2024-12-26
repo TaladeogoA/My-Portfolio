@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import styled from "styled-components";
 import { Asset, ProjectDetailsProps } from "../../types/project";
 import { H1, H2, Text } from "../Common/Typography";
+import { OptimizedImage } from "./OptimizedImage";
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
   ({ project, isMobileExpanded }) => {
@@ -47,7 +48,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
 
       return (
         <ImageSlide>
-          <img src={asset.url} alt="Project view" />
+          <OptimizedImage src={asset.url} alt="Project view" />
         </ImageSlide>
       );
     };
