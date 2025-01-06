@@ -54,7 +54,7 @@ const AboutContent = () => {
             <ServicesList>
               <ServiceItem>
                 <Text>
-                  3+ years developing frontend applications in health tech.
+                  2+ years developing frontend applications in health tech.
                 </Text>
               </ServiceItem>
               <ServiceItem>
