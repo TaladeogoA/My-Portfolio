@@ -5,12 +5,14 @@ interface OptimizedImageProps {
   src: string;
   alt: string;
   className?: string;
+  fit?: "cover" | "contain" | "scale-down";
 }
 
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
   alt,
   className,
+  fit = "cover",
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,6 +23,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         alt={alt}
         loading="lazy"
         $isLoading={isLoading}
+        $fit={fit}
         onLoad={() => setIsLoading(false)}
       />
     </ImageWrapper>
@@ -33,10 +36,13 @@ const ImageWrapper = styled.div`
   overflow: hidden;
 `;
 
-const StyledImage = styled.img<{ $isLoading: boolean }>`
+const StyledImage = styled.img<{
+  $isLoading: boolean;
+  $fit: "cover" | "contain" | "scale-down";
+}>`
   width: 100%;
   height: 100%;
-  /* object-fit: contain; */
+  object-fit: ${(props) => props.$fit};
   transition: all 0.7s ease-in-out;
   transform: scale(${(props) => (props.$isLoading ? 1.1 : 1)});
   filter: ${(props) =>

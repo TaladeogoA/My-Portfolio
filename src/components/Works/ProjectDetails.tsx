@@ -48,7 +48,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
 
       return (
         <ImageSlide>
-          <OptimizedImage src={asset.url} alt="Project view" />
+          <OptimizedImage
+            src={asset.url}
+            alt="Project view"
+            fit={isMobile ? "scale-down" : "contain"}
+          />
         </ImageSlide>
       );
     };
@@ -201,15 +205,11 @@ const CarouselWrapper = styled.div`
 
 const ImageSlide = styled.div`
   padding: 0 0.5rem;
-  height: 500px;
   width: 100%;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-fit: contain;
-  }
+  max-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const MobileExpandedContent = styled.div`
