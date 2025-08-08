@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@emailjs/browser": "^4.4.1",
     "@gsap/react": "^2.1.1",
+    "@mdx-js/react": "^3.1.0",
     "@splidejs/react-splide": "^0.7.12",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -31,12 +33,11 @@
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-    "start": "REACT_APP_HOST=0.0.0.0 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+"scripts": {
+  "start": "craco start",
+  "build": "craco build",
+  "test": "craco test"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -56,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@mdx-js/loader": "^3.1.0",
     "@types/styled-components": "^5.1.34"
   }
 }

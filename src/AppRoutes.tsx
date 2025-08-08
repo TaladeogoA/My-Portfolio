@@ -10,6 +10,9 @@ const About = React.lazy(() => import("./components/AboutMe/AboutContent"));
 const Contact = React.lazy(() => import("./components/Contact/ContactContent"));
 const Works = React.lazy(() => import("./components/Works/WorksContent"));
 const NotFound = React.lazy(() => import("./components/Common/NotFound"));
+const StartupPostPage = React.lazy(
+  () => import("./components/Blog/StartupPostPage")
+);
 
 const AppRoutes: React.FC = () => {
   const location = useLocation();
@@ -25,6 +28,7 @@ const AppRoutes: React.FC = () => {
             </Route>
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blog/startups-cured-my-procrastination" element={<StartupPostPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </TransitionLayout>
