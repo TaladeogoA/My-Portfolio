@@ -1,19 +1,65 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PostContent from "../../blog/startups-cured-procrastination.mdx";
 
 const StartupPostPage: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <Container>
-            <BackButton onClick={() => navigate("/")}>← Back</BackButton>
-            <Article>
-                <PostContent />
-            </Article>
-        </Container>
-    );
+  return (
+    <>
+      <Helmet>
+        {/* Basic HTML metadata */}
+        <title>How Startups Cured My Procrastination | Taladeogo</title>
+        <meta
+          name="description"
+          content="Discover how working in startups transformed my productivity habits, taught me urgency, and reshaped my approach to goals."
+        />
+
+        {/* Open Graph for Facebook, LinkedIn, etc */}
+        <meta property="og:type" content="article" />
+        <meta
+          property="og:title"
+          content="How Startups Cured My Procrastination"
+        />
+        <meta
+          property="og:description"
+          content="How startup culture pushed me past procrastination and taught me urgency in life and work."
+        />
+        <meta
+          property="og:image"
+          content="https://talade.tech/images/startups-procrastination-cover.png"
+        />
+        <meta
+          property="og:url"
+          content="https://talade.tech/blog/startups-cured-my-procrastination"
+        />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="How Startups Cured My Procrastination"
+        />
+        <meta
+          name="twitter:description"
+          content="How startup culture pushed me past procrastination and taught me urgency in life and work."
+        />
+        <meta
+          name="twitter:image"
+          content="https://talade.tech/images/startups-procrastination-cover.jpg"
+        />
+      </Helmet>
+
+      <Container>
+        <BackButton onClick={() => navigate("/")}>← Back</BackButton>
+        <Article>
+          <PostContent />
+        </Article>
+      </Container>
+    </>
+  );
 };
 
 export default StartupPostPage;
@@ -52,7 +98,6 @@ const Article = styled.article`
   h2 {
     font-size: 1.4rem;
     font-weight: 600;
-    /* margin-bottom: 1rem; */
   }
   p {
     margin: 1.5rem 0;
