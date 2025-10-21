@@ -33,11 +33,11 @@ const WorksContent: React.FC = () => {
             ? `${selectedProject.title} | Works | Talade`
             : "Works | Talade"
         }
-        description={
-          selectedProject
-            ? selectedProject.description
-            : "Explore my portfolio of web and mobile applications, showcasing innovative solutions and technical expertise."
-        }
+        // description={
+        //   selectedProject
+        //     ? selectedProject.description
+        //     : "Explore my portfolio of web and mobile applications, showcasing innovative solutions and technical expertise."
+        // }
       />
       <Container>
         {isMobile ? (

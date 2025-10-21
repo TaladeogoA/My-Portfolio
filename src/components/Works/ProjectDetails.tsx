@@ -5,8 +5,9 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import styled from "styled-components";
 import { Asset, ProjectDetailsProps } from "../../types/project";
-import { H1, H2, Text } from "../Common/Typography";
+import { H1, Text } from "../Common/Typography";
 import { OptimizedImage } from "./OptimizedImage";
+import SplitViewSlider from "./SplitViewSlider";
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
   ({ project, isMobileExpanded }) => {
@@ -94,26 +95,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
               )}
             </Links>
 
-            <Section>
-              <H2>Problem</H2>
-              <Text>{project.description}</Text>
-            </Section>
-
-            <Section>
-              <H2>Solution</H2>
-              <Text>{project.contribution}</Text>
-            </Section>
-
-            <Section>
-              <H2>Technical Highlights</H2>
-              <HighlightsList>
-                {project.technicalHighlights.map((highlight, index) => (
-                  <li key={index}>
-                    <Text>{highlight}</Text>
-                  </li>
-                ))}
-              </HighlightsList>
-            </Section>
+            <SplitViewSlider
+              storyContent={project.storyMode}
+              devContent={project.devMode}
+            />
           </ContentSection>
         </MobileExpandedContent>
       );
@@ -148,24 +133,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
               )}
             </Links>
 
-            <Section>
-              <Text>{project.description}</Text>
-            </Section>
-
-            <Section>
-              <Text>{project.contribution}</Text>
-            </Section>
-
-            <Section>
-              <H2>Technical Highlights</H2>
-              <HighlightsList>
-                {project.technicalHighlights.map((highlight, index) => (
-                  <li key={index}>
-                    <Text>{highlight}</Text>
-                  </li>
-                ))}
-              </HighlightsList>
-            </Section>
+            <SplitViewSlider
+              storyContent={project.storyMode}
+              devContent={project.devMode}
+            />
           </ContentSection>
         </Content>
       </Container>
@@ -259,23 +230,13 @@ const Content = styled(motion.div)`
 
 const ContentSection = styled.div`
   padding: 0 1rem;
-`;
-
-const Section = styled.div`
-  margin: 2.5rem 0;
-
-  &:last-child {
-    padding-bottom: 2rem;
-  }
-`;
-
-const HighlightsList = styled.ul`
-  padding-left: 1rem;
+  height: 100%;
 `;
 
 const Links = styled.div`
   display: flex;
   gap: 2rem;
+  margin: 1.5rem 0;
 
   @media (max-width: 1200px) {
     justify-content: center;

@@ -2,9 +2,14 @@ export interface Project {
   id: string;
   title: string;
   subtitle: string;
-  description: string;
-  contribution: string;
-  technicalHighlights: string[];
+  storyMode: {
+    description: string;
+    highlights: string[];
+  };
+  devMode: {
+    description: string;
+    highlights: string[];
+  };
   techStack: string;
   assets: Asset[];
   live?: string;
