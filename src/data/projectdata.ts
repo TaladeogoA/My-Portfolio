@@ -1,3 +1,12 @@
+import CompreOne from "../assets/compre-one.png";
+import CompreThree from "../assets/compre-three.png";
+import CompreTwo from "../assets/compre-two.png";
+import DispensaryOne from "../assets/dispensary-one.png";
+import DispensaryThree from "../assets/dispensary-three.png";
+import DispensaryTwo from "../assets/dispensary-two.png";
+import FamasiOne from "../assets/famasi-one.png";
+import FamasiThree from "../assets/famasi-three.png";
+import FamasiTwo from "../assets/famasi-two.png";
 import MarketplaceFour from "../assets/marketplace-four.png";
 import MarketplaceOne from "../assets/marketplace-one.png";
 import MarketplaceThree from "../assets/marketplace-three.png";
@@ -15,7 +24,7 @@ export const data: Project[] = [
   title: "DispensaryOS",
   subtitle: "Smart Inventory & Order Management for Pharmacies",
   description:
-    "DispensaryOS is a mobile app that helps pharmacies manage inventory, process orders, and stay connected to the Famasi platform. It works smoothly even without an internet connection, so pharmacies can keep running their business anywhere, anytime.",
+    "DispensaryOS is a mobile app that helps pharmacies manage inventory, process orders, and stay connected to the Famasi web app. It works smoothly even without an internet connection, so pharmacies can keep running their business anywhere, anytime.",
   contribution:
     "I was brought in as the mobile developer to modernize the entire app. I migrated the project from plain React Native to Expo, redesigned every screen, and gave it a much cleaner, faster experience. I also built out core features like real-time order updates using Socket.IO and an offline-first setup that keeps everything in sync when the network comes back online. The goal was to make the app feel reliable even when the internet isn't.",
   technicalHighlights: [
@@ -29,7 +38,20 @@ export const data: Project[] = [
   ],
   techStack:
     "React Native • Expo • TypeScript • Socket.IO • Zustand • AsyncStorage • React Query • Expo Notifications • Background Fetch",
-  assets: [],
+    assets: [
+     {
+      type: "image",
+      url: DispensaryOne,
+      },
+      {
+        type: "image",
+        url: DispensaryTwo,
+      },
+      {
+        type: "image",
+        url: DispensaryThree,
+      }
+  ],
   live: "",
   source: "",
   duration: "Ongoing",
@@ -57,7 +79,20 @@ export const data: Project[] = [
   ],
   techStack:
     "React • TypeScript • Vite • Zustand • React Query • Tailwind CSS • Radix UI • Socket.IO Client • Supabase • Framer Motion",
-  assets: [],
+    assets: [
+      {
+        type: "image",
+        url: FamasiOne,
+      },
+      {
+        type: "image",
+        url: FamasiTwo,
+      },
+      {
+        type: "image",
+        url: FamasiThree,
+      }
+  ],
   live: "https://famasi.africa",
   source: "",
   duration: "Ongoing",
@@ -85,7 +120,20 @@ export const data: Project[] = [
   ],
   techStack:
     "React Native • Expo • TypeScript • React Query • Zustand • React Hook Form • React Navigation • Expo Document Picker • Reanimated",
-  assets: [],
+  assets: [
+    {
+      type: "image",
+      url: CompreOne,
+    },
+    {
+      type: "image",
+      url: CompreTwo,
+    },
+    {
+      type: "image",
+      url: CompreThree,
+    },
+  ],
   live: "https://getcompre.com/",
   source: "",
   duration: "Ongoing",
