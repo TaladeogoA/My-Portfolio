@@ -1,20 +1,3 @@
-import CompreOne from "../assets/compre-one.png";
-import CompreThree from "../assets/compre-three.png";
-import CompreTwo from "../assets/compre-two.png";
-import DispensaryOne from "../assets/dispensary-one.png";
-import DispensaryThree from "../assets/dispensary-three.png";
-import DispensaryTwo from "../assets/dispensary-two.png";
-import FamasiOne from "../assets/famasi-one.png";
-import FamasiThree from "../assets/famasi-three.png";
-import FamasiTwo from "../assets/famasi-two.png";
-import MarketplaceFour from "../assets/marketplace-four.png";
-import MarketplaceOne from "../assets/marketplace-one.png";
-import MarketplaceThree from "../assets/marketplace-three.png";
-import MarketplaceTwo from "../assets/marketplace-two.png";
-import OctodocFour from "../assets/octodoc-four.png";
-import OctodocOne from "../assets/octodoc-one.png";
-import OctodocThree from "../assets/octodoc-three.png";
-import OctodocTwo from "../assets/octodoc-two.jpg";
 
 import { Project } from "../types/project";
 
@@ -41,15 +24,15 @@ export const data: Project[] = [
     assets: [
      {
       type: "image",
-      url: DispensaryOne,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088029/dispensary-one_iyeexq.png",
       },
       {
         type: "image",
-        url: DispensaryTwo,
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088026/dispensary-two_pkoim5.png",
       },
       {
         type: "image",
-        url: DispensaryThree,
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088037/dispensary-three_rmnss5.png",
       }
   ],
   live: "",
@@ -82,15 +65,15 @@ export const data: Project[] = [
     assets: [
       {
         type: "image",
-        url: FamasiOne,
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088023/famasi-one_stjfwt.png",
       },
       {
         type: "image",
-        url: FamasiTwo,
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088022/famasi-two_jlgugp.png",
       },
       {
         type: "image",
-        url: FamasiThree,
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088023/famasi-three_eldpos.png",
       }
   ],
   live: "https://famasi.africa",
@@ -123,15 +106,15 @@ export const data: Project[] = [
   assets: [
     {
       type: "image",
-      url: CompreOne,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088029/compre-one_xcp1hc.png",
     },
     {
       type: "image",
-      url: CompreTwo,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088029/compre-two_jrk33v.png",
     },
     {
       type: "image",
-      url: CompreThree,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088024/compre-three_yzslnx.png",
     },
   ],
   live: "https://getcompre.com/",
@@ -159,19 +142,19 @@ export const data: Project[] = [
   assets: [
     {
       type: "image",
-      url: MarketplaceTwo,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088035/marketplace-two_uscpiz.png",
     },
     {
       type: "image",
-      url: MarketplaceThree,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088030/marketplace-three_ysjceh.png",
     },
     {
       type: "image",
-      url: MarketplaceOne,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088027/marketplace-one_nvwrlo.png",
     },
     {
       type: "image",
-      url: MarketplaceFour,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088021/marketplace-four_fmwlpn.png",
     },
   ],
   live: "https://www.octodoc.com/",
@@ -200,19 +183,19 @@ export const data: Project[] = [
   assets: [
     {
       type: "image",
-      url: OctodocTwo,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088036/octodoc-two_wfkbvr.jpg",
     },
     {
       type: "image",
-      url: OctodocOne,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088033/octodoc-one_mhfuhr.png",
     },
     {
       type: "image",
-      url: OctodocThree,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088034/octodoc-three_ji3jlq.png",
     },
     {
       type: "image",
-      url: OctodocFour,
+      url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088036/octodoc-four_bih8fq.png",
     },
   ],
   live: "https://play.google.com/store/apps/details?id=ai.octosoft.octodoc",
