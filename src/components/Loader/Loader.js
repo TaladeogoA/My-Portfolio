@@ -22,7 +22,7 @@ const LoaderContainer = styled.section`
   left: 0;
   width: 100%;
   height: 100vh;
-  background: #fff;
+  background: #F8F7F4;
   z-index: 1000;
   display: flex;
   justify-content: center;

@@ -123,7 +123,7 @@ ProjectList.displayName = "ProjectList";
 
 const ExpandedContent = styled(motion.div)`
   overflow: hidden;
-  background: #fff;
+  background: #F8F7F4;
   border-bottom: 1px solid black;
 `;
 
@@ -148,7 +148,7 @@ const ProjectItem = styled.div<ProjectItemProps>`
   padding: 2rem;
   cursor: pointer;
   border-bottom: 1px solid black;
-  background: ${({ isSelected }) => (isSelected ? "black" : "white")};
+  background: ${({ isSelected }) => (isSelected ? "black" : "#F8F7F4")};
   transition: all 0.3s ease;
 
   @media (max-width: 768px) {
@@ -157,12 +157,12 @@ const ProjectItem = styled.div<ProjectItemProps>`
   }
 
   ${H2}, ${Text} {
-    color: ${({ isSelected }) => (isSelected ? "white" : "black")};
+    color: ${({ isSelected }) => (isSelected ? "#F8F7F4" : "black")};
     transition: color 0.3s ease;
   }
 
   &:hover {
-    background: ${({ isSelected }) => (isSelected ? "black" : "#f0f0f0")};
+    background: ${({ isSelected }) => (isSelected ? "black" : "#E0DFDB")};
   }
 `;
 

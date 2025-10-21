@@ -77,8 +77,8 @@ const Container = styled.div`
 const DesktopLayout = styled.div`
   display: none;
   height: 100%;
-  grid-template-columns: minmax(240px, 0.7fr) minmax(300px, 1fr) minmax(
-      300px,
+  grid-template-columns: minmax(240px, 0.7fr) minmax(320px, 1fr) minmax(
+      280px,
       1fr
     );
 

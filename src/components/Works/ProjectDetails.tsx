@@ -236,7 +236,7 @@ const Container = styled.div`
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  background: #fff;
+  background: #F8F7F4;
 
   &::-webkit-scrollbar {
     display: none;

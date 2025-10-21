@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const OptionButton = styled.span`
-  background-color: #fff;
+  background-color: #F8F7F4;
   width: max-content;
   border: solid 1px #000;
   color: #000;

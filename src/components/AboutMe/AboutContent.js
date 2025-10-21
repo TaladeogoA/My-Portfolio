@@ -175,7 +175,7 @@ const AboutText = styled.article`
 
         &.inverted {
           background-color: #000;
-          color: #fff;
+          color: #F8F7F4;
         }
       }
     }
@@ -186,7 +186,7 @@ const AboutText = styled.article`
   }
 
   ::-webkit-scrollbar-track {
-    background: #fff;
+    background: #F8F7F4;
   }
 
   ::-webkit-scrollbar-thumb {

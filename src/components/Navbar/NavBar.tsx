@@ -167,7 +167,7 @@ const NavLink = styled(motion(Link))<NavLinkStyleProps>`
   justify-content: space-between;
   align-items: center;
   text-decoration: none;
-  background-color: #fff;
+  background-color: #F8F7F4;
   color: #000;
   padding: 2rem 0;
   cursor: pointer;
@@ -201,7 +201,7 @@ const NavLink = styled(motion(Link))<NavLinkStyleProps>`
 
   &.active {
     background: #000;
-    color: #fff;
+    color: #F8F7F4;
     .logo {
       filter: invert(1);
     }

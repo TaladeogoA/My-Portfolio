@@ -27,7 +27,7 @@ const Spinner = styled(motion.div)`
   height: 60px;
   border: 3px solid black;
   border-radius: 50%;
-  border-top-color: #fff;
+  border-top-color: #F8F7F4;
 `;
 
 export default LoaderIcon;
