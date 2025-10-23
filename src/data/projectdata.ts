@@ -35,7 +35,7 @@ export const data: Project[] = [
         url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088037/dispensary-three_rmnss5.png",
       }
   ],
-  live: "",
+  live: "https://www.famasi.me/dispensary",
   source: "",
   duration: "Ongoing",
   year: "2025",
