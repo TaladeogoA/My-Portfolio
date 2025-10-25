@@ -40,13 +40,13 @@ const Home = () => {
         description="Frontend engineer crafting exceptional digital experiences with React, React Native, and modern web technologies."
       />
       <MainContainer>
-        <BackgroundOverlay>
+        {/* <BackgroundOverlay>
           <img
             src="./black-white-code.png"
             alt="html background"
             loading="lazy"
           />
-        </BackgroundOverlay>
+        </BackgroundOverlay> */}
 
         <ContentContainer>
           <HomeText>
