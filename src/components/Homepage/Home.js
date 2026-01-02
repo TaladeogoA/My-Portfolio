@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.png";
 import { animateText } from "../../utils/Animation";
@@ -8,6 +8,7 @@ import { MetaTags } from "../SEO/MetaTags";
 const Home = () => {
   const textRefs = useRef([]);
   const timeline = useRef(gsap.timeline());
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const textElements = textRefs.current;
@@ -73,7 +74,12 @@ const Home = () => {
           </HomeText>
 
           <HomeImgContainer>
-            <HomeImg src={FloatingTalade} alt="Avatar version of me floating" />
+            <HomeImg
+              src={FloatingTalade}
+              alt="Avatar version of me floating"
+              onLoad={() => setImageLoaded(true)}
+              $loaded={imageLoaded}
+            />
             <ShadowOverlay />
           </HomeImgContainer>
         </ContentContainer>
@@ -179,6 +185,8 @@ const HomeImg = styled.img`
   height: auto;
   will-change: transform;
   animation: float 6s ease-in-out infinite both;
+  opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
+  transition: opacity 1s ease-in-out;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
