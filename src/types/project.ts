@@ -1,15 +1,29 @@
+export interface Asset {
+  type: "image" | "video";
+  url: string;
+}
+
+export interface ImpactMetric {
+  value: string;
+  label: string;
+}
+
 export interface Project {
   id: string;
   title: string;
   subtitle: string;
+  shortDescription: string;
   description: string;
-  contribution: string;
+  contribution:  string;
   technicalHighlights: string[];
+  impact?:  ImpactMetric[];
   techStack: string;
   assets: Asset[];
-  live?: string;
+  live?:  string;
   source?: string;
-  duration: string;
+  appStoreUrl?: string;
+  playStoreUrl?:  string;
+  duration:  string;
   year: string;
 }
 

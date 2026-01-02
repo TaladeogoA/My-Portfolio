@@ -19,7 +19,7 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
             {asset.type === "video" ? (
               <ProjectVideo autoPlay muted loop playsInline src={asset.url} />
             ) : (
-              <OptimizedImage
+              <ResponsiveImage
                 src={asset.url}
                 alt={`${project.title} view ${index + 1}`}
               />
@@ -38,7 +38,6 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
 
 const AssetContainer = styled.div`
   width: 100%;
-  height: 45vh;
   cursor: pointer;
   transition: opacity 0.2s ease;
 
@@ -49,16 +48,19 @@ const AssetContainer = styled.div`
 
 const ProjectVideo = styled.video`
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
 `;
 
-const ProjectImage = styled.img`
+const ResponsiveImage = styled(OptimizedImage)`
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  height: auto !important;
+
+  & > div,
+  img {
+    height: auto !important;
+    position: relative !important;
+  }
 `;
 
 const Container = styled.div`

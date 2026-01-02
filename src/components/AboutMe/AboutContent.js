@@ -8,6 +8,7 @@ import PictureAnimation from "./PictureAnimation";
 
 const AboutContent = () => {
   const navigate = useNavigate();
+
   const handleResumeClick = () => {
     window.open(Resume, "_blank", "noopener,noreferrer");
   };
@@ -16,7 +17,7 @@ const AboutContent = () => {
     <>
       <MetaTags
         title="About | Talade"
-        description="Learn about my journey in software development, skills, and experience building innovative web and mobile solutions."
+        description="Product engineer building production web and mobile applications with a focus on performance, reliability, and real-world constraints."
       />
       <Container>
         <PictureContainer>
@@ -25,68 +26,77 @@ const AboutContent = () => {
             onClick={handleResumeClick}
             aria-label="Open resume in new tab"
           >
-            View my Resume
+            View Resume
           </Button>
         </PictureContainer>
 
         <AboutText>
           <IntroSection>
-            <H2>Heyyy, </H2>
+            <H2>Product Engineer</H2>
+
             <Text $margin="0 0 1rem">
-              My name is <Highlight>Taládéògo</Highlight>, but everybody calls
-              me <Highlight>Talade</Highlight>. You can too.
+              My name is <Highlight>Taládéògo</Highlight>. Most people call me{" "}
+              <Highlight>Talade</Highlight>.
             </Text>
 
             <Text $margin="0 0 1rem">
-              I'm a cross-platform developer creating seamless digital
-              experiences across web and mobile. With a background in
-              construction and design, I bring a unique perspective to every
-              project, blending form and function into intuitive, engaging
-              interfaces.
+              I’m a product engineer working across web and mobile. I care about performance, reliability, and building things that don’t fall apart in production.
             </Text>
 
             <Text $margin="0 0 1rem">
-              Over the past few years, I've had the opportunity to work on
-              diverse projects across healthcare, education, and enterprise
-              sectors. Here are some highlights:
+              I currently work at  <strong>Famasi Africa</strong> as the sole mobile engineer. I ship and maintain consumer apps, internal tools, and pharmacy software used daily in real operating conditions, including poor connectivity and low-end devices.
+            </Text>
+
+            <Text $margin="0 0 1rem">
+            Most of my work sits at the intersection of product and engineering. I take designs and messy requirements, turn them into maintainable systems, and see them through to App Store and Play Store releases.
+            </Text>
+
+            <Text $margin="0 0 1rem">
+           Some things I've worked on recently:
             </Text>
 
             <ServicesList>
               <ServiceItem>
                 <Text>
-                  3+ years developing frontend applications in health tech.
+                Shipping multiple production mobile apps end to end
                 </Text>
               </ServiceItem>
+
               <ServiceItem>
                 <Text>
-                  Led frontend development for Learning Management System at
-                  Mobann Technologies.
+                Rebuilding an existing app with a new design and handling its first store release
                 </Text>
               </ServiceItem>
+
               <ServiceItem>
                 <Text>
-                  Built React Native apps with 7k+ combined downloads for
-                  OctoDoc.
+Offline-first patterns, background sync, and resilient state
                 </Text>
               </ServiceItem>
+
               <ServiceItem>
                 <Text>
-                  Collaborated with international teams to deliver complex web
-                  and mobile solutions.
+Real-time and AI-assisted features using LiveKit, WebSockets, and push notifications
+                </Text>
+              </ServiceItem>
+
+              <ServiceItem>
+                <Text>
+Multi-tenant and white-label storefronts
                 </Text>
               </ServiceItem>
             </ServicesList>
 
             <CTASection>
               <Text $margin="0 0 2rem">
-                Have a project in mind? Let's create something amazing together.
+               I like working on products that have real users, real constraints, and real consequences when things break.
               </Text>
               <Button
                 variant="primary"
                 onClick={() => navigate("/contact")}
                 $padding="1rem 2rem"
               >
-                Let's Talk
+                Get in touch
               </Button>
             </CTASection>
           </IntroSection>
@@ -150,35 +160,6 @@ const AboutText = styled.article`
     overflow-y: visible;
     padding-right: 0;
     padding-bottom: 5rem;
-  }
-
-  h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  .skill-container {
-    margin-bottom: 1rem;
-
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-
-      .tag {
-        font-size: 1rem;
-        border: 1px solid #000;
-        padding: 0.2rem 0.5rem;
-        border-radius: 15px;
-        margin-bottom: 5px;
-
-        &.inverted {
-          background-color: #000;
-          color: #F8F7F4;
-        }
-      }
-    }
   }
 
   ::-webkit-scrollbar {

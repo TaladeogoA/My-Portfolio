@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import React, { memo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { memo, useState } from "react";
+import { FaAndroid, FaApple, FaGlobe } from "react-icons/fa";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -10,6 +11,7 @@ import { OptimizedImage } from "./OptimizedImage";
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
   ({ project, isMobileExpanded }) => {
+    const [showFullDetails, setShowFullDetails] = useState(false);
     const isMobile = window.innerWidth < 1200;
 
     const carouselSettings = {
@@ -51,7 +53,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
           <OptimizedImage
             src={asset.url}
             alt="Project view"
-            fit={isMobile ? "scale-down" : "contain"}
+            fit="contain"
           />
         </ImageSlide>
       );
@@ -67,53 +69,96 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
       </CarouselWrapper>
     );
 
+    const topHighlights = project.technicalHighlights.slice(0, 3);
+    const remainingHighlights = project.technicalHighlights.slice(3);
+
+    const AvailabilityRow = () => (
+      <AvailabilityContainer>
+        {project.live && (
+          <IconLink
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit Website"
+            title="Visit Website"
+          >
+            <FaGlobe size={18} />
+          </IconLink>
+        )}
+        {project.appStoreUrl && (
+          <IconLink
+            href={project.appStoreUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View on App Store"
+            title="View on App Store"
+          >
+            <FaApple size={20} />
+          </IconLink>
+        )}
+        {project.playStoreUrl && (
+          <IconLink
+            href={project.playStoreUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View on Play Store"
+            title="View on Play Store"
+          >
+            <FaAndroid size={20} />
+          </IconLink>
+        )}
+      </AvailabilityContainer>
+    );
+
     if (isMobileExpanded) {
       return (
         <MobileExpandedContent>
           <ImageCarousel />
 
           <ContentSection>
-            <Links>
-              {project.live && (
-                <LinkButton
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <Section>
+              <Text>{project.shortDescription}</Text>
+            </Section>
+
+            <AvailabilityRow />
+
+            <AnimatePresence>
+              {showFullDetails && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <Text>Visit Online</Text>
-                </LinkButton>
+                  <Section>
+                    <SectionTitle>The Challenge</SectionTitle>
+                    <Text>{project.description}</Text>
+                  </Section>
+
+                  <Section>
+                    <SectionTitle>My Role</SectionTitle>
+                    <Text>{project.contribution}</Text>
+                  </Section>
+
+                  <Section>
+                    <SectionTitle>Technical Highlights</SectionTitle>
+                    <HighlightsList>
+                      {project.technicalHighlights.map((highlight, index) => (
+                        <li key={index}>
+                          <Text>{highlight}</Text>
+                        </li>
+                      ))}
+                    </HighlightsList>
+                  </Section>
+                </motion.div>
               )}
-              {project.source && (
-                <LinkButton
-                  href={project.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Text>Source Code</Text>
-                </LinkButton>
-              )}
-            </Links>
+            </AnimatePresence>
 
-            <Section>
-              <H2>Problem</H2>
-              <Text>{project.description}</Text>
-            </Section>
-
-            <Section>
-              <H2>Solution</H2>
-              <Text>{project.contribution}</Text>
-            </Section>
-
-            <Section>
-              <H2>Technical Highlights</H2>
-              <HighlightsList>
-                {project.technicalHighlights.map((highlight, index) => (
-                  <li key={index}>
-                    <Text>{highlight}</Text>
-                  </li>
-                ))}
-              </HighlightsList>
-            </Section>
+            <ExpandButton onClick={() => setShowFullDetails(!showFullDetails)}>
+              <Text>
+                {showFullDetails ? "Show Less ↑" : "Read Full Case Study ↓"}
+              </Text>
+            </ExpandButton>
           </ContentSection>
         </MobileExpandedContent>
       );
@@ -127,44 +172,64 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
           <ContentSection>
             <H1>{project.subtitle}</H1>
 
-            <Links>
-              {project.live && (
-                <LinkButton
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Text>Visit Online</Text>
-                </LinkButton>
-              )}
-              {project.source && (
-                <LinkButton
-                  href={project.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Text>Source Code</Text>
-                </LinkButton>
-              )}
-            </Links>
-
             <Section>
-              <Text>{project.description}</Text>
+              <Text>{project.shortDescription}</Text>
             </Section>
 
-            <Section>
-              <Text>{project.contribution}</Text>
-            </Section>
+            <AvailabilityRow />
 
             <Section>
-              <H2>Technical Highlights</H2>
+              <SectionTitle>Key Contributions</SectionTitle>
               <HighlightsList>
-                {project.technicalHighlights.map((highlight, index) => (
+                {topHighlights.map((highlight, index) => (
                   <li key={index}>
                     <Text>{highlight}</Text>
                   </li>
                 ))}
               </HighlightsList>
+
+              <AnimatePresence>
+                {showFullDetails && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  >
+                    {remainingHighlights.length > 0 && (
+                      <HighlightsList>
+                        {remainingHighlights.map((highlight, index) => (
+                          <li key={index}>
+                            <Text>{highlight}</Text>
+                          </li>
+                        ))}
+                      </HighlightsList>
+                    )}
+
+                    <Section>
+                      <SectionTitle>The Challenge</SectionTitle>
+                      <Text>{project.description}</Text>
+                    </Section>
+
+                    <Section>
+                      <SectionTitle>My Approach</SectionTitle>
+                      <Text>{project.contribution}</Text>
+                    </Section>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <ExpandButton onClick={() => setShowFullDetails(!showFullDetails)}>
+                <Text>
+                  {showFullDetails
+                    ? "Show Less ↑"
+                    : `Read Full Case Study ${
+                        remainingHighlights.length > 0
+                          ? `(+${remainingHighlights.length} more highlights)`
+                          : ""
+                      } ↓`}
+                </Text>
+              </ExpandButton>
             </Section>
           </ContentSection>
         </Content>
@@ -175,7 +240,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
 
 const CarouselWrapper = styled.div`
   .slick-slider {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .slick-dots {
@@ -213,12 +278,7 @@ const ImageSlide = styled.div`
 `;
 
 const MobileExpandedContent = styled.div`
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    margin-bottom: 2rem;
-  }
+  padding-bottom: 2rem;
 `;
 
 const VideoWrapper = styled.div`
@@ -236,7 +296,7 @@ const Container = styled.div`
   overflow-y: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  background: #F8F7F4;
+  background: #f8f7f4;
 
   &::-webkit-scrollbar {
     display: none;
@@ -249,7 +309,7 @@ const Container = styled.div`
 `;
 
 const Content = styled(motion.div)`
-  padding: 2rem;
+  padding: 2.5rem;
   height: 100%;
 
   @media (max-width: 1200px) {
@@ -258,7 +318,13 @@ const Content = styled(motion.div)`
 `;
 
 const ContentSection = styled.div`
-  padding: 0 1rem;
+  padding: 0 1.5rem;
+  max-width: 640px;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
 `;
 
 const Section = styled.div`
@@ -267,36 +333,84 @@ const Section = styled.div`
   &:last-child {
     padding-bottom: 2rem;
   }
+
+  ${Text} {
+    line-height: 1.7;
+    color: rgba(0, 0, 0, 0.8);
+  }
+`;
+
+const SectionTitle = styled(H2)`
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  opacity: 0.6;
 `;
 
 const HighlightsList = styled.ul`
-  padding-left: 1rem;
+  padding-left: 1.25rem;
+  margin: 0;
+
+  li {
+    margin-bottom: 0.875rem;
+    line-height: 1.6;
+
+    &::marker {
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    ${Text} {
+      display: inline;
+    }
+  }
 `;
 
-const Links = styled.div`
+const AvailabilityContainer = styled.div`
   display: flex;
-  gap: 2rem;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 1rem 0 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
-  @media (max-width: 1200px) {
-    justify-content: center;
+  @media (max-width: 768px) {
+    gap: 1.5rem;
     margin: 1.5rem 0;
   }
 `;
 
-const LinkButton = styled.a`
+const IconLink = styled.a`
   color: black;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-  text-decoration: underline;
+  opacity: 0.4;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
 
   &:hover {
-    text-decoration: none;
-    opacity: 0.8;
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+`;
+
+const ExpandButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.75rem 0;
+  margin-top: 1.5rem;
+  display: block;
+
+  ${Text} {
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
   }
 
-  @media (max-width: 768px) {
-    padding: 0.75rem 1.25rem;
+  &:hover ${Text} {
+    opacity: 1;
   }
 `;
 
