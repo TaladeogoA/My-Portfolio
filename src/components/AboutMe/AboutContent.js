@@ -89,7 +89,7 @@ Multi-tenant and white-label storefronts
 
             <CTASection>
               <Text $margin="0 0 2rem">
-               I like working on products that have real users, real constraints, and real consequences when things break.
+               I like working on products that have real users, real constraints, and real consequences when things break. I'm happy to talk if you're working on something similar.
               </Text>
               <Button
                 variant="primary"
