@@ -136,6 +136,7 @@ const Navigation = styled.div`
   height: 100vh;
   pointer-events: none;
   z-index: 100;
+  font-family: "Kodchasan", sans-serif;
 
   @media screen and (max-width: 992px) {
     display: none;
@@ -218,6 +219,7 @@ const MobileNav = styled.nav`
   background: white;
   border-top: 1px solid black;
   z-index: 100;
+  font-family: "Kodchasan", sans-serif;
 
   @media screen and (max-width: 992px) {
     display: flex;

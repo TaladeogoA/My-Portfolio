@@ -41,6 +41,11 @@ const ProjectList: React.FC<ProjectListProps> = memo(
     const TOTAL_DURATION = (CLOSE_DURATION + TRANSITION_GAP) * 1000;
 
     const handleProjectClick = (project: Project, element: HTMLElement) => {
+      if (!isMobile) {
+        onSelectProject(project);
+        return;
+      }
+
       const currentScroll = containerRef.current?.scrollTop || 0;
 
       if (selectedId && selectedId !== project.id) {

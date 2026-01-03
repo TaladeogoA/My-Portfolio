@@ -14,7 +14,7 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
   return (
     <Container>
       {project.assets.map((asset, index) => (
-        <React.Fragment key={index}>
+        <React.Fragment key={`${project.id}-${index}`}>
           <AssetContainer onClick={() => handleAssetClick(asset)}>
             {asset.type === "video" ? (
               <ProjectVideo autoPlay muted loop playsInline src={asset.url} />

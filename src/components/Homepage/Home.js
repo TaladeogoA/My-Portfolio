@@ -94,6 +94,7 @@ const MainContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
+  font-family: "Kodchasan", sans-serif;
 `;
 
 const ContentContainer = styled.div`

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 interface OptimizedImageProps {
@@ -15,6 +15,10 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   fit = "cover",
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [src]);
 
   return (
     <ImageWrapper className={className}>
