@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 interface OptimizedImageProps {
   src: string;
@@ -18,6 +18,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   return (
     <ImageWrapper className={className}>
+      {isLoading && <Skeleton />}
       <StyledImage
         src={src}
         alt={alt}
@@ -30,10 +31,41 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   );
 };
 
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
+
+const Skeleton = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #edeef1 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  animation: ${shimmer} 1s linear infinite;
+  z-index: 1;
+`;
+
 const ImageWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
+  position: relative;
+  background: #f8f7f4;
 `;
 
 const StyledImage = styled.img<{
@@ -43,8 +75,6 @@ const StyledImage = styled.img<{
   width: 100%;
   height: 100%;
   object-fit: ${(props) => props.$fit};
-  transition: all 0.7s ease-in-out;
-  transform: scale(${(props) => (props.$isLoading ? 1.1 : 1)});
-  filter: ${(props) =>
-    props.$isLoading ? "blur(10px) grayscale(100%)" : "blur(0) grayscale(0)"};
+  transition: opacity 0.5s ease-in-out;
+  opacity: ${(props) => (props.$isLoading ? 0 : 1)};
 `;

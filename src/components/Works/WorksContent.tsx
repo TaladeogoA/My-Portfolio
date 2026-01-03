@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import { data as ProjectData } from "../../data/projectdata";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
@@ -8,11 +8,20 @@ import ProjectDetails from "./ProjectDetails";
 import ProjectImages from "./ProjectImages";
 import ProjectList from "./ProjectList";
 
-const WorksContent: React.FC = () => {
+const WorksContent: FC = () => {
   const [selectedId, setSelectedId] = useState<string>(
     ProjectData[0]?.id || ""
   );
   const isMobile = useMediaQuery("(max-width: 1200px)");
+
+  useEffect(() => {
+    ProjectData.forEach((project) => {
+      project.assets.forEach((asset) => {
+        const img = new Image();
+        img.src = asset.url;
+      });
+    });
+  }, []);
 
   const selectedProject =
     ProjectData.find((p) => p.id === selectedId) || ProjectData[0];
