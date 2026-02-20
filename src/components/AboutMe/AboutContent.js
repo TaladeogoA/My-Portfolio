@@ -1,10 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
+import taladeAudio from "../../assets/talade.m4a";
+import taladeogoAudio from "../../assets/taladeogo.m4a";
 import { Button } from "../Common/Button";
 import { H2, Text } from "../Common/Typography";
 import { MetaTags } from "../SEO/MetaTags";
 import PictureAnimation from "./PictureAnimation";
+
+const playAudio = (audioFile) => {
+  const audio = new Audio(audioFile);
+  audio.play();
+};
 
 const AboutContent = () => {
   const navigate = useNavigate();
@@ -35,8 +42,31 @@ const AboutContent = () => {
             <H2>Product Engineer</H2>
 
             <Text $margin="0 0 1rem">
-              My name is <Highlight>Taládéògo</Highlight>. Most people call me{" "}
-              <Highlight>Talade</Highlight>.
+              My name is{" "}
+              <NameContainer>
+                <Highlight>Taládéògo</Highlight>
+                <SpeakerIcon
+                  onMouseEnter={() => playAudio(taladeogoAudio)}
+                  aria-label="Pronunciation"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.5v-3m4.5 5.25v-7.5m4.5 11.25v-15m4.5 11.25v-7.5m4.5 5.25v-3" />
+                  </svg>
+                </SpeakerIcon>
+              </NameContainer>
+              . Most people call me{" "}
+              <NameContainer>
+                <Highlight>Talade</Highlight>
+                <SpeakerIcon
+                  onMouseEnter={() => playAudio(taladeAudio)}
+                  aria-label="Pronunciation"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.5v-3m4.5 5.25v-7.5m4.5 11.25v-15m4.5 11.25v-7.5m4.5 5.25v-3" />
+                  </svg>
+                </SpeakerIcon>
+              </NameContainer>
+              .
             </Text>
 
             <Text $margin="0 0 1rem">
@@ -181,6 +211,61 @@ const AboutText = styled.article`
 `;
 
 const IntroSection = styled.section``;
+
+const NameContainer = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+`;
+
+const SpeakerIcon = styled.button`
+  background: none;
+  border: none;
+  padding: 0;
+  color: black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover svg {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  &::after {
+    content: attr(aria-label);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    background: black;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    font-family: inherit;
+    z-index: 10;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+`;
 
 const Highlight = styled.span`
   color: black;

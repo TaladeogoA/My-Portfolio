@@ -18,15 +18,23 @@ const ContactContent = () => {
               Don't be a stranger, say hello! <br /> Send me an email at{" "}
               <StyledLink href="mailto:ataladeogo@gmail.com">
                 ataladeogo@gmail.com
-              </StyledLink>{" "}
-              or reach out on{" "}
+              </StyledLink> ,{" "}
+               reach out on{" "}
               <StyledLink
                 href="https://www.linkedin.com/in/taladeogo/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 LinkedIn
-              </StyledLink>{" "}
+              </StyledLink> {" "}
+               or find my code on{" "}
+              <StyledLink
+                href="https://github.com/TaladeogoA"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </StyledLink>
               .
             </Text>
             <Text>Or send a direct message below:</Text>
