@@ -2,13 +2,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useCallback } from "react";
 import { NavLink as Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-// @ts-ignore
 import Logo from "../../assets/logo.png";
 
 export const NAV_ORDER = {
   "/": 1,
   "/about": 2,
-  "/works": 3,
+  "/work": 3,
   "/contact": 4,
 } as const;
 

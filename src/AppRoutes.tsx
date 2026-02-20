@@ -23,7 +23,7 @@ const AppRoutes: React.FC = () => {
         <TransitionLayout>
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
-            <Route path="/works" element={<WorksContent />}>
+            <Route path="/work" element={<WorksContent />}>
               <Route path=":projectId" element={<WorksContent />} />
             </Route>
             <Route path="/about" element={<About />} />

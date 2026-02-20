@@ -39,8 +39,8 @@ const WorksContent: FC = () => {
       <MetaTags
         title={
           selectedProject
-            ? `${selectedProject.title} | Works | Talade`
-            : "Works | Talade"
+            ? `${selectedProject.title} | Work | Talade`
+            : "Work | Talade"
         }
         description={
           selectedProject

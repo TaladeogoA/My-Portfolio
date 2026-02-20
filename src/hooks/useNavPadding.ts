@@ -17,7 +17,7 @@ export const useNavPadding = () => {
         left: NAV_WIDTH * 2,
         right: NAV_WIDTH * 2,
       };
-    case "/works":
+    case "/work":
       return {
         left: NAV_WIDTH,
         right: NAV_WIDTH * 3,
