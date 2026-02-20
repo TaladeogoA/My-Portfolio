@@ -50,9 +50,6 @@ const ProjectList: React.FC<ProjectListProps> = memo(
         <LayoutGroup>
           {projects.map((project) => {
             const isExpanded = project.id === selectedId;
-            const techStack = project.techStack
-              ? project.techStack.split(" • ").slice(0, 3)
-              : [];
 
             return (
               <React.Fragment key={project.id}>

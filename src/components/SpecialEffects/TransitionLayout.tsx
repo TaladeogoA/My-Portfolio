@@ -6,7 +6,7 @@ import { useTransitionState } from "../../hooks/useTransitionState";
 const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { shouldAnimate, key } = useTransitionState();
+  const { key } = useTransitionState();
 
   return (
     <>

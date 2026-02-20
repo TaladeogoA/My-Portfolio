@@ -230,20 +230,20 @@ const ShadowOverlay = styled.div`
   }
 `;
 
-const BackgroundOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 10rem;
-  opacity: 0.4;
+// const BackgroundOverlay = styled.div`
+//   position: fixed;
+//   top: 0;
+//   left: 10rem;
+//   opacity: 0.4;
 
-  img {
-    width: 80%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(1);
-  }
+//   img {
+//     width: 80%;
+//     height: 100%;
+//     object-fit: cover;
+//     filter: grayscale(1);
+//   }
 
-  @media (max-width: 767px) {
-    display: none;
-  }
-`;
+//   @media (max-width: 767px) {
+//     display: none;
+//   }
+// `;

@@ -3,12 +3,11 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import ErrorBoundary from "./components/Common/ErrorBoundary";
 import LoadingSpinner from "./components/Common/LoadingSpinner";
 import TransitionLayout from "./components/SpecialEffects/TransitionLayout";
-import WorksContent from "./components/Works/WorksContent";
 
 const Home = React.lazy(() => import("./components/Homepage/Home"));
 const About = React.lazy(() => import("./components/AboutMe/AboutContent"));
 const Contact = React.lazy(() => import("./components/Contact/ContactContent"));
-const Works = React.lazy(() => import("./components/Works/WorksContent"));
+const Work = React.lazy(() => import("./components/Works/WorksContent"));
 const NotFound = React.lazy(() => import("./components/Common/NotFound"));
 const StartupPostPage = React.lazy(
   () => import("./components/Blog/StartupPostPage")
@@ -23,8 +22,8 @@ const AppRoutes: React.FC = () => {
         <TransitionLayout>
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
-            <Route path="/work" element={<WorksContent />}>
-              <Route path=":projectId" element={<WorksContent />} />
+            <Route path="/work" element={<Work />}>
+              <Route path=":projectId" element={<Work />} />
             </Route>
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
