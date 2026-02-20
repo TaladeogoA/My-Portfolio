@@ -220,7 +220,7 @@ const Footer = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
-const FooterText = styled. span<{ isSelected: boolean }>`
+const FooterText = styled.span<{ isSelected: boolean }>`
   font-family: "Neue Montreal", sans-serif;
   font-size: 0.75rem;
   color: ${({ isSelected }) => (isSelected ? "#F8F7F4" : "black")};
