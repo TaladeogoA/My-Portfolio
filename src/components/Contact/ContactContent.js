@@ -21,7 +21,7 @@ const ContactContent = () => {
               </StyledLink> ,{" "}
                reach out on{" "}
               <StyledLink
-                href="https://www.linkedin.com/in/taladeogo/"
+                href="https://www.linkedin.com/in/taladeogo-abraham-b058b1166/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
