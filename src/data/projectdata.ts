@@ -1,15 +1,15 @@
-import CompreFour from "../assets/compre-four.jpg";
-import CompreOne from "../assets/compre-one.jpg";
-import CompreThree from "../assets/compre-three.jpg";
-import CompreTwo from "../assets/compre-two.jpg";
-import DispensaryFour from "../assets/dispensary-four.jpg";
-import DispensaryOne from "../assets/dispensary-one.jpg";
-import DispensaryThree from "../assets/dispensary-three.jpg";
-import DispensaryTwo from "../assets/dispensary-two.jpg";
-import FamasiFour from "../assets/famasi-four.jpg";
-import FamasiOne from "../assets/famasi-one.jpg";
-import FamasiThree from "../assets/famasi-three.jpg";
-import FamasiTwo from "../assets/famasi-two.jpg";
+import CompreFour from "../assets/compre-four.webp";
+import CompreOne from "../assets/compre-one.webp";
+import CompreThree from "../assets/compre-three.webp";
+import CompreTwo from "../assets/compre-two.webp";
+import DispensaryFour from "../assets/dispensary-four.webp";
+import DispensaryOne from "../assets/dispensary-one.webp";
+import DispensaryThree from "../assets/dispensary-three.webp";
+import DispensaryTwo from "../assets/dispensary-two.webp";
+import FamasiFour from "../assets/famasi-four.webp";
+import FamasiOne from "../assets/famasi-one.webp";
+import FamasiThree from "../assets/famasi-three.webp";
+import FamasiTwo from "../assets/famasi-two.webp";
 import { Project } from "../types/project";
 
 export const data: Project[] = [
@@ -101,7 +101,7 @@ export const data: Project[] = [
       {
         type: "image",
         url: FamasiFour,
-      }
+      },
     ],
     live: "https://famasi.africa",
     source: "",
