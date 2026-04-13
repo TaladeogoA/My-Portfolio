@@ -12,7 +12,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@trendyol-js/react-carousel": "^3.0.2",
-    "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-slick": "^0.23.13",
     "framer-motion": "^11.13.1",
@@ -59,6 +58,7 @@
   },
   "devDependencies": {
     "@mdx-js/loader": "^3.1.0",
+    "@types/react": "^19.2.14",
     "@types/react-helmet": "^6.1.11",
     "@types/styled-components": "^5.1.34"
   }

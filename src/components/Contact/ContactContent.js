@@ -19,7 +19,7 @@ const ContactContent = () => {
               <StyledLink href="mailto:ataladeogo@gmail.com">
                 ataladeogo@gmail.com
               </StyledLink> ,{" "}
-               reach out on{" "}
+              connect with me on{" "}
               <StyledLink
                 href="https://www.linkedin.com/in/taladeogo-abraham-b058b1166/"
                 target="_blank"
@@ -27,7 +27,7 @@ const ContactContent = () => {
               >
                 LinkedIn
               </StyledLink> {" "}
-               or find my code on{" "}
+              or find my code on{" "}
               <StyledLink
                 href="https://github.com/TaladeogoA"
                 target="_blank"

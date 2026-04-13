@@ -156,6 +156,7 @@ const LeftNav = styled(NavSection)`
 
 const RightNav = styled(NavSection)`
   right: 0;
+  border-left: 1px solid #000;
 `;
 
 const NavLink = styled(motion(Link))<NavLinkStyleProps>`

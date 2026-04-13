@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
+import styled, { keyframes, css } from "styled-components";
 import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
 import taladeAudio from "../../assets/talade.m4a";
 import taladeogoAudio from "../../assets/taladeogo.m4a";
@@ -8,13 +8,36 @@ import { H2, Text } from "../Common/Typography";
 import { MetaTags } from "../SEO/MetaTags";
 import PictureAnimation from "./PictureAnimation";
 
-const playAudio = (audioFile) => {
-  const audio = new Audio(audioFile);
-  audio.play();
-};
+let audioInstance = null;
 
 const AboutContent = () => {
-  const navigate = useNavigate();
+  const [activeAudio, setActiveAudio] = useState(null);
+
+  const playAudio = (audioFile, id) => {
+    if (audioInstance) {
+      audioInstance.pause();
+      audioInstance.currentTime = 0;
+    }
+
+    setActiveAudio(id);
+    audioInstance = new Audio(audioFile);
+    audioInstance.play()
+      .then(() => {
+        audioInstance.onended = () => setActiveAudio(null);
+      })
+      .catch(() => {
+        setActiveAudio(null);
+      });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (audioInstance) {
+        audioInstance.pause();
+        audioInstance = null;
+      }
+    };
+  }, []);
 
   const handleResumeClick = () => {
     window.open(Resume, "_blank", "noopener,noreferrer");
@@ -43,24 +66,28 @@ const AboutContent = () => {
 
             <Text $margin="0 0 1rem">
               My name is{" "}
-              <NameContainer>
+              <NameContainer
+                onClick={() => playAudio(taladeogoAudio, 'taladeogo')}
+                role="button"
+                aria-label="Listen to pronunciation of Taládéògo"
+                $isPlaying={activeAudio === 'taladeogo'}
+              >
                 <Highlight>Taládéògo</Highlight>
-                <SpeakerIcon
-                  onMouseEnter={() => playAudio(taladeogoAudio)}
-                  aria-label="Pronunciation"
-                >
+                <SpeakerIcon $isPlaying={activeAudio === 'taladeogo'}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.5v-3m4.5 5.25v-7.5m4.5 11.25v-15m4.5 11.25v-7.5m4.5 5.25v-3" />
                   </svg>
                 </SpeakerIcon>
               </NameContainer>
               . Most people call me{" "}
-              <NameContainer>
+              <NameContainer
+                onClick={() => playAudio(taladeAudio, 'talade')}
+                role="button"
+                aria-label="Listen to pronunciation of Talade"
+                $isPlaying={activeAudio === 'talade'}
+              >
                 <Highlight>Talade</Highlight>
-                <SpeakerIcon
-                  onMouseEnter={() => playAudio(taladeAudio)}
-                  aria-label="Pronunciation"
-                >
+                <SpeakerIcon $isPlaying={activeAudio === 'talade'}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.5v-3m4.5 5.25v-7.5m4.5 11.25v-15m4.5 11.25v-7.5m4.5 5.25v-3" />
                   </svg>
@@ -68,67 +95,22 @@ const AboutContent = () => {
               </NameContainer>
               .
             </Text>
-
             <Text $margin="0 0 1rem">
-              I’m a product engineer working across web and mobile. I care about performance, reliability, and building things that don’t fall apart in production.
+              I'm a product engineer with 3+ years of experience building production web and mobile apps. I work mainly on the frontend using React and React Native, across web, iOS, and Android. I've handled store submissions, OTA updates, offline-first systems, and real-time features.
             </Text>
 
             <Text $margin="0 0 1rem">
-              I currently work at  <strong>Famasi Africa</strong> as the sole mobile engineer. I ship and maintain consumer apps, internal tools, and pharmacy software used daily in real operating conditions, including poor connectivity and low-end devices.
+              I currently work at <strong>Compre</strong> building B2B infrastructure for pharmacies. Before that, I was the mobile engineer at <strong>Famasi Africa</strong>, where I built and maintained the mobile apps used by customers and pharmacies. I worked alongside a small team of engineers on the broader platform, including consumer products, pharmacy tools, and internal dashboards used daily in low-connectivity environments on low-end devices.
             </Text>
 
             <Text $margin="0 0 1rem">
-            Most of my work sits at the intersection of product and engineering. I take designs and messy requirements, turn them into maintainable systems, and see them through to App Store and Play Store releases.
+              Most of my work is taking unclear product ideas and turning them into stable systems. I've shipped across multiple platforms, built offline-resilient state management, integrated real-time and AI features, and supported white-label products without breaking existing clients.
             </Text>
 
             <Text $margin="0 0 1rem">
-           Some things I've worked on recently:
+              Lately, I've been exploring <strong>Three.js</strong> and <strong>WebGL</strong> to get into more interactive and immersive web experiences.
             </Text>
 
-            <ServicesList>
-              <ServiceItem>
-                <Text>
-                Shipping multiple production mobile apps end to end
-                </Text>
-              </ServiceItem>
-
-              <ServiceItem>
-                <Text>
-                Rebuilding an existing app with a new design and handling its first store release
-                </Text>
-              </ServiceItem>
-
-              <ServiceItem>
-                <Text>
-Offline-first patterns, background sync, and resilient state
-                </Text>
-              </ServiceItem>
-
-              <ServiceItem>
-                <Text>
-Real-time and AI-assisted features using LiveKit, WebSockets, and push notifications
-                </Text>
-              </ServiceItem>
-
-              <ServiceItem>
-                <Text>
-Multi-tenant and white-label storefronts
-                </Text>
-              </ServiceItem>
-            </ServicesList>
-
-            <CTASection>
-              <Text $margin="0 0 2rem">
-               I like working on products that have real users, real constraints, and real consequences when things break. I'm happy to talk if you're working on something similar.
-              </Text>
-              <Button
-                variant="primary"
-                onClick={() => navigate("/contact")}
-                $padding="1rem 2rem"
-              >
-                Get in touch
-              </Button>
-            </CTASection>
           </IntroSection>
         </AboutText>
       </Container>
@@ -216,14 +198,37 @@ const NameContainer = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  margin: 0 -0.2rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  ${({ $isPlaying }) => $isPlaying && css`
+    background-color: rgba(0, 0, 0, 0.08);
+  `}
+
+  @media (max-width: 768px) {
+    /* Larger touch target on mobile */
+    padding: 0.2rem 0.4rem;
+  }
 `;
 
-const SpeakerIcon = styled.button`
+const speakerPulse = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+`;
+
+const SpeakerIcon = styled.span`
   background: none;
   border: none;
   padding: 0;
   color: black;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,10 +239,18 @@ const SpeakerIcon = styled.button`
     width: 1.1rem;
     height: 1.1rem;
     transition: transform 0.2s ease;
+    ${({ $isPlaying }) => $isPlaying && css`
+      animation: ${speakerPulse} 0.5s ease-in-out infinite;
+      color: #666;
+    `}
   }
 
-  &:hover svg {
+  &:hover svg, &:active svg {
     transform: scale(1.15) rotate(-5deg);
+  }
+
+  &:active svg {
+    transform: scale(0.9) rotate(0deg);
   }
 
   &::after {
@@ -287,30 +300,4 @@ const Highlight = styled.span`
   &:hover::after {
     transform: scaleX(1);
   }
-`;
-
-const ServicesList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0 0 3rem;
-`;
-
-const ServiceItem = styled.li`
-  line-height: 1.6;
-  padding-left: 2rem;
-  position: relative;
-  margin-bottom: 1rem;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
-
-  &:before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: black;
-  }
-`;
-
-const CTASection = styled.div`
-  text-align: center;
-  margin-bottom: 2rem;
 `;
