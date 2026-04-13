@@ -27,9 +27,11 @@ const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-const PageContent = styled(motion.div)`
+const PageContentBase = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+const PageContent = motion(PageContentBase);
 
 export default TransitionLayout;

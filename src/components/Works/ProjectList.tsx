@@ -126,11 +126,13 @@ const ProjectList: React.FC<ProjectListProps> = memo(
 
 ProjectList.displayName = "ProjectList";
 
-const ExpandedContent = styled(motion.div)`
+const ExpandedContentBase = styled.div`
   overflow: hidden;
   background: #f8f7f4;
   border-bottom: 1px solid black;
 `;
+
+const ExpandedContent = motion(ExpandedContentBase);
 
 const Container = styled.div`
   height: 100%;
@@ -148,7 +150,7 @@ const Container = styled.div`
   }
 `;
 
-const ProjectItem = styled(motion.div)<ProjectItemProps>`
+const ProjectItemBase = styled.div<ProjectItemProps>`
   min-height: clamp(160px, 28vh, 200px);
   padding: 2rem;
   cursor: pointer;
@@ -177,6 +179,8 @@ const ProjectItem = styled(motion.div)<ProjectItemProps>`
     background: ${({ isSelected }) => (isSelected ? "black" : "#E8E7E4")};
   }
 `;
+
+const ProjectItem = motion(ProjectItemBase);
 
 const Header = styled.div`
   display: flex;

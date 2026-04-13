@@ -308,7 +308,7 @@ const Container = styled.div`
   }
 `;
 
-const Content = styled(motion.div)`
+const ContentBase = styled.div`
   padding: 2.5rem;
   height: 100%;
 
@@ -316,6 +316,8 @@ const Content = styled(motion.div)`
     padding: 0;
   }
 `;
+
+const Content = motion(ContentBase);
 
 const ContentSection = styled.div`
   padding: 0 1.5rem;

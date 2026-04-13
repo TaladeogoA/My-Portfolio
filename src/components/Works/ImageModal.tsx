@@ -39,7 +39,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ asset, onClose, isOpen }) => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
           >
             {asset.type === "video" ? (
               <ModalVideo autoPlay muted loop playsInline src={asset.url} />
@@ -53,7 +53,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ asset, onClose, isOpen }) => {
   );
 };
 
-const Overlay = styled(motion.div)`
+const OverlayBase = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -66,11 +66,15 @@ const Overlay = styled(motion.div)`
   z-index: 1000;
 `;
 
-const Content = styled(motion.div)`
+const Overlay = motion(OverlayBase);
+
+const ContentBase = styled.div`
   max-width: 90vw;
   max-height: 90vh;
   position: relative;
 `;
+
+const Content = motion(ContentBase);
 
 const ModalImage = styled.img`
   max-width: 100%;

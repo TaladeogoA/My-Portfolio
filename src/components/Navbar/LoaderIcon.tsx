@@ -14,7 +14,7 @@ const LoaderIcon = () => (
   </LoaderContainer>
 );
 
-const LoaderContainer = styled(motion.div)`
+const LoaderContainerBase = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -22,12 +22,16 @@ const LoaderContainer = styled(motion.div)`
   z-index: 1000;
 `;
 
-const Spinner = styled(motion.div)`
+const LoaderContainer = motion(LoaderContainerBase);
+
+const SpinnerBase = styled.div`
   width: 60px;
   height: 60px;
   border: 3px solid black;
   border-radius: 50%;
   border-top-color: #F8F7F4;
 `;
+
+const Spinner = motion(SpinnerBase);
 
 export default LoaderIcon;
