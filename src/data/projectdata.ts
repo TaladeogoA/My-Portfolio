@@ -16,18 +16,19 @@ export const data: Project[] = [
   {
     id: "01",
     title: "Compre",
-    subtitle: "B2B Pharmaceutical Marketplace",
+    subtitle: "Distributor Infrastructure for Pharmaceuticals",
     shortDescription:
-      "A B2B platform connecting pharmacies and suppliers for product discovery, bulk ordering, and order tracking.",
+      "A B2B platform for pharmaceutical distributors to manage inventory, credit, and retailer relationships.",
     description:
-      "Compre is a B2B pharmaceutical marketplace built to support pharmacies and suppliers with tooling for discovery, bulk purchasing, payments, and logistics tracking.",
+      "Compre is a distributor-first platform built to help pharmaceutical distributors manage inventory, control credit, and operate more efficiently across their retailer network.",
     contribution:
-      "I built and maintained both pharmacy and supplier mobile experiences and the distributor-facing web application. I implemented deep linking across push notifications and emails, built bulk product uploads with real-time WebSocket progress feedback, and managed OTA updates and store deployments.",
+      "I built and maintained the distributor-facing web app and supporting mobile experiences. I implemented bulk product uploads with real-time WebSocket feedback, handled order and credit workflows, and managed OTA updates and store deployments. I also built deep linking across push notifications and emails.",
     technicalHighlights: [
-      "Built pharmacy and supplier mobile apps",
-      "Developed distributor-facing web application",
-      "Implemented deep linking across notifications and emails",
-      "Built bulk upload system with WebSocket progress updates",
+      "Built distributor-facing web application",
+      "Supported mobile experiences for distributors and retailers",
+      "Implemented bulk upload system with real-time WebSocket feedback",
+      "Handled order and credit workflows",
+      "Built deep linking across notifications and emails",
       "Managed OTA updates and store deployments",
     ],
     impact: [

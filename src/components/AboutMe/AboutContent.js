@@ -100,7 +100,7 @@ const AboutContent = () => {
             </Text>
 
             <Text $margin="0 0 1rem">
-              I currently work at <strong>Compre</strong> building B2B infrastructure for pharmacies. Before that, I was the mobile engineer at <strong>Famasi Africa</strong>, where I built and maintained the mobile apps used by customers and pharmacies. I worked alongside a small team of engineers on the broader platform, including consumer products, pharmacy tools, and internal dashboards used daily in low-connectivity environments on low-end devices.
+              I currently work at <strong>Compre</strong> building B2B infrastructure for pharmaceutical distributors. Before that, I was the mobile engineer at <strong>Famasi Africa</strong>, where I built and maintained the mobile apps used by customers and pharmacies. I worked alongside a small team of engineers on the broader platform, including consumer products, pharmacy tools, and internal dashboards used daily in low-connectivity environments on low-end devices.
             </Text>
 
             <Text $margin="0 0 1rem">
