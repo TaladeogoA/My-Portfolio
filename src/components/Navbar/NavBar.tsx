@@ -11,6 +11,8 @@ export const NAV_ORDER = {
   "/contact": 4,
 } as const;
 
+export const getNavPath = (pathname: string) => `/${pathname.split("/")[1]}`;
+
 interface NavLinkStyleProps {
   $order: number;
   $currentOrder: number;
@@ -19,8 +21,8 @@ interface NavLinkStyleProps {
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentOrder =
-    NAV_ORDER[location.pathname as keyof typeof NAV_ORDER] || 1;
+  const navPath = getNavPath(location.pathname);
+  const currentOrder = NAV_ORDER[navPath as keyof typeof NAV_ORDER] || 1;
 
   const handleNavigation = useCallback(
     (to: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -93,7 +95,7 @@ const NavBar: React.FC = () => {
                   onClick={handleNavigation(path)}
                   $order={order}
                   $currentOrder={currentOrder}
-                  className={location.pathname === path ? "active" : ""}
+                  className={navPath === path ? "active" : ""}
                   custom="right"
                   variants={slideVariants}
                   initial="initial"
@@ -118,7 +120,7 @@ const NavBar: React.FC = () => {
             key={path}
             to={path}
             onClick={handleNavigation(path)}
-            $isActive={location.pathname === path}
+            $isActive={navPath === path}
           >
             <p className="text">{path === "/" ? "Home" : path.slice(1)}</p>
           </MobileLink>
@@ -172,7 +174,6 @@ const NavLink = styled(motion(Link))<NavLinkStyleProps>`
   color: #000;
   padding: 2rem 0;
   cursor: pointer;
-  will-change: transform;
   transition: background-color 0.3s ease 0.2s, color 0.3s ease 0.2s;
 
   h3,

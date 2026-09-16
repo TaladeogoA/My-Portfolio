@@ -2,11 +2,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { getNavPath } from "../Navbar/NavBar";
 
 const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { key } = useLocation();
+  const key = getNavPath(useLocation().pathname);
 
   return (
     <>

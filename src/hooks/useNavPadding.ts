@@ -1,12 +1,12 @@
 import { useLocation } from "react-router-dom";
+import { getNavPath } from "../components/Navbar/NavBar";
 
 const NAV_WIDTH = 50;
 
 export const useNavPadding = () => {
   const location = useLocation();
-  const path = location.pathname;
 
-  switch (path) {
+  switch (getNavPath(location.pathname)) {
     case "/":
       return {
         left: NAV_WIDTH * 3,

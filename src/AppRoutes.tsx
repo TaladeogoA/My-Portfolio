@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import ErrorBoundary from "./components/Common/ErrorBoundary";
 import LoadingSpinner from "./components/Common/LoadingSpinner";
+import { getNavPath } from "./components/Navbar/NavBar";
 import TransitionLayout from "./components/SpecialEffects/TransitionLayout";
 
 const Home = React.lazy(() => import("./components/Homepage/Home"));
@@ -17,7 +18,7 @@ const AppRoutes: React.FC = () => {
     <ErrorBoundary>
       <Suspense fallback={<LoadingSpinner />}>
         <TransitionLayout>
-          <Routes location={location} key={location.pathname}>
+          <Routes location={location} key={getNavPath(location.pathname)}>
             <Route path="/" element={<Home />} />
             <Route path="/work" element={<Work />}>
               <Route path=":projectId" element={<Work />} />

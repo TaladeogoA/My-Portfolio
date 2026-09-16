@@ -127,10 +127,9 @@ const AboutContent = () => {
             <Text $margin="0 0 1rem">
               At <strong>Compre</strong>, I work across the mobile app, web
               applications and backend services that connect pharmacies with
-              pharmaceutical distributors. Before that, I worked at{" "}
-              <strong>Famasi Africa</strong>, where I built and shipped features
-              across several healthcare products, including mobile apps,
-              pharmacy tools and consumer experiences.
+              pharmaceutical distributors. At <strong>Famasi Africa</strong>, I
+              built and shipped features across several healthcare products,
+              including mobile apps, pharmacy tools and consumer experiences.
             </Text>
 
             <Text $margin="0 0 1rem">
