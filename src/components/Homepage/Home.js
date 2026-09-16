@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.png";
 import { animateText } from "../../utils/Animation";
@@ -37,8 +38,8 @@ const Home = () => {
   return (
     <>
       <MetaTags
-        title="Talade | Frontend Engineer"
-        description="Frontend engineer crafting exceptional digital experiences with React, React Native, and modern web technologies."
+        title="Talade | Product Engineer"
+        description="Product engineer making complex workflows feel simple across web and mobile."
       />
       <MainContainer>
         {/* <BackgroundOverlay>
@@ -68,9 +69,12 @@ const Home = () => {
             </Block>
 
             <h2 className="new-text">
-              Cross-platform developer, from web to mobile, and <br />{" "}
-              everything in between.
+              Product engineer making complex workflows feel simple, <br />{" "}
+              across web and mobile.
             </h2>
+            <WorkLink className="new-text" to="/work/01">
+              Selected work <span>↗</span>
+            </WorkLink>
           </HomeText>
 
           <HomeImgContainer>
@@ -130,6 +134,13 @@ const HomeText = styled.div`
     line-height: 1.4;
   }
 
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
   span {
     font-size: clamp(0.875rem, 1vw, 1rem);
   }
@@ -168,6 +179,24 @@ const Text = styled.div`
     &.p {
       font-size: 1rem;
     }
+  }
+`;
+
+const WorkLink = styled(Link)`
+  color: inherit;
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.25rem;
+  width: fit-content;
+
+  span {
+    font-size: inherit;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover span {
+    transform: translate(0.2rem, -0.2rem);
   }
 `;
 

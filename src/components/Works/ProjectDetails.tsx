@@ -131,13 +131,23 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <Section>
-                    <SectionTitle>The Challenge</SectionTitle>
+                    <SectionTitle>Context & problem</SectionTitle>
                     <Text>{project.description}</Text>
                   </Section>
 
                   <Section>
-                    <SectionTitle>My Role</SectionTitle>
+                    <SectionTitle>Constraints</SectionTitle>
+                    <Text>{project.constraints}</Text>
+                  </Section>
+
+                  <Section>
+                    <SectionTitle>Ownership</SectionTitle>
                     <Text>{project.contribution}</Text>
+                  </Section>
+
+                  <Section>
+                    <SectionTitle>Key decisions</SectionTitle>
+                    <Text>{project.decisions}</Text>
                   </Section>
 
                   <Section>
@@ -207,13 +217,23 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
                     )}
 
                     <Section>
-                      <SectionTitle>The Challenge</SectionTitle>
+                      <SectionTitle>Context & problem</SectionTitle>
                       <Text>{project.description}</Text>
                     </Section>
 
                     <Section>
-                      <SectionTitle>My Approach</SectionTitle>
+                      <SectionTitle>Constraints</SectionTitle>
+                      <Text>{project.constraints}</Text>
+                    </Section>
+
+                    <Section>
+                      <SectionTitle>Ownership</SectionTitle>
                       <Text>{project.contribution}</Text>
+                    </Section>
+
+                    <Section>
+                      <SectionTitle>Key decisions</SectionTitle>
+                      <Text>{project.decisions}</Text>
                     </Section>
                   </motion.div>
                 )}

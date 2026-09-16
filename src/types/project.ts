@@ -14,7 +14,9 @@ export interface Project {
   subtitle: string;
   shortDescription: string;
   description: string;
+  constraints: string;
   contribution:  string;
+  decisions: string;
   technicalHighlights: string[];
   impact?:  ImpactMetric[];
   techStack: string;

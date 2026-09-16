@@ -18,11 +18,15 @@ export const data: Project[] = [
     title: "Compre",
     subtitle: "Distributor Infrastructure for Pharmaceuticals",
     shortDescription:
-      "A B2B platform for pharmaceutical distributors to manage inventory, credit, and retailer relationships.",
+      "A B2B platform that helps pharmaceutical distributors run inventory, credit, and retailer workflows with greater clarity.",
     description:
-      "Compre is a distributor-first platform built to help pharmaceutical distributors manage inventory, control credit, and operate more efficiently across their retailer network.",
+      "Pharmaceutical distributors need to keep stock, customer credit, and retailer orders moving at the same time. Compre is a distributor-first platform designed to bring those operational workflows into one practical system.",
+    constraints:
+      "The work crossed a distributor web app and supporting mobile experiences, where order and credit actions needed to stay understandable while product data, notifications, and releases moved quickly.",
     contribution:
-      "I built and maintained the distributor-facing web app and supporting mobile experiences. I implemented bulk product uploads with real-time WebSocket feedback, handled order and credit workflows, and managed OTA updates and store deployments. I also built deep linking across push notifications and emails.",
+      "I built and maintained the distributor-facing web app and supporting mobile experiences, including order and credit workflows, bulk product uploads, deep linking, and production releases.",
+    decisions:
+      "For bulk uploads, I used real-time WebSocket feedback so people could see progress rather than wait without context. I also connected push notifications and emails to the right in-app destination through deep links, reducing the steps between an alert and the task it referred to.",
     technicalHighlights: [
       "Built distributor-facing web application",
       "Supported mobile experiences for distributors and retailers",
@@ -68,11 +72,15 @@ export const data: Project[] = [
     title: "Famasi",
     subtitle: "Consumer Pharmacy Platform",
     shortDescription:
-      "A consumer-facing pharmacy app and web platform for medication discovery, ordering, and delivery across Nigeria.",
+      "A consumer pharmacy platform for discovering, ordering, and receiving medication across Nigeria.",
     description:
-      "Famasi is a consumer pharmacy platform designed to improve access to medications by connecting users with nearby pharmacies. The product focuses on reliable ordering, optimized checkout flows, and mobile-first performance for users in emerging markets.",
+      "Famasi connects people with nearby pharmacies for medication discovery, ordering, and delivery. The product needed a dependable customer experience across web and mobile, particularly at the points where people search, check out, and pay.",
+    constraints:
+      "The platform served customers and pharmacies across web, iOS, and Android, with a small engineering team and the practical performance constraints of an emerging-market consumer product.",
     contribution:
-      "As the sole frontend engineer, I built and maintained multiple production products across web and mobile. I developed the Famasi mobile app for iOS and Android, ensured feature parity with the web platform, refactored legacy checkout flows, fixed critical payment bugs, and shipped Famasi Wrapped, a personalized animated year-in-review experience. I also integrated Remi, an AI assistant using LiveKit to collect conversational user feedback.",
+      "As the sole frontend engineer, I built and maintained multiple production products across web and mobile. I developed the iOS and Android app, kept it aligned with the web platform, and worked through checkout and payment issues in production.",
+    decisions:
+      "I refactored legacy checkout flows and fixed critical payment bugs to make a high-intent moment more reliable. Alongside that core work, I shipped Famasi Wrapped as a personalised animated experience and integrated a LiveKit-powered AI assistant to collect conversational feedback from users.",
     technicalHighlights: [
       "Sole frontend engineer across web and mobile products",
       "Built and shipped iOS and Android apps using React Native and Expo",
@@ -117,11 +125,15 @@ export const data: Project[] = [
     title: "Dispensary",
     subtitle: "Pharmacy Operations App",
     shortDescription:
-      "A pharmacy operations app for managing orders, inventory, and storefront configuration, rebuilt with a new design and shipped to app stores.",
+      "A pharmacy operations app for orders, inventory, and storefront configuration—rebuilt and prepared for everyday use.",
     description:
-      "Dispensary is a mobile-first pharmacy operations product built for emerging markets where internet connectivity can be unreliable. The app supports daily pharmacy workflows while maintaining stability and data integrity during network interruptions.",
+      "Dispensary supports day-to-day pharmacy operations: orders, inventory, and the storefront details customers rely on. It was built for environments where connectivity can be unreliable, making dependable behaviour part of the product experience.",
+    constraints:
+      "The app had to serve operational users in low-connectivity conditions, adopt an entirely new product design, and reach the App Store and Google Play for the first time while continuing to support a live business.",
     contribution:
-      "I took over an existing mobile application and fully implemented a new product design across the entire app. I owned the first App Store and Google Play submissions, setting up release pipelines, OTA updates, and ongoing production support. I also deployed the React Native app to web using Expo for Web, managed production hosting, and built a storefront configuration system allowing pharmacies to manage branding, domains, business details, and operating hours.",
+      "I took over the existing mobile application and implemented the new product design across the app. I owned its first App Store and Google Play submissions, release pipelines, OTA updates, and ongoing production support.",
+    decisions:
+      "I extended the product to the web with Expo for Web and built self-service storefront configuration, so pharmacies could manage their own branding, domains, business details, and operating hours without depending on a manual setup process.",
     technicalHighlights: [
       "Reimplemented the entire app UI based on a new design system",
       "Submitted the app to the App Store and Google Play for the first time",
@@ -170,8 +182,12 @@ export const data: Project[] = [
       "A telemedicine platform providing video consultations, appointment reminders, and health plan comparisons.",
     description:
       "Octosoft builds digital health products focused on improving access to healthcare through telemedicine, real-time notifications, and provider comparison tools.",
+    constraints:
+      "The work involved an existing mobile codebase and platform-specific integrations that needed to remain stable while the product evolved.",
     contribution:
       "I built appointment reminders and real-time notifications to reduce missed consultations, led a major dependency update and performance overhaul of the mobile codebase, and developed a health plan comparison marketplace with side-by-side provider evaluation.",
+    decisions:
+      "I focused on making time-sensitive information easier to act on through reminders, notifications, and side-by-side comparison rather than adding complexity to the care journey.",
     technicalHighlights: [
       "Built appointment reminders and real-time notifications",
       "Led dependency upgrades and performance stabilization",

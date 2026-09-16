@@ -1,4 +1,7 @@
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
+
+const SITE_URL = "https://talade.name.ng";
 
 interface MetaTagsProps {
   title?: string;
@@ -12,15 +15,19 @@ interface MetaTagsProps {
 }
 
 export const MetaTags: React.FC<MetaTagsProps> = ({
-  title = "Talade | Frontend Engineer",
-  description = "Frontend engineer specializing in building exceptional digital experiences",
+  title = "Talade | Product Engineer",
+  description = "Taladeogo is a product engineer who makes complex workflows feel simple across web and mobile.",
   image = "/og-image.png",
-  url = "https://talade.tech",
+  url,
   type = "website",
-  publishedTime = "2024-03-19",
-  modifiedTime = "2024-03-19",
+  publishedTime,
+  modifiedTime,
   author = "Taladeogo Abraham",
 }) => {
+  const location = useLocation();
+  const canonicalUrl = url || `${SITE_URL}${location.pathname}`;
+  const imageUrl = image.startsWith("http") ? image : `${SITE_URL}${image}`;
+
   return (
     <Helmet>
       <title>{title}</title>
@@ -30,14 +37,14 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       <meta property="og:type" content={type} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-      <meta property="og:url" content={url} />
+      <meta property="og:image" content={imageUrl} />
+      <meta property="og:url" content={canonicalUrl} />
       <meta property="og:site_name" content="Talade" />
 
       {type === "article" && (
         <>
-          <meta property="article:published_time" content={publishedTime} />
-          <meta property="article:modified_time" content={modifiedTime} />
+          {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+          {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
           <meta property="article:author" content={author} />
         </>
       )}
@@ -45,12 +52,12 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={imageUrl} />
       <meta name="twitter:creator" content="@taladeogo" />
 
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charSet="utf-8" />
-      <link rel="canonical" href={url} />
+      <link rel="canonical" href={canonicalUrl} />
     </Helmet>
   );
 };

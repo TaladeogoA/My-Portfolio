@@ -5,7 +5,7 @@ import { OptimizedImage } from "../Works/OptimizedImage";
 
 const PictureAnimation = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const text = "Taladeogo - Front-end developer - UI Designer - Illustrator -";
+  const text = "Taladeogo - Product Engineer - Thoughtful Technology -";
   const textWithSpans = text.split("").map((char, i) => (
     <span
       key={i}

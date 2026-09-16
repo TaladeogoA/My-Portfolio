@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { data as ProjectData } from "../../data/projectdata";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
@@ -9,8 +10,12 @@ import ProjectImages from "./ProjectImages";
 import ProjectList from "./ProjectList";
 
 const WorksContent: FC = () => {
+  const { projectId } = useParams<{ projectId: string }>();
+  const navigate = useNavigate();
   const [selectedId, setSelectedId] = useState<string>(
-    ProjectData[0]?.id || ""
+    projectId && ProjectData.some((project) => project.id === projectId)
+      ? projectId
+      : ProjectData[0]?.id || ""
   );
   const isMobile = useMediaQuery("(max-width: 1200px)");
 
@@ -26,12 +31,23 @@ const WorksContent: FC = () => {
   const selectedProject =
     ProjectData.find((p) => p.id === selectedId) || ProjectData[0];
 
-  const handleProjectSelect = (project: Project) => {
-    if (isMobile) {
-      setSelectedId(project.id === selectedId ? "" : project.id);
-    } else {
-      setSelectedId(project.id);
+  useEffect(() => {
+    if (projectId && ProjectData.some((project) => project.id === projectId)) {
+      setSelectedId(projectId);
     }
+  }, [projectId]);
+
+  const handleProjectSelect = (project: Project) => {
+    const isDeselecting = isMobile && project.id === selectedId;
+
+    if (isDeselecting) {
+      setSelectedId("");
+      navigate("/work");
+      return;
+    }
+
+    setSelectedId(project.id);
+    navigate(`/work/${project.id}`);
   };
 
   return (
@@ -45,7 +61,7 @@ const WorksContent: FC = () => {
         description={
           selectedProject
             ? selectedProject.description
-            : "Explore my portfolio of web and mobile applications, showcasing innovative solutions and technical expertise."
+            : "Selected product engineering work across web and mobile, focused on making complex workflows feel simple."
         }
       />
       <Container>
