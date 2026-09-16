@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import AnimatedCursor from "react-animated-cursor";
 import { HelmetProvider } from "react-helmet-async";
-import { useLocation } from "react-router-dom";
 import "./App.css";
 import AppRoutes from "./AppRoutes";
 import ErrorBoundary from "./components/Common/ErrorBoundary";
@@ -11,11 +10,6 @@ import { useMediaQuery } from "./hooks/useMediaQuery";
 
 const App: React.FC = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const location = useLocation();
-
-  // Detect if we're on the article page
-  // Adjust the condition to match your article route pattern
-  const isArticlePage = /^\/blog\/[^/]+$/.test(location.pathname);
 
   return (
     <HelmetProvider>
@@ -31,13 +25,9 @@ const App: React.FC = () => {
         )}
         <ErrorBoundary>
           <Suspense fallback={<LoadingSpinner />}>
-            {isArticlePage ? (
+            <PageLayout>
               <AppRoutes />
-            ) : (
-              <PageLayout>
-                <AppRoutes />
-              </PageLayout>
-            )}
+            </PageLayout>
           </Suspense>
         </ErrorBoundary>
       </div>

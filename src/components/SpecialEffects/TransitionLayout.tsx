@@ -1,12 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { useTransitionState } from "../../hooks/useTransitionState";
 
 const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { key } = useTransitionState();
+  const { key } = useLocation();
 
   return (
     <>

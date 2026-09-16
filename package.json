@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^7.1.0",
     "@emailjs/browser": "^4.4.1",
-    "@mdx-js/react": "^3.1.0",
     "@types/react-dom": "^18.3.1",
     "@types/react-slick": "^0.23.13",
     "framer-motion": "^11.13.1",
@@ -23,9 +21,9 @@
     "styled-components": "^5.3.5"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
@@ -46,9 +44,7 @@
     ]
   },
   "devDependencies": {
-    "@mdx-js/loader": "^3.1.0",
     "@types/react": "^18.3.12",
     "@types/styled-components": "^5.1.34"
   }
 }
-

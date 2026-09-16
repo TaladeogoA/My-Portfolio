@@ -42,14 +42,6 @@ const Home = () => {
         description="Product engineer making complex workflows feel simple across web and mobile."
       />
       <MainContainer>
-        {/* <BackgroundOverlay>
-          <img
-            src="./black-white-code.png"
-            alt="html background"
-            loading="lazy"
-          />
-        </BackgroundOverlay> */}
-
         <ContentContainer>
           <HomeText>
             <Block
@@ -258,21 +250,3 @@ const ShadowOverlay = styled.div`
     }
   }
 `;
-
-// const BackgroundOverlay = styled.div`
-//   position: fixed;
-//   top: 0;
-//   left: 10rem;
-//   opacity: 0.4;
-
-//   img {
-//     width: 80%;
-//     height: 100%;
-//     object-fit: cover;
-//     filter: grayscale(1);
-//   }
-
-//   @media (max-width: 767px) {
-//     display: none;
-//   }
-// `;
