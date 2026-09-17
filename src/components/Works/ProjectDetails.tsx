@@ -52,7 +52,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
         <ImageSlide>
           <OptimizedImage
             src={asset.url}
-            alt="Project view"
+            alt={asset.alt ?? `${project.title} project image`}
             fit="contain"
           />
         </ImageSlide>
@@ -71,6 +71,46 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
 
     const topHighlights = project.technicalHighlights.slice(0, 3);
     const remainingHighlights = project.technicalHighlights.slice(3);
+
+    const caseStudy = (
+      <CaseStudy>
+        <Section>
+          <SectionTitle>Context & problem</SectionTitle>
+          <Text>{project.description}</Text>
+        </Section>
+
+        <Section>
+          <SectionTitle>Constraints</SectionTitle>
+          <Text>{project.constraints}</Text>
+        </Section>
+
+        <Section>
+          <SectionTitle>Ownership</SectionTitle>
+          <Text>{project.contribution}</Text>
+        </Section>
+
+        <Section>
+          <SectionTitle>Key decisions</SectionTitle>
+          <Text>{project.decisions}</Text>
+        </Section>
+
+        <Section>
+          <SectionTitle>Technical Highlights</SectionTitle>
+          <HighlightsList>
+            {project.technicalHighlights.map((highlight, index) => (
+              <li key={index}>
+                <Text>{highlight}</Text>
+              </li>
+            ))}
+          </HighlightsList>
+        </Section>
+
+        <Section>
+          <SectionTitle>Built with</SectionTitle>
+          <Text>{project.techStack}</Text>
+        </Section>
+      </CaseStudy>
+    );
 
     const AvailabilityRow = () => (
       <AvailabilityContainer>
@@ -130,36 +170,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
-                  <Section>
-                    <SectionTitle>Context & problem</SectionTitle>
-                    <Text>{project.description}</Text>
-                  </Section>
-
-                  <Section>
-                    <SectionTitle>Constraints</SectionTitle>
-                    <Text>{project.constraints}</Text>
-                  </Section>
-
-                  <Section>
-                    <SectionTitle>Ownership</SectionTitle>
-                    <Text>{project.contribution}</Text>
-                  </Section>
-
-                  <Section>
-                    <SectionTitle>Key decisions</SectionTitle>
-                    <Text>{project.decisions}</Text>
-                  </Section>
-
-                  <Section>
-                    <SectionTitle>Technical Highlights</SectionTitle>
-                    <HighlightsList>
-                      {project.technicalHighlights.map((highlight, index) => (
-                        <li key={index}>
-                          <Text>{highlight}</Text>
-                        </li>
-                      ))}
-                    </HighlightsList>
-                  </Section>
+                  {caseStudy}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -198,47 +209,6 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
                 ))}
               </HighlightsList>
 
-              <AnimatePresence>
-                {showFullDetails && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    {remainingHighlights.length > 0 && (
-                      <HighlightsList>
-                        {remainingHighlights.map((highlight, index) => (
-                          <li key={index}>
-                            <Text>{highlight}</Text>
-                          </li>
-                        ))}
-                      </HighlightsList>
-                    )}
-
-                    <Section>
-                      <SectionTitle>Context & problem</SectionTitle>
-                      <Text>{project.description}</Text>
-                    </Section>
-
-                    <Section>
-                      <SectionTitle>Constraints</SectionTitle>
-                      <Text>{project.constraints}</Text>
-                    </Section>
-
-                    <Section>
-                      <SectionTitle>Ownership</SectionTitle>
-                      <Text>{project.contribution}</Text>
-                    </Section>
-
-                    <Section>
-                      <SectionTitle>Key decisions</SectionTitle>
-                      <Text>{project.decisions}</Text>
-                    </Section>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
               <ExpandButton onClick={() => setShowFullDetails(!showFullDetails)}>
                 <Text>
                   {showFullDetails
@@ -251,6 +221,19 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
                 </Text>
               </ExpandButton>
             </Section>
+
+            <AnimatePresence>
+              {showFullDetails && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  {caseStudy}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </ContentSection>
         </Content>
       </Container>
@@ -359,6 +342,14 @@ const Section = styled.div`
   ${Text} {
     line-height: 1.7;
     color: rgba(0, 0, 0, 0.8);
+  }
+`;
+
+const CaseStudy = styled.div`
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+  ${Text} {
+    font-size: 1rem;
   }
 `;
 

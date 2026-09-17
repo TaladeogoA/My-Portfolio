@@ -1,5 +1,5 @@
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useRef } from "react";
 import styled from "styled-components";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { usePreventScroll } from "../../hooks/usePreventScroll";
@@ -21,20 +21,7 @@ const ProjectList: React.FC<ProjectListProps> = memo(
   ({ projects, selectedId, onSelectProject }) => {
     const isMobile = useMediaQuery("(max-width: 1200px)");
     const containerRef = useRef<HTMLDivElement>(null);
-    const isFirstRender = useRef(true);
     usePreventScroll(!!selectedId);
-
-    useEffect(() => {
-      if (
-        isFirstRender.current &&
-        projects.length > 0 &&
-        !selectedId &&
-        isMobile
-      ) {
-        onSelectProject(projects[0]);
-        isFirstRender.current = false;
-      }
-    }, [projects, selectedId, onSelectProject, isMobile]);
 
     const handleProjectClick = (project: Project) => {
       onSelectProject(project);

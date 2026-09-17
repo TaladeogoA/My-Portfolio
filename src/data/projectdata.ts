@@ -18,45 +18,46 @@ export const data: Project[] = [
     title: "Compre",
     subtitle: "Distributor Infrastructure for Pharmaceuticals",
     shortDescription:
-      "A B2B platform that helps pharmaceutical distributors run inventory, credit, and retailer workflows with greater clarity.",
+      "A B2B platform that helps pharmaceutical distributors manage inventory, credit, orders and retailer relationships in one place.",
     description:
-      "Pharmaceutical distributors need to keep stock, customer credit, and retailer orders moving at the same time. Compre is a distributor-first platform designed to bring those operational workflows into one practical system.",
+      "Compre is a B2B pharmaceutical marketplace and operations platform connecting pharmacies with pharmaceutical distributors. The product brings together workflows that normally involve a lot of moving parts: inventory, orders, payments, credit and business management.",
     constraints:
-      "The work crossed a distributor web app and supporting mobile experiences, where order and credit actions needed to stay understandable while product data, notifications, and releases moved quickly.",
+      "The product spans mobile, web and backend services, and some of its users work in environments where connectivity is unreliable. That means things like order state, payment status, notifications and user input need to be handled carefully rather than assuming everything will always work perfectly.",
     contribution:
-      "I built and maintained the distributor-facing web app and supporting mobile experiences, including order and credit workflows, bulk product uploads, deep linking, and production releases.",
+      "I work across Compre’s mobile, web and backend applications. I was a founding engineer on the mobile app and have built and maintained core workflows across ordering, procurement, payments, inventory, credit and business management. I also work on the supplier dashboard and internal tools.",
     decisions:
-      "For bulk uploads, I used real-time WebSocket feedback so people could see progress rather than wait without context. I also connected push notifications and emails to the right in-app destination through deep links, reducing the steps between an alert and the task it referred to.",
+      "For workflows like bulk product uploads, I used real-time feedback so users could see what was happening instead of waiting with no indication of progress. I also connected notifications and emails to the relevant parts of the app with deep links, making it easier to go from an alert to the task it referred to.",
     technicalHighlights: [
-      "Built distributor-facing web application",
-      "Supported mobile experiences for distributors and retailers",
-      "Implemented bulk upload system with real-time WebSocket feedback",
-      "Handled order and credit workflows",
-      "Built deep linking across notifications and emails",
-      "Managed OTA updates and store deployments",
-    ],
-    impact: [
-      { value: "2", label: "Mobile Apps" },
-      { value: "1", label: "Web App" },
+      "Built and maintained the retailer and supplier mobile experiences",
+      "Built features across the supplier dashboard and internal tools",
+      "Implemented bulk product uploads with real-time WebSocket feedback",
+      "Built and maintained order, payment and credit workflows",
+      "Implemented deep linking from notifications and emails",
+      "Worked across React Native, React and Kotlin services",
+      "Managed mobile releases, OTA updates and store deployments",
     ],
     techStack:
-      "React Native • React • TypeScript • Expo • Zustand • WebSockets • Push Notifications",
+      "React Native • React • TypeScript • Expo • Zustand • WebSockets • Push Notifications • Kotlin",
     assets: [
       {
         type: "image",
         url: CompreOne,
+        alt: "Compre mobile app ordering screens",
       },
       {
         type: "image",
         url: CompreTwo,
+        alt: "Compre mobile app distributor list",
       },
       {
         type: "image",
         url: CompreThree,
+        alt: "Compre mobile app order tracking",
       },
       {
         type: "image",
         url: CompreFour,
+        alt: "Compre mobile app business overview",
       },
     ],
     live: "https://distributor.getcompre.com",
@@ -72,44 +73,45 @@ export const data: Project[] = [
     title: "Famasi",
     subtitle: "Consumer Pharmacy Platform",
     shortDescription:
-      "A consumer pharmacy platform for discovering, ordering, and receiving medication across Nigeria.",
+      "A consumer pharmacy platform for discovering, ordering and receiving medication through a network of pharmacies.",
     description:
-      "Famasi connects people with nearby pharmacies for medication discovery, ordering, and delivery. The product needed a dependable customer experience across web and mobile, particularly at the points where people search, check out, and pay.",
+      "Famasi connects customers with pharmacies for medication discovery, ordering and delivery. I worked across several of its web and mobile products, with much of the work centred around making the customer experience reliable at the points where people search, order and pay.",
     constraints:
-      "The platform served customers and pharmacies across web, iOS, and Android, with a small engineering team and the practical performance constraints of an emerging-market consumer product.",
+      "The products ran across web, iOS and Android and were being actively used while they continued to evolve. That meant new features often had to fit into existing production systems, while bugs and reliability issues still needed to be dealt with.",
     contribution:
-      "As the sole frontend engineer, I built and maintained multiple production products across web and mobile. I developed the iOS and Android app, kept it aligned with the web platform, and worked through checkout and payment issues in production.",
+      "I worked as the sole frontend engineer across multiple Famasi products, building and maintaining the React Native applications alongside the web platform. I also handled production releases, updates and ongoing fixes across the products.",
     decisions:
-      "I refactored legacy checkout flows and fixed critical payment bugs to make a high-intent moment more reliable. Alongside that core work, I shipped Famasi Wrapped as a personalised animated experience and integrated a LiveKit-powered AI assistant to collect conversational feedback from users.",
+      "I worked on the checkout and payment flows to fix issues affecting a particularly important part of the customer journey. I also built Famasi Wrapped as an animated, personalised experience using Reanimated, and worked on an AI-assisted conversational experience for collecting user feedback.",
     technicalHighlights: [
-      "Sole frontend engineer across web and mobile products",
-      "Built and shipped iOS and Android apps using React Native and Expo",
-      "Refactored checkout and payment flows to fix critical production bugs",
-      "Built animated Famasi Wrapped experience using Reanimated",
-      "Integrated LiveKit-powered AI assistant for user feedback collection",
-    ],
-    impact: [
-      { value: "3", label: "Platforms" },
-      { value: "Prod", label: "App Stores" },
+      "Built and shipped the iOS and Android consumer application with React Native and Expo",
+      "Worked across multiple production web and mobile products",
+      "Refactored checkout flows and fixed critical payment issues",
+      "Built the animated Famasi Wrapped experience with Reanimated",
+      "Integrated a LiveKit-powered conversational experience for user feedback",
+      "Managed production releases and updates across the mobile products",
     ],
     techStack:
-      "React Native • React • TypeScript • Expo • Zustand • Firebase • Tailwind CSS • Socket.IO • LiveKit",
+      "React Native • React • TypeScript • Expo • Reanimated • Zustand • Firebase • Tailwind CSS • Socket.IO • LiveKit",
     assets: [
       {
         type: "image",
         url: FamasiOne,
+        alt: "Famasi mobile app",
       },
       {
         type: "image",
         url: FamasiTwo,
+        alt: "Famasi mobile app medication search",
       },
       {
         type: "image",
         url: FamasiThree,
+        alt: "Famasi mobile app pharmacy results",
       },
       {
         type: "image",
         url: FamasiFour,
+        alt: "Famasi mobile app care plan",
       },
     ],
     live: "https://famasi.africa",
@@ -125,25 +127,22 @@ export const data: Project[] = [
     title: "Dispensary",
     subtitle: "Pharmacy Operations App",
     shortDescription:
-      "A pharmacy operations app for orders, inventory, and storefront configuration—rebuilt and prepared for everyday use.",
+      "A pharmacy operations app for managing orders, inventory and storefronts, rebuilt for production use across mobile and web.",
     description:
-      "Dispensary supports day-to-day pharmacy operations: orders, inventory, and the storefront details customers rely on. It was built for environments where connectivity can be unreliable, making dependable behaviour part of the product experience.",
+      "Dispensary is used by pharmacies for day-to-day operations including orders, inventory and storefront management. I took over the existing application while a new product direction was being implemented, with the additional challenge of getting the app into the app stores and supporting users in environments where connectivity can be unreliable.",
     constraints:
-      "The app had to serve operational users in low-connectivity conditions, adopt an entirely new product design, and reach the App Store and Google Play for the first time while continuing to support a live business.",
+      "The app needed a substantial UI reimplementation, had to continue supporting a live business, and needed to go through its first App Store and Google Play submissions. The product also needed to work beyond the original mobile application.",
     contribution:
-      "I took over the existing mobile application and implemented the new product design across the app. I owned its first App Store and Google Play submissions, release pipelines, OTA updates, and ongoing production support.",
+      "I took over the existing React Native application and implemented the new product design across the app. I owned the first App Store and Google Play submissions, release pipelines, OTA updates and ongoing production support. I also extended the application to the web.",
     decisions:
-      "I extended the product to the web with Expo for Web and built self-service storefront configuration, so pharmacies could manage their own branding, domains, business details, and operating hours without depending on a manual setup process.",
+      "I used Expo for Web to extend the application beyond mobile, and built self-service storefront configuration so pharmacies could manage their branding, domains, business details and operating hours themselves rather than relying on manual setup.",
     technicalHighlights: [
-      "Reimplemented the entire app UI based on a new design system",
-      "Submitted the app to the App Store and Google Play for the first time",
-      "Set up OTA updates and ongoing production release pipelines",
-      "Deployed React Native app to web using Expo for Web",
-      "Built storefront configuration system for pharmacy self-service",
-    ],
-    impact: [
-      { value: "Web", label: "Deployment" },
-      { value: "OTA", label: "Updates" },
+      "Reimplemented the application UI based on the new product design",
+      "Took the application through its first App Store and Google Play submissions",
+      "Set up OTA updates and production release pipelines",
+      "Extended the React Native application to the web with Expo for Web",
+      "Built self-service storefront configuration for pharmacies",
+      "Supported the application in production across mobile and web",
     ],
     techStack:
       "React Native • Expo • TypeScript • Zustand • Socket.IO • DigitalOcean",
@@ -151,18 +150,22 @@ export const data: Project[] = [
       {
         type: "image",
         url: DispensaryOne,
+        alt: "Dispensary pharmacy operations app sales overview",
       },
       {
         type: "image",
         url: DispensaryTwo,
+        alt: "Dispensary pharmacy operations app",
       },
       {
         type: "image",
         url: DispensaryThree,
+        alt: "Dispensary pharmacy operations app inventory alerts",
       },
       {
         type: "image",
         url: DispensaryFour,
+        alt: "Dispensary pharmacy operations app",
       },
     ],
     live: "",
@@ -194,24 +197,23 @@ export const data: Project[] = [
       "Developed health plan comparison marketplace",
       "Worked with native modules and platform-specific APIs",
     ],
-    impact: [
-      { value: "Stability", label: "Improved" },
-      { value: "Perf", label: "Upgrade" },
-    ],
     techStack:
       "React Native • TypeScript • Swift • Java • Native Modules • Push Notifications",
     assets: [
       {
         type: "image",
         url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088036/octodoc-two_wfkbvr.jpg",
+        alt: "Octodoc mobile app screens",
       },
       {
         type: "image",
         url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088033/octodoc-one_mhfuhr.png",
+        alt: "Octodoc mobile app",
       },
       {
         type: "image",
         url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088021/marketplace-four_fmwlpn.png",
+        alt: "Octodoc health plans website",
       },
     ],
     live: "https://www.octodoc.com/",

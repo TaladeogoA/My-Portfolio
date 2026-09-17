@@ -21,7 +21,7 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
             ) : (
               <ResponsiveImage
                 src={asset.url}
-                alt={`${project.title} view ${index + 1}`}
+                alt={asset.alt ?? `${project.title} view ${index + 1}`}
               />
             )}
           </AssetContainer>

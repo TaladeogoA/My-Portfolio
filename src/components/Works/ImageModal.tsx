@@ -44,7 +44,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ asset, onClose, isOpen }) => {
             {asset.type === "video" ? (
               <ModalVideo autoPlay muted loop playsInline src={asset.url} />
             ) : (
-              <ModalImage src={asset.url} alt="" />
+              <ModalImage src={asset.url} alt={asset.alt ?? ""} />
             )}
           </Content>
         </Overlay>

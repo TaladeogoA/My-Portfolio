@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { FC, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { data as ProjectData } from "../../data/projectdata";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
@@ -12,12 +12,18 @@ import ProjectList from "./ProjectList";
 const WorksContent: FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
-  const [selectedId, setSelectedId] = useState<string>(
-    projectId && ProjectData.some((project) => project.id === projectId)
-      ? projectId
-      : ProjectData[0]?.id || ""
-  );
+  const location = useLocation();
   const isMobile = useMediaQuery("(max-width: 1200px)");
+
+  const routeProject = ProjectData.find((project) => project.id === projectId);
+  const isCollapsed = Boolean(
+    (location.state as { collapsed?: boolean } | null)?.collapsed
+  );
+  const selectedId = routeProject
+    ? routeProject.id
+    : isCollapsed
+    ? ""
+    : ProjectData[0]?.id || "";
 
   useEffect(() => {
     ProjectData.forEach((project) => {
@@ -32,21 +38,21 @@ const WorksContent: FC = () => {
     ProjectData.find((p) => p.id === selectedId) || ProjectData[0];
 
   useEffect(() => {
-    if (projectId && ProjectData.some((project) => project.id === projectId)) {
-      setSelectedId(projectId);
+    if (projectId && !routeProject) {
+      navigate("/work", { replace: true });
     }
-  }, [projectId]);
+  }, [projectId, routeProject, navigate]);
 
   const handleProjectSelect = (project: Project) => {
     const isDeselecting = isMobile && project.id === selectedId;
 
     if (isDeselecting) {
-      setSelectedId("");
-      navigate("/work");
+      navigate("/work", { state: { collapsed: true } });
       return;
     }
 
-    setSelectedId(project.id);
+    if (project.id === projectId) return;
+
     navigate(`/work/${project.id}`);
   };
 
@@ -54,14 +60,12 @@ const WorksContent: FC = () => {
     <>
       <MetaTags
         title={
-          selectedProject
-            ? `${selectedProject.title} | Work | Talade`
-            : "Work | Talade"
+          routeProject ? `${routeProject.title} | Work | Talade` : "Work | Talade"
         }
         description={
-          selectedProject
-            ? selectedProject.description
-            : "Selected product engineering work across web and mobile, focused on making complex workflows feel simple."
+          routeProject
+            ? routeProject.shortDescription
+            : "Selected product engineering work across web and mobile, including B2B platforms, healthcare products and operational tools."
         }
       />
       <Container>
@@ -78,8 +82,14 @@ const WorksContent: FC = () => {
               selectedId={selectedId}
               onSelectProject={handleProjectSelect}
             />
-            <ProjectDetails project={selectedProject} />
-            <ProjectImages project={selectedProject} />
+            <ProjectDetails
+              key={`details-${selectedProject.id}`}
+              project={selectedProject}
+            />
+            <ProjectImages
+              key={`images-${selectedProject.id}`}
+              project={selectedProject}
+            />
           </DesktopLayout>
         )}
       </Container>

@@ -1,11 +1,7 @@
 export interface Asset {
   type: "image" | "video";
   url: string;
-}
-
-export interface ImpactMetric {
-  value: string;
-  label: string;
+  alt?: string;
 }
 
 export interface Project {
@@ -18,7 +14,6 @@ export interface Project {
   contribution:  string;
   decisions: string;
   technicalHighlights: string[];
-  impact?:  ImpactMetric[];
   techStack: string;
   assets: Asset[];
   live?:  string;
