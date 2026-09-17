@@ -53,6 +53,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
           <OptimizedImage
             src={asset.url}
             alt={asset.alt ?? `${project.title} project image`}
+            width={asset.width}
+            height={asset.height}
             fit="contain"
           />
         </ImageSlide>

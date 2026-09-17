@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 interface OptimizedImageProps {
@@ -6,6 +6,9 @@ interface OptimizedImageProps {
   alt: string;
   className?: string;
   fit?: "cover" | "contain" | "scale-down";
+  width?: number;
+  height?: number;
+  loading?: "lazy" | "eager";
 }
 
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
@@ -13,23 +16,36 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   alt,
   className,
   fit = "cover",
+  width,
+  height,
+  loading = "lazy",
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
+  const isLoading = loadedSrc !== src;
 
   useEffect(() => {
-    setIsLoading(true);
+    const img = imgRef.current;
+    if (img?.complete && img.naturalWidth > 0) {
+      setLoadedSrc(src);
+    }
   }, [src]);
 
   return (
     <ImageWrapper className={className}>
       {isLoading && <Skeleton />}
       <StyledImage
+        ref={imgRef}
         src={src}
         alt={alt}
-        loading="lazy"
+        width={width}
+        height={height}
+        loading={loading}
+        decoding="async"
         $isLoading={isLoading}
         $fit={fit}
-        onLoad={() => setIsLoading(false)}
+        onLoad={() => setLoadedSrc(src)}
+        onError={() => setLoadedSrc(src)}
       />
     </ImageWrapper>
   );
@@ -37,10 +53,10 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
 const shimmer = keyframes`
   0% {
-    background-position: -468px 0;
+    background-position: 150% 0;
   }
   100% {
-    background-position: 468px 0;
+    background-position: -50% 0;
   }
 `;
 
@@ -50,18 +66,21 @@ const Skeleton = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background: #f6f7f8;
+  background-color: #eeece7;
   background-image: linear-gradient(
-    to right,
-    #f6f7f8 0%,
-    #edeef1 20%,
-    #f6f7f8 40%,
-    #f6f7f8 100%
+    90deg,
+    #eeece7 0%,
+    #f6f5f1 50%,
+    #eeece7 100%
   );
   background-repeat: no-repeat;
-  background-size: 800px 104px;
-  animation: ${shimmer} 1s linear infinite;
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.4s ease-in-out infinite;
   z-index: 1;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 const ImageWrapper = styled.div`

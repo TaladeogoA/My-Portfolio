@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Taladeogo from "../../assets/talade-about.jpg";
+import Taladeogo from "../../assets/talade-about.webp";
 import { OptimizedImage } from "../Works/OptimizedImage";
 
 const PictureAnimation = () => {
@@ -24,7 +24,13 @@ const PictureAnimation = () => {
     >
       <div className={`circle ${isHovered ? "hovered" : ""}`}>
         <ImageContainer>
-          <OptimizedImage src={Taladeogo} alt="Taladeogo Abraham" />
+          <OptimizedImage
+            src={Taladeogo}
+            alt="Taladeogo Abraham"
+            width={720}
+            height={715}
+            loading="eager"
+          />
         </ImageContainer>
         <p className="text">{textWithSpans}</p>
       </div>

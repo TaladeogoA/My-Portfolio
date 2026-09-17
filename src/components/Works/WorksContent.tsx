@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { data as ProjectData } from "../../data/projectdata";
@@ -25,13 +25,40 @@ const WorksContent: FC = () => {
     ? ""
     : ProjectData[0]?.id || "";
 
+  const initialSelectedId = useRef(selectedId);
+
   useEffect(() => {
-    ProjectData.forEach((project) => {
-      project.assets.forEach((asset) => {
-        const img = new Image();
-        img.src = asset.url;
-      });
-    });
+    const { connection } = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+    };
+    if (connection?.saveData) return;
+
+    const urls = [...ProjectData]
+      .sort((a, b) =>
+        a.id === initialSelectedId.current
+          ? -1
+          : b.id === initialSelectedId.current
+          ? 1
+          : 0
+      )
+      .flatMap((project) =>
+        project.assets
+          .filter((asset) => asset.type === "image")
+          .map((asset) => asset.url)
+      );
+
+    let cancelled = false;
+    const preload = (index: number) => {
+      if (cancelled || index >= urls.length) return;
+      const img = new Image();
+      img.onload = img.onerror = () => preload(index + 1);
+      img.src = urls[index];
+    };
+    preload(0);
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const selectedProject =

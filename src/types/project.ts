@@ -2,6 +2,8 @@ export interface Asset {
   type: "image" | "video";
   url: string;
   alt?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface Project {

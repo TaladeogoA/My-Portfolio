@@ -2,14 +2,22 @@ import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import FloatingTalade from "../../assets/talade-floating.png";
+import FloatingTalade from "../../assets/talade-floating.webp";
 import { animateText } from "../../utils/Animation";
 import { MetaTags } from "../SEO/MetaTags";
 
 const Home = () => {
   const textRefs = useRef([]);
   const timeline = useRef(gsap.timeline());
+  const imageRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = imageRef.current;
+    if (img?.complete && img.naturalWidth > 0) {
+      setImageLoaded(true);
+    }
+  }, []);
 
   useEffect(() => {
     const textElements = textRefs.current;
@@ -71,12 +79,17 @@ const Home = () => {
 
           <HomeImgContainer>
             <HomeImg
+              ref={imageRef}
               src={FloatingTalade}
               alt="Avatar version of me floating"
+              width={800}
+              height={879}
+              fetchpriority="high"
               onLoad={() => setImageLoaded(true)}
+              onError={() => setImageLoaded(true)}
               $loaded={imageLoaded}
             />
-            <ShadowOverlay />
+            <ShadowOverlay $loaded={imageLoaded} />
           </HomeImgContainer>
         </ContentContainer>
       </MainContainer>
@@ -234,6 +247,8 @@ const ShadowOverlay = styled.div`
     rgba(0, 0, 0, 0.35) 0%,
     rgba(0, 0, 0, 0) 70%
   );
+  opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
+  transition: opacity 1s ease-in-out;
   animation: shadowGrowAndShrink 6s ease-in-out infinite both;
 
   @media (prefers-reduced-motion: reduce) {

@@ -22,6 +22,9 @@ const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
               <ResponsiveImage
                 src={asset.url}
                 alt={asset.alt ?? `${project.title} view ${index + 1}`}
+                width={asset.width}
+                height={asset.height}
+                loading={index === 0 ? "eager" : "lazy"}
               />
             )}
           </AssetContainer>
@@ -56,10 +59,8 @@ const ResponsiveImage = styled(OptimizedImage)`
   width: 100%;
   height: auto !important;
 
-  & > div,
   img {
     height: auto !important;
-    position: relative !important;
   }
 `;
 
