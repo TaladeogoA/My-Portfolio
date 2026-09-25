@@ -83,7 +83,7 @@ const Home = () => {
               src={FloatingTalade}
               alt="Avatar version of me floating"
               width={800}
-              height={879}
+              height={877}
               fetchpriority="high"
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageLoaded(true)}
