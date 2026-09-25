@@ -71,6 +71,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
       </CarouselWrapper>
     );
 
+    const hasAssets = project.assets.length > 0;
+    const hasLinks = Boolean(
+      project.live || project.appStoreUrl || project.playStoreUrl
+    );
+
     const topHighlights = project.technicalHighlights.slice(0, 3);
     const remainingHighlights = project.technicalHighlights.slice(3);
 
@@ -155,14 +160,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
     if (isMobileExpanded) {
       return (
         <MobileExpandedContent>
-          <ImageCarousel />
+          {hasAssets && <ImageCarousel />}
 
           <ContentSection>
             <Section>
               <Text>{project.shortDescription}</Text>
             </Section>
 
-            <AvailabilityRow />
+            {hasLinks && <AvailabilityRow />}
 
             <AnimatePresence>
               {showFullDetails && (
@@ -190,7 +195,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
     return (
       <Container>
         <Content>
-          {isMobile && <ImageCarousel />}
+          {isMobile && hasAssets && <ImageCarousel />}
 
           <ContentSection>
             <H1>{project.subtitle}</H1>
@@ -199,7 +204,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
               <Text>{project.shortDescription}</Text>
             </Section>
 
-            <AvailabilityRow />
+            {hasLinks && <AvailabilityRow />}
 
             <Section>
               <SectionTitle>Key Contributions</SectionTitle>

@@ -10,11 +10,69 @@ import FamasiFour from "../assets/famasi-four.webp";
 import FamasiOne from "../assets/famasi-one.webp";
 import FamasiThree from "../assets/famasi-three.webp";
 import FamasiTwo from "../assets/famasi-two.webp";
+import PineLeapOne from "../assets/pineleap-one.webp";
+import PineLeapThree from "../assets/pineleap-three.webp";
+import PineLeapTwo from "../assets/pineleap-two.webp";
 import { Project } from "../types/project";
 
 export const data: Project[] = [
   {
     id: "01",
+    title: "PineLeap",
+    subtitle: "B2B SaaS for Turning Conversations Into Action",
+    shortDescription:
+      "A B2B SaaS platform that helps founders, investors and teams turn conversations into structured outcomes, from meetings and goals to actions and resources.",
+    description:
+      "PineLeap is a SaaS product built around turning conversations into useful, structured work. The platform brings together meetings, conversations, goals, actions, resources and user profiles, with supporting workflows for onboarding, permissions, billing and calendar integrations.",
+    constraints:
+      "The product has a wide range of interconnected workflows and permission levels. That means navigation, access control, loading and error states, destructive actions and incomplete data all need to behave predictably rather than leaving users to figure out what happened.",
+    contribution:
+      "I built PineLeap’s frontend from scratch, owning the frontend architecture and implementing the core product workflows. My work spans authentication, permissions, billing, calendars, onboarding, conversations, goals, actions, resources, profiles and the public visitor experience.",
+    decisions:
+      "I focused on making complex workflows understandable through clear states and feedback. That included skeleton and loading states, useful empty and error states, explicit permission messaging, confirmations for destructive actions, and interaction patterns that work across different screen sizes rather than treating mobile as a smaller version of desktop.",
+    technicalHighlights: [
+      "Built the frontend from scratch across 39 routes and 400+ component files",
+      "Implemented authentication, access control and role-based permissions",
+      "Built core workflows across meetings, conversations, goals, actions and resources",
+      "Implemented Stripe billing and subscription workflows",
+      "Integrated Google Calendar and Outlook calendar workflows",
+      "Built the public visitor experience and supporting profile workflows",
+      "Built reusable UI components, data-fetching patterns and application state management",
+      "Implemented loading, empty, error and graceful-degradation states across complex workflows",
+      "Worked with React, Next.js, TypeScript and Tailwind CSS",
+    ],
+    techStack:
+      "Next.js • React • TypeScript • Tailwind CSS • TanStack Query • Zustand • Framer Motion • React Hook Form • Zod • Stripe",
+    assets: [
+      {
+        type: "image",
+        url: PineLeapOne,
+        width: 1512,
+        height: 1210,
+        alt: "PineLeap dashboard",
+      },
+      {
+        type: "image",
+        url: PineLeapTwo,
+        width: 1512,
+        height: 982,
+        alt: "PineLeap meetings calendar",
+      },
+      {
+        type: "image",
+        url: PineLeapThree,
+        width: 1512,
+        height: 982,
+        alt: "PineLeap conversations list",
+      },
+    ],
+    live: "",
+    source: "",
+    duration: "Ongoing",
+    year: "2026",
+  },
+  {
+    id: "02",
     title: "Compre",
     subtitle: "Distributor Infrastructure for Pharmaceuticals",
     shortDescription:
@@ -77,7 +135,7 @@ export const data: Project[] = [
     year: "2025",
   },
   {
-    id: "02",
+    id: "03",
     title: "Famasi",
     subtitle: "Consumer Pharmacy Platform",
     shortDescription:
@@ -139,7 +197,7 @@ export const data: Project[] = [
     year: "2025 - 2026",
   },
   {
-    id: "03",
+    id: "04",
     title: "Dispensary",
     subtitle: "Pharmacy Operations App",
     shortDescription:
@@ -202,7 +260,7 @@ export const data: Project[] = [
     year: "2025 - 2026",
   },
   {
-    id: "04",
+    id: "05",
     title: "Octosoft Technologies",
     subtitle: "Telemedicine & Digital Health",
     shortDescription:
