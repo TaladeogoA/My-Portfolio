@@ -10,66 +10,87 @@ import FamasiFour from "../assets/famasi-four.webp";
 import FamasiOne from "../assets/famasi-one.webp";
 import FamasiThree from "../assets/famasi-three.webp";
 import FamasiTwo from "../assets/famasi-two.webp";
-import PineLeapOne from "../assets/pineleap-one.webp";
-import PineLeapThree from "../assets/pineleap-three.webp";
-import PineLeapTwo from "../assets/pineleap-two.webp";
+import PineLeapGoal from "../assets/pineleap-goal.webp";
+import PineLeapDashboard from "../assets/pineleap-dashboard.webp";
+import PineLeapGoals from "../assets/pineleap-goals.webp";
+import PineLeapConversations from "../assets/pineleap-conversations.webp";
+import PineLeapMeetings from "../assets/pineleap-meetings.webp";
+import PineLeapActivity from "../assets/pineleap-activity.webp";
 import { Project } from "../types/project";
 
 export const data: Project[] = [
   {
     id: "01",
     title: "PineLeap",
-    subtitle: "B2B SaaS for Turning Conversations Into Action",
+    subtitle: "From Conversation to Outcome",
     shortDescription:
-      "A B2B SaaS platform that helps founders, investors and teams turn conversations into structured outcomes, from meetings and goals to actions and resources.",
+      "A B2B platform where a goal leads to actions, actions lead to conversations, and conversations lead to meetings and outcomes you can see.",
     description:
-      "PineLeap is a SaaS product built around turning conversations into useful, structured work. The platform brings together meetings, conversations, goals, actions, resources and user profiles, with supporting workflows for onboarding, permissions, billing and calendar integrations.",
+      "PineLeap starts with a goal, like securing pilot customers. Under it sit the actions that move the goal forward: a booking link, a document, a waitlist. Each action brings in conversations with the people who respond, and those turn into meetings and outcomes. Everything lands in one activity feed, so the team can see what happened and what is next.",
     constraints:
-      "The product has a wide range of interconnected workflows and permission levels. That means navigation, access control, loading and error states, destructive actions and incomplete data all need to behave predictably rather than leaving users to figure out what happened.",
+      "One product, many connected objects: goals, actions, conversations, meetings, events and resources. Each has its own states, and each one links to the others. Users needed to always know where they were, what a status meant, and what happened after they clicked.",
     contribution:
-      "I built PineLeap’s frontend from scratch, owning the frontend architecture and implementing the core product workflows. My work spans authentication, permissions, billing, calendars, onboarding, conversations, goals, actions, resources, profiles and the public visitor experience.",
+      "I built the frontend from scratch and owned its architecture. That covers sign-in, onboarding, the goal and action flows, conversations, meetings and bookings, resources, profiles and the public page a visitor sees when they book.",
     decisions:
-      "I focused on making complex workflows understandable through clear states and feedback. That included skeleton and loading states, useful empty and error states, explicit permission messaging, confirmations for destructive actions, and interaction patterns that work across different screen sizes rather than treating mobile as a smaller version of desktop.",
+      "Goals are the entry point, so the dashboard and the goals list lead with what is in progress rather than with menus. Drafts, live and archived items are labelled the same way everywhere. Every list has loading, empty and error states, destructive actions ask first, and layouts are designed for small screens instead of shrunk down from desktop.",
     technicalHighlights: [
-      "Built the frontend from scratch across 39 routes and 400+ component files",
-      "Implemented authentication, access control and role-based permissions",
-      "Built core workflows across meetings, conversations, goals, actions and resources",
-      "Implemented Stripe billing and subscription workflows",
-      "Integrated Google Calendar and Outlook calendar workflows",
-      "Built the public visitor experience and supporting profile workflows",
-      "Built reusable UI components, data-fetching patterns and application state management",
-      "Implemented loading, empty, error and graceful-degradation states across complex workflows",
-      "Worked with React, Next.js, TypeScript and Tailwind CSS",
+      "Built the frontend from scratch, from sign-in and onboarding to the public booking page",
+      "Modelled the goal, action, conversation and meeting loop so every screen links to the next step",
+      "Built the conversations table and meetings views, with bookings, calendar and templates",
+      "Designed one status language (draft, live, archived) used across goals, actions and meetings",
+      "Built loading, empty, error and permission states into every list and form",
+      "Implemented Stripe billing and Google and Outlook calendar connections",
+      "Set up shared UI components, data fetching and app state so new screens reuse the same patterns",
     ],
     techStack:
       "Next.js • React • TypeScript • Tailwind CSS • TanStack Query • Zustand • Framer Motion • React Hook Form • Zod • Stripe",
     assets: [
       {
         type: "image",
-        url: PineLeapOne,
-        width: 1512,
-        height: 1210,
-        alt: "PineLeap dashboard",
+        url: PineLeapGoal,
+        width: 1668,
+        height: 1014,
+        alt: "Goal page for Secure Pilot Customers, with its stats and ordered actions",
       },
       {
         type: "image",
-        url: PineLeapTwo,
-        width: 1512,
-        height: 982,
-        alt: "PineLeap meetings calendar",
+        url: PineLeapDashboard,
+        width: 1668,
+        height: 1014,
+        alt: "Dashboard with active goals, conversations, meetings and recent activity",
       },
       {
         type: "image",
-        url: PineLeapThree,
-        width: 1512,
-        height: 982,
-        alt: "PineLeap conversations list",
+        url: PineLeapGoals,
+        width: 1668,
+        height: 1014,
+        alt: "Goals list showing active, draft and archived goals",
+      },
+      {
+        type: "image",
+        url: PineLeapConversations,
+        width: 1668,
+        height: 1014,
+        alt: "Conversations table with stakeholder, event, goal and outcome",
+      },
+      {
+        type: "image",
+        url: PineLeapMeetings,
+        width: 1668,
+        height: 1014,
+        alt: "Meetings bookings list, with calendar, templates and availability tabs",
+      },
+      {
+        type: "image",
+        url: PineLeapActivity,
+        width: 1668,
+        height: 1014,
+        alt: "Activity feed of meetings booked, forms submitted and links clicked",
       },
     ],
     live: "",
     source: "",
-    duration: "Ongoing",
-    year: "2026",
+    period: "2026 – Present",
   },
   {
     id: "02",
@@ -131,8 +152,7 @@ export const data: Project[] = [
     appStoreUrl: "https://apps.apple.com/us/app/compre/id6746078785",
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=com.compre.compreapp",
-    duration: "Ongoing",
-    year: "2025",
+    period: "2024 – Present",
   },
   {
     id: "03",
@@ -193,8 +213,7 @@ export const data: Project[] = [
     appStoreUrl: "https://apps.apple.com/us/app/famasi/id6473138815",
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=com.famasi.app",
-    duration: "2025 - Feb 2026",
-    year: "2025 - 2026",
+    period: "2025 – 2026",
   },
   {
     id: "04",
@@ -256,8 +275,7 @@ export const data: Project[] = [
       "https://apps.apple.com/us/app/dispensaryos-by-famasi/id6748520071",
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=com.dispensarypos",
-    duration: "2025 - Feb 2026",
-    year: "2025 - 2026",
+    period: "2025 – 2026",
   },
   {
     id: "05",
@@ -284,21 +302,21 @@ export const data: Project[] = [
     assets: [
       {
         type: "image",
-        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088036/octodoc-two_wfkbvr.jpg",
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/f_auto,q_auto,w_1200/v1761088036/octodoc-two_wfkbvr.jpg",
         width: 900,
         height: 690,
         alt: "Octodoc mobile app screens",
       },
       {
         type: "image",
-        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088033/octodoc-one_mhfuhr.png",
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/f_auto,q_auto,w_1200/v1761088033/octodoc-one_mhfuhr.png",
         width: 900,
         height: 702,
         alt: "Octodoc mobile app",
       },
       {
         type: "image",
-        url: "https://res.cloudinary.com/dp1067dhj/image/upload/v1761088021/marketplace-four_fmwlpn.png",
+        url: "https://res.cloudinary.com/dp1067dhj/image/upload/f_auto,q_auto,w_1200/v1761088021/marketplace-four_fmwlpn.png",
         width: 900,
         height: 702,
         alt: "Octodoc health plans website",
@@ -309,7 +327,6 @@ export const data: Project[] = [
     appStoreUrl: "https://apps.apple.com/us/app/octodoc/id1606125098",
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=ai.octosoft.octodoc",
-    duration: "18 months",
-    year: "2023",
+    period: "2023 – 2025",
   },
 ];

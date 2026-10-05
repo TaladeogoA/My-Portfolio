@@ -12,6 +12,7 @@ interface MetaTagsProps {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
+  noindex?: boolean;
 }
 
 export const MetaTags: React.FC<MetaTagsProps> = ({
@@ -23,6 +24,7 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
   publishedTime,
   modifiedTime,
   author = "Taladeogo Abraham",
+  noindex = false,
 }) => {
   const location = useLocation();
   const canonicalUrl = url || `${SITE_URL}${location.pathname}`;
@@ -33,6 +35,7 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="author" content={author} />
+      {noindex && <meta name="robots" content="noindex" />}
 
       <meta property="og:type" content={type} />
       <meta property="og:title" content={title} />
@@ -55,8 +58,6 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       <meta name="twitter:image" content={imageUrl} />
       <meta name="twitter:creator" content="@taladeogo" />
 
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta charSet="utf-8" />
       <link rel="canonical" href={canonicalUrl} />
     </Helmet>
   );

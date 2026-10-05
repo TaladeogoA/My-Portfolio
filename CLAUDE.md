@@ -43,7 +43,8 @@ Without them the site still runs, but submitting the form shows the error state.
 - `hooks/useNavPadding.ts` sets the main content's left and right padding to fit those strips (multiples of `NAV_WIDTH = 50`).
 - On mobile (≤992px), a fixed 60px bottom bar replaces the strips.
 - **Adding a top-level page requires updating `NAV_ORDER`, `useNavPadding`, and `AppRoutes` together.**
-- Gotcha: `NAV_ORDER` and `useNavPadding` match the exact pathname. Nested paths such as `/work/01` fall back to the Home ordering and padding.
+- `getNavPath` reduces nested paths such as `/work/01` to their top-level path, so `NAV_ORDER` and `useNavPadding` work for them.
+- Nav items are real `NavLink`s (no `preventDefault`). `PageLayout` resets scroll and focuses `<main id="main-content">` on top-level route change and renders a skip link.
 
 **Work page:**
 
@@ -52,9 +53,10 @@ Without them the site still runs, but submitting the form shows the error state.
 - Images are imported from `src/assets/*.webp` so webpack bundles them.
 - The first three `technicalHighlights` are always shown; the rest appear behind "Read Full Case Study".
 - `live`, `appStoreUrl`, and `playStoreUrl` are optional and render icon links only when set.
+- The selector is a list of real links on desktop (`/work/:id`) and an `aria-expanded` accordion on mobile. Screenshots on mobile use the scroll-snap `ProjectGallery` (react-slick is no longer imported). `ImageModal` is a portal dialog with focus handling.
 - Layout switches at 1200px:
   - Desktop is a three-column grid: `ProjectList`, `ProjectDetails`, and `ProjectImages`. Clicking an image in `ProjectImages` opens `ImageModal`.
-  - Mobile is an accordion: `ProjectList` expands `ProjectDetails` inline with `isMobileExpanded`, using a `react-slick` carousel.
+  - Mobile is an accordion: `ProjectList` expands `ProjectDetails` inline with `isMobileExpanded`, using the scroll-snap `ProjectGallery`.
 
 **SEO:** each page renders `<MetaTags>` (`components/SEO/MetaTags.tsx`, built on react-helmet-async) with its own title and description. `SITE_URL` and the default OG and Twitter values are defined there. `public/index.html` holds the static fallback title and description.
 

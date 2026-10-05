@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useCallback } from "react";
-import { NavLink as Link, useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { NavLink as Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Logo from "../../assets/logo.png";
 
@@ -13,51 +13,44 @@ export const NAV_ORDER = {
 
 export const getNavPath = (pathname: string) => `/${pathname.split("/")[1]}`;
 
-interface NavLinkStyleProps {
-  $order: number;
-  $currentOrder: number;
-}
+const NAV_LABELS: Record<string, string> = {
+  "/": "Home",
+  "/about": "About",
+  "/work": "Work",
+  "/contact": "Contact",
+};
+
+const slideVariants = {
+  initial: (direction: "left" | "right" | null) => ({
+    x: direction === "right" ? "100%" : "-100%",
+    opacity: 0,
+  }),
+  animate: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.45,
+      ease: [0.645, 0.045, 0.355, 1],
+      delay: 0.15,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeOut",
+    },
+  },
+};
 
 const NavBar: React.FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const navPath = getNavPath(location.pathname);
   const currentOrder = NAV_ORDER[navPath as keyof typeof NAV_ORDER] || 1;
 
-  const handleNavigation = useCallback(
-    (to: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      navigate(to);
-    },
-    [navigate]
-  );
-
-  const slideVariants = {
-    initial: (direction: "left" | "right" | null) => ({
-      x: direction === "right" ? "100%" : "-100%",
-      opacity: 0,
-    }),
-    animate: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.645, 0.045, 0.355, 1],
-        delay: 0.3,
-      },
-    },
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        ease: "easeOut",
-      },
-    },
-  };
-
   return (
     <>
-      <Navigation>
+      <Navigation aria-label="Primary">
         <LeftNav>
           <AnimatePresence mode="popLayout">
             {Object.entries(NAV_ORDER)
@@ -67,17 +60,17 @@ const NavBar: React.FC = () => {
                 <NavLink
                   key={path}
                   to={path}
-                  onClick={handleNavigation(path)}
-                  $order={order}
-                  $currentOrder={currentOrder}
+                  aria-label={NAV_LABELS[path]}
                   custom="left"
                   variants={slideVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
                 >
-                  <h5>{`00${order}`}</h5>
-                  <h3>{path.slice(1)}</h3>
+                  <span className="num" aria-hidden="true">{`00${order}`}</span>
+                  <span className="label" aria-hidden="true">
+                    {path.slice(1)}
+                  </span>
                 </NavLink>
               ))}
           </AnimatePresence>
@@ -92,9 +85,7 @@ const NavBar: React.FC = () => {
                 <NavLink
                   key={path}
                   to={path}
-                  onClick={handleNavigation(path)}
-                  $order={order}
-                  $currentOrder={currentOrder}
+                  aria-label={NAV_LABELS[path]}
                   className={navPath === path ? "active" : ""}
                   custom="right"
                   variants={slideVariants}
@@ -102,11 +93,13 @@ const NavBar: React.FC = () => {
                   animate="animate"
                   exit="exit"
                 >
-                  <h5>{`00${order}`}</h5>
+                  <span className="num" aria-hidden="true">{`00${order}`}</span>
                   {path === "/" ? (
-                    <img className="logo" src={Logo} alt="Logo" />
+                    <img className="logo" src={Logo} alt="" />
                   ) : (
-                    <h3>{path.slice(1)}</h3>
+                    <span className="label" aria-hidden="true">
+                      {path.slice(1)}
+                    </span>
                   )}
                 </NavLink>
               ))}
@@ -114,15 +107,10 @@ const NavBar: React.FC = () => {
         </RightNav>
       </Navigation>
 
-      <MobileNav>
-        {Object.entries(NAV_ORDER).map(([path, order]) => (
-          <MobileLink
-            key={path}
-            to={path}
-            onClick={handleNavigation(path)}
-            $isActive={navPath === path}
-          >
-            <p className="text">{path === "/" ? "Home" : path.slice(1)}</p>
+      <MobileNav aria-label="Primary">
+        {Object.entries(NAV_ORDER).map(([path]) => (
+          <MobileLink key={path} to={path} end={path === "/"}>
+            {NAV_LABELS[path]}
           </MobileLink>
         ))}
       </MobileNav>
@@ -130,11 +118,12 @@ const NavBar: React.FC = () => {
   );
 };
 
-const Navigation = styled.div`
+const Navigation = styled.nav`
   position: fixed;
   top: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   pointer-events: none;
   z-index: 100;
   font-family: "Kodchasan", sans-serif;
@@ -144,7 +133,7 @@ const Navigation = styled.div`
   }
 `;
 
-const NavSection = styled.nav`
+const NavSection = styled.div`
   position: absolute;
   top: 0;
   height: 100%;
@@ -161,7 +150,7 @@ const RightNav = styled(NavSection)`
   border-left: 1px solid #000;
 `;
 
-const NavLink = styled(motion(Link))<NavLinkStyleProps>`
+const NavLink = styled(motion(Link))`
   height: 100%;
   width: 50px;
   border-right: 1px solid #000;
@@ -176,15 +165,22 @@ const NavLink = styled(motion(Link))<NavLinkStyleProps>`
   cursor: pointer;
   transition: background-color 0.3s ease 0.2s, color 0.3s ease 0.2s;
 
-  h3,
-  h5,
+  .num,
+  .label,
   .logo {
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
   }
 
-  h5 {
+  .num {
+    font-size: 0.83rem;
+    font-weight: 700;
     letter-spacing: 3px;
+  }
+
+  .label {
+    font-size: 1rem;
+    font-weight: 700;
   }
 
   .logo {
@@ -193,12 +189,19 @@ const NavLink = styled(motion(Link))<NavLinkStyleProps>`
       filter 0.3s ease 0.2s;
   }
 
-  &:hover {
-    h3,
-    h5,
-    .logo {
-      transform: translate3d(0, -1rem, 0);
+  @media (hover: hover) {
+    &:hover {
+      .num,
+      .label,
+      .logo {
+        transform: translate3d(0, -1rem, 0);
+      }
     }
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -8px;
   }
 
   &.active {
@@ -216,33 +219,35 @@ const MobileNav = styled.nav`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60px;
-  background: white;
-  border-top: 1px solid black;
+  height: calc(60px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #F8F7F4;
+  border-top: 1px solid #000;
   z-index: 100;
   font-family: "Kodchasan", sans-serif;
 
   @media screen and (max-width: 992px) {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    padding: 0 1rem;
   }
 `;
 
-const MobileLink = styled(Link)<{ $isActive?: boolean }>`
-  text-decoration: none;
-  color: black;
-  text-decoration: ${({ $isActive }) => ($isActive ? "underline" : "none")};
-  padding: 0.5rem 1rem;
-  border-radius: 2px;
+const MobileLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 1rem;
+  color: #000;
   font-size: 1rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  text-decoration: none;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1px;
 
-  .text {
-    margin: 0;
-    text-transform: capitalize;
+  &[aria-current="page"] {
+    text-decoration: underline;
   }
 `;
 

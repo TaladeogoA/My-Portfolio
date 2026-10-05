@@ -10,21 +10,16 @@ const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
   const key = getNavPath(useLocation().pathname);
 
   return (
-    <>
-      <AnimatePresence mode="wait">
-        <PageContent
-          key={`content-${key}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            duration: 0.3,
-          }}
-        >
-          {children}
-        </PageContent>
-      </AnimatePresence>
-    </>
+    <AnimatePresence mode="wait">
+      <PageContent
+        key={`content-${key}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.25 } }}
+        exit={{ opacity: 0, transition: { duration: 0.15 } }}
+      >
+        {children}
+      </PageContent>
+    </AnimatePresence>
   );
 };
 

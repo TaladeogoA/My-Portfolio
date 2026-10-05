@@ -22,6 +22,7 @@ const ContactForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setStatus("idle");
 
     const timestamp = new Date().toLocaleString("en-US", {
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -58,6 +59,7 @@ const ContactForm: React.FC = () => {
         <Input
           id="name"
           type="text"
+          autoComplete="name"
           value={formData.name}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, name: e.target.value }))
@@ -71,6 +73,7 @@ const ContactForm: React.FC = () => {
         <Input
           id="email"
           type="email"
+          autoComplete="email"
           value={formData.email}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, email: e.target.value }))
@@ -92,16 +95,25 @@ const ContactForm: React.FC = () => {
         />
       </FormGroup>
 
-      <Button type="submit" variant="primary" disabled={isLoading}>
-        {isLoading ? "Sending..." : "Send Message"}
-      </Button>
+      <Actions>
+        <Button type="submit" variant="primary" disabled={isLoading}>
+          {isLoading ? "Sending..." : "Send Message"}
+        </Button>
+      </Actions>
 
-      {status === "success" && (
-        <Text $color="green">Message sent successfully!</Text>
-      )}
-      {status === "error" && (
-        <Text $color="red">Failed to send message. Please try again.</Text>
-      )}
+      <div role="status" aria-live="polite">
+        {status === "success" && (
+          <Text $color="#1a6b2f" $margin="0">
+            Message sent successfully!
+          </Text>
+        )}
+        {status === "error" && (
+          <Text $color="#b00020" $margin="0">
+            Failed to send message. Please try again, or email me directly at
+            ataladeogo@gmail.com.
+          </Text>
+        )}
+      </div>
     </Form>
   );
 };
@@ -116,6 +128,10 @@ const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+`;
+
+const Actions = styled.div`
+  display: flex;
 `;
 
 const Label = styled.label`
@@ -134,7 +150,8 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #333;
+    background: rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 0 0 #000;
   }
 `;
 
@@ -151,7 +168,8 @@ const TextArea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: #333;
+    background: rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 0 0 #000;
   }
 `;
 

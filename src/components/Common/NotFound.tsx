@@ -6,6 +6,7 @@ import { MetaTags } from "../SEO/MetaTags";
 const NotFound: React.FC = () => (
   <>
     <MetaTags
+      noindex
       title="404 | Page Not Found | Talade"
       description="The page you're looking for doesn't exist. Let's get you back on track."
     />

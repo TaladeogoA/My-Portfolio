@@ -28,3 +28,13 @@ declare module "*.svg" {
 }
 
 declare module "*.css";
+
+declare module "*.pdf" {
+  const src: string;
+  export default src;
+}
+
+declare module "*.m4a" {
+  const src: string;
+  export default src;
+}

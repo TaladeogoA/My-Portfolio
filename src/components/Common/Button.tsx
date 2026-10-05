@@ -26,7 +26,7 @@ const baseButtonStyles = css<ButtonProps>`
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   font-family: inherit;
   width: ${({ $width }) => $width || "auto"};
-  height: ${({ $height }) => $height || "40px"};
+  height: ${({ $height }) => $height || "44px"};
   padding: ${({ $padding }) => $padding || "0 2rem"};
   font-size: ${({ $fontSize }) => $fontSize || "1.2rem"};
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
@@ -36,9 +36,9 @@ const baseButtonStyles = css<ButtonProps>`
   will-change: transform;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+  &:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 3px;
   }
 
   &:active:not(:disabled) {
@@ -68,15 +68,8 @@ const primaryStyles = css<ButtonProps>`
   border: 1px solid black;
 
   &:hover:not(:disabled) {
-    background-color: white;
+    background-color: #f8f7f4;
     color: black;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: none;
   }
 `;
 
@@ -89,13 +82,6 @@ const secondaryStyles = css<ButtonProps>`
   &:hover:not(:disabled) {
     background-color: black;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: none;
   }
 `;
 

@@ -1,46 +1,69 @@
 import gsap from "gsap";
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useLayoutEffect, useRef, useState } from "react";
+import SplitType from "split-type";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.webp";
-import { animateText } from "../../utils/Animation";
 import { MetaTags } from "../SEO/MetaTags";
 
 const Home = () => {
-  const textRefs = useRef([]);
-  const timeline = useRef(gsap.timeline());
-  const imageRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lineOneRef = useRef<HTMLSpanElement>(null);
+  const lineTwoRef = useRef<HTMLSpanElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const img = imageRef.current;
     if (img?.complete && img.naturalWidth > 0) {
       setImageLoaded(true);
     }
   }, []);
 
-  useEffect(() => {
-    const textElements = textRefs.current;
-    const tl = timeline.current;
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-    tl.clear();
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const splits: SplitType[] = [];
 
-    gsap.set(".new-text", { opacity: 0 });
+    const ctx = gsap.context(() => {
+      if (reduceMotion) {
+        gsap.set(".reveal", { opacity: 1 });
+        return;
+      }
 
-    textElements.forEach((element) => {
-      tl.add(animateText(element));
-    });
+      gsap.set(".reveal", { opacity: 0 });
+      const tl = gsap.timeline();
 
-    tl.to(
-      ".new-text",
-      {
-        opacity: 1,
-        duration: 0.7,
-      },
-      ">"
-    );
+      [lineOneRef.current, lineTwoRef.current].forEach((line, index) => {
+        if (!line) return;
+        const split = new SplitType(line, {
+          types: ["chars", "words"],
+        });
+        splits.push(split);
+        tl.fromTo(
+          split.chars ?? [],
+          { x: 100, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.3,
+            stagger: 0.04,
+            ease: "power4.out",
+          },
+          index * 0.35
+        );
+      });
 
-    tl.play();
+      tl.to(".reveal", { opacity: 1, duration: 0.5, ease: "power1.out" }, 0.5);
+    }, container);
+
+    return () => {
+      ctx.revert();
+      splits.forEach((split) => split.revert());
+    };
   }, []);
 
   return (
@@ -49,47 +72,37 @@ const Home = () => {
         title="Talade | Product Engineer"
         description="Product engineer making complex workflows feel simple across web and mobile."
       />
-      <MainContainer>
+      <MainContainer ref={containerRef}>
         <ContentContainer>
           <HomeText>
-            <Block
-              className="text-block"
-              ref={(el) => (textRefs.current[0] = el)}
-            >
-              <Text className="h1">Hi, I'm</Text>
-            </Block>
+            <Heading aria-label="Hi, I'm Talade.">
+              <Line ref={lineOneRef}>Hi, I'm</Line>
+              <Line ref={lineTwoRef}>Talade.</Line>
+            </Heading>
+            <Pronunciation className="reveal">
+              (Taládéògo if you're feeling brave.)
+            </Pronunciation>
 
-            <Block className="text-block">
-              <Text className="h1" ref={(el) => (textRefs.current[1] = el)}>
-                Talade.
-              </Text>
-              <Text className="p new-text">
-                (Taládéògo if you're feeling brave.)
-              </Text>
-            </Block>
+            <Tagline className="reveal">
+              Product engineer making complex workflows feel simple, across web
+              and mobile.
+            </Tagline>
 
-            <h2 className="new-text">
-              Product engineer making complex workflows feel simple, <br />{" "}
-              across web and mobile.
-            </h2>
-            <WorkLink className="new-text" to="/work/01">
-              Selected work <span>↗</span>
-            </WorkLink>
           </HomeText>
 
           <HomeImgContainer>
             <HomeImg
               ref={imageRef}
               src={FloatingTalade}
-              alt="Avatar version of me floating"
+              alt="Illustration of Talade floating"
               width={800}
-              height={877}
-              fetchpriority="high"
+              height={879}
+              {...{ fetchpriority: "high" }}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageLoaded(true)}
               $loaded={imageLoaded}
             />
-            <ShadowOverlay $loaded={imageLoaded} />
+            <ShadowOverlay $loaded={imageLoaded} aria-hidden="true" />
           </HomeImgContainer>
         </ContentContainer>
       </MainContainer>
@@ -102,6 +115,7 @@ export default Home;
 const MainContainer = styled.div`
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   font-family: "Kodchasan", sans-serif;
 `;
@@ -113,6 +127,7 @@ const ContentContainer = styled.div`
   width: min(90%, 1400px);
   margin: 0 auto;
   min-height: 100vh;
+  min-height: 100dvh;
   gap: clamp(2rem, 5vw, 5rem);
   padding: clamp(1rem, 3vw, 3rem);
 
@@ -132,76 +147,45 @@ const HomeText = styled.div`
   flex: 1;
   max-width: 600px;
 
-  h2 {
-    font-size: clamp(1rem, 1.2vw, 1.2rem);
-    margin-top: clamp(1rem, 2vw, 1.5rem);
-    font-weight: 400;
-    line-height: 1.4;
-  }
-
-  a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: clamp(1.5rem, 3vw, 2.25rem);
-  }
-
-  span {
-    font-size: clamp(0.875rem, 1vw, 1rem);
-  }
-
   @media (max-width: 767px) {
     text-align: center;
     max-width: 100%;
   }
 `;
 
-const Block = styled.div``;
-
-const Text = styled.div`
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
+const Heading = styled.h1`
   font-weight: 400;
+`;
 
-  &.h1 {
-    text-transform: uppercase;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 400;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    line-height: 1.1;
-  }
-
-  &.p {
-    font-size: clamp(1rem, 1.2vw, 1.2rem);
-    font-weight: 400;
-    margin-top: 0.5rem;
-  }
+const Line = styled.span`
+  display: block;
+  text-transform: uppercase;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 400;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  line-height: 1.1;
 
   @media (max-width: 767px) {
-    &.h1 {
-      font-size: 3rem;
-    }
-
-    &.p {
-      font-size: 1rem;
-    }
+    font-size: 3rem;
   }
 `;
 
-const WorkLink = styled(Link)`
-  color: inherit;
-  font-size: clamp(0.875rem, 1vw, 1rem);
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-  padding-bottom: 0.25rem;
-  width: fit-content;
+const Pronunciation = styled.p`
+  margin-top: 0.5rem;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  font-weight: 400;
+`;
 
-  span {
-    font-size: inherit;
-    transition: transform 0.2s ease;
-  }
+const Tagline = styled.h2`
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  max-width: 28em;
+  font-size: clamp(1.0625rem, 1.5vw, 1.375rem);
+  font-weight: 400;
+  line-height: 1.4;
+  text-wrap: balance;
 
-  &:hover span {
-    transform: translate(0.2rem, -0.2rem);
+  @media (max-width: 767px) {
+    margin-inline: auto;
   }
 `;
 
@@ -215,7 +199,7 @@ const HomeImgContainer = styled.div`
   }
 `;
 
-const HomeImg = styled.img`
+const HomeImg = styled.img<{ $loaded: boolean }>`
   width: 100%;
   height: auto;
   will-change: transform;
@@ -238,7 +222,7 @@ const HomeImg = styled.img`
   }
 `;
 
-const ShadowOverlay = styled.div`
+const ShadowOverlay = styled.div<{ $loaded: boolean }>`
   width: 80%;
   margin-inline: auto;
   height: clamp(1rem, 1.5vw, 1.5rem);

@@ -1,246 +1,119 @@
-import { AnimatePresence, motion } from "framer-motion";
-import React, { memo, useState } from "react";
+import { motion } from "framer-motion";
+import React, { memo } from "react";
 import { FaAndroid, FaApple, FaGlobe } from "react-icons/fa";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Asset, ProjectDetailsProps } from "../../types/project";
-import { H1, H2, Text } from "../Common/Typography";
-import { OptimizedImage } from "./OptimizedImage";
+import { Project, ProjectDetailsProps } from "../../types/project";
+import { VisuallyHidden } from "../Common/VisuallyHidden";
+import ProjectGallery from "./ProjectGallery";
+
+interface ExternalLinkProps {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}
+
+const ExternalLink: React.FC<ExternalLinkProps> = ({
+  href,
+  label,
+  children,
+}) => (
+  <ExternalAnchor href={href} target="_blank" rel="noopener noreferrer">
+    {children}
+    <span>{label}</span>
+    <VisuallyHidden> (opens in a new tab)</VisuallyHidden>
+  </ExternalAnchor>
+);
+
+const ProjectLinks: React.FC<{ project: Project }> = ({ project }) => {
+  if (!project.live && !project.appStoreUrl && !project.playStoreUrl) {
+    return null;
+  }
+
+  return (
+    <LinksRow>
+      {project.live && (
+        <ExternalLink href={project.live} label="Website">
+          <FaGlobe size={14} aria-hidden="true" />
+        </ExternalLink>
+      )}
+      {project.appStoreUrl && (
+        <ExternalLink href={project.appStoreUrl} label="App Store">
+          <FaApple size={16} aria-hidden="true" />
+        </ExternalLink>
+      )}
+      {project.playStoreUrl && (
+        <ExternalLink href={project.playStoreUrl} label="Google Play">
+          <FaAndroid size={16} aria-hidden="true" />
+        </ExternalLink>
+      )}
+    </LinksRow>
+  );
+};
+
+const NextProject: React.FC<{ project: Project }> = ({ project }) => (
+  <NextLink to={`/work/${project.id}`} replace>
+    <span className="eyebrow">Next project</span>
+    <span className="name">
+      {project.title} <span aria-hidden="true">→</span>
+    </span>
+  </NextLink>
+);
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
-  ({ project, isMobileExpanded }) => {
-    const [showFullDetails, setShowFullDetails] = useState(false);
-    const isMobile = window.innerWidth < 1200;
+  ({ project, isMobileExpanded, nextProject }) => {
+    const highlights = project.technicalHighlights.slice(0, 3);
 
-    const carouselSettings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: isMobile ? 1 : 2,
-      slidesToScroll: 1,
-      arrows: !isMobile,
-      autoplay: false,
-      responsive: [
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 1,
-            arrows: false,
-          },
-        },
-        {
-          breakpoint: 1200,
-          settings: {
-            slidesToShow: 2,
-          },
-        },
-      ],
-    };
+    const summary = (
+      <>
+        <Lede>{project.shortDescription}</Lede>
 
-    const AssetSlide = ({ asset }: { asset: Asset }) => {
-      if (asset.type === "video") {
-        return (
-          <VideoWrapper>
-            <video autoPlay muted loop playsInline src={asset.url} />
-          </VideoWrapper>
-        );
-      }
+        <Facts>
+          <div>
+            <dt>Built with</dt>
+            <dd>{project.techStack}</dd>
+          </div>
+        </Facts>
 
-      return (
-        <ImageSlide>
-          <OptimizedImage
-            src={asset.url}
-            alt={asset.alt ?? `${project.title} project image`}
-            width={asset.width}
-            height={asset.height}
-            fit="contain"
-          />
-        </ImageSlide>
-      );
-    };
-
-    const ImageCarousel = () => (
-      <CarouselWrapper>
-        <Slider {...carouselSettings}>
-          {project.assets.map((asset, index) => (
-            <AssetSlide key={index} asset={asset} />
+        <Highlights aria-label="What I built">
+          {highlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
           ))}
-        </Slider>
-      </CarouselWrapper>
-    );
+        </Highlights>
 
-    const hasAssets = project.assets.length > 0;
-    const hasLinks = Boolean(
-      project.live || project.appStoreUrl || project.playStoreUrl
-    );
+        <ProjectLinks project={project} />
 
-    const topHighlights = project.technicalHighlights.slice(0, 3);
-    const remainingHighlights = project.technicalHighlights.slice(3);
-
-    const caseStudy = (
-      <CaseStudy>
-        <Section>
-          <SectionTitle>Context & problem</SectionTitle>
-          <Text>{project.description}</Text>
-        </Section>
-
-        <Section>
-          <SectionTitle>Constraints</SectionTitle>
-          <Text>{project.constraints}</Text>
-        </Section>
-
-        <Section>
-          <SectionTitle>Ownership</SectionTitle>
-          <Text>{project.contribution}</Text>
-        </Section>
-
-        <Section>
-          <SectionTitle>Key decisions</SectionTitle>
-          <Text>{project.decisions}</Text>
-        </Section>
-
-        <Section>
-          <SectionTitle>Technical Highlights</SectionTitle>
-          <HighlightsList>
-            {project.technicalHighlights.map((highlight, index) => (
-              <li key={index}>
-                <Text>{highlight}</Text>
-              </li>
-            ))}
-          </HighlightsList>
-        </Section>
-
-        <Section>
-          <SectionTitle>Built with</SectionTitle>
-          <Text>{project.techStack}</Text>
-        </Section>
-      </CaseStudy>
-    );
-
-    const AvailabilityRow = () => (
-      <AvailabilityContainer>
-        {project.live && (
-          <IconLink
-            href={project.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit Website"
-            title="Visit Website"
-          >
-            <FaGlobe size={18} />
-          </IconLink>
-        )}
-        {project.appStoreUrl && (
-          <IconLink
-            href={project.appStoreUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View on App Store"
-            title="View on App Store"
-          >
-            <FaApple size={20} />
-          </IconLink>
-        )}
-        {project.playStoreUrl && (
-          <IconLink
-            href={project.playStoreUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View on Play Store"
-            title="View on Play Store"
-          >
-            <FaAndroid size={20} />
-          </IconLink>
-        )}
-      </AvailabilityContainer>
+        {nextProject && <NextProject project={nextProject} />}
+      </>
     );
 
     if (isMobileExpanded) {
       return (
         <MobileExpandedContent>
-          {hasAssets && <ImageCarousel />}
-
-          <ContentSection>
-            <Section>
-              <Text>{project.shortDescription}</Text>
-            </Section>
-
-            {hasLinks && <AvailabilityRow />}
-
-            <AnimatePresence>
-              {showFullDetails && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  {caseStudy}
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <ExpandButton onClick={() => setShowFullDetails(!showFullDetails)}>
-              <Text>
-                {showFullDetails ? "Show Less ↑" : "Read Full Case Study ↓"}
-              </Text>
-            </ExpandButton>
-          </ContentSection>
+          {project.assets.length > 0 && (
+            <GalleryWrap>
+              <ProjectGallery assets={project.assets} label={project.title} />
+            </GalleryWrap>
+          )}
+          <ContentSection>{summary}</ContentSection>
         </MobileExpandedContent>
       );
     }
 
     return (
       <Container>
-        <Content>
-          {isMobile && hasAssets && <ImageCarousel />}
-
+        <Content
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
           <ContentSection>
-            <H1>{project.subtitle}</H1>
-
-            <Section>
-              <Text>{project.shortDescription}</Text>
-            </Section>
-
-            {hasLinks && <AvailabilityRow />}
-
-            <Section>
-              <SectionTitle>Key Contributions</SectionTitle>
-              <HighlightsList>
-                {topHighlights.map((highlight, index) => (
-                  <li key={index}>
-                    <Text>{highlight}</Text>
-                  </li>
-                ))}
-              </HighlightsList>
-
-              <ExpandButton onClick={() => setShowFullDetails(!showFullDetails)}>
-                <Text>
-                  {showFullDetails
-                    ? "Show Less ↑"
-                    : `Read Full Case Study ${
-                        remainingHighlights.length > 0
-                          ? `(+${remainingHighlights.length} more highlights)`
-                          : ""
-                      } ↓`}
-                </Text>
-              </ExpandButton>
-            </Section>
-
-            <AnimatePresence>
-              {showFullDetails && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  {caseStudy}
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <Eyebrow>
+              <span>{project.id}</span>
+              <span>{project.title}</span>
+            </Eyebrow>
+            <Title>{project.subtitle}</Title>
+            {summary}
           </ContentSection>
         </Content>
       </Container>
@@ -248,57 +121,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = memo(
   }
 );
 
-const CarouselWrapper = styled.div`
-  .slick-slider {
-    margin-bottom: 2.5rem;
-  }
+ProjectDetails.displayName = "ProjectDetails";
 
-  .slick-dots {
-    bottom: -25px;
-  }
-
-  .slick-prev,
-  .slick-next {
-    z-index: 1;
-    &:before {
-      color: black;
-    }
-  }
-
-  .slick-prev {
-    left: 10px;
-  }
-
-  .slick-next {
-    right: 10px;
-  }
-
-  @media (max-width: 768px) {
-    margin: 0 -1rem;
-  }
-`;
-
-const ImageSlide = styled.div`
-  padding: 0 0.5rem;
-  width: 100%;
-  max-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const GalleryWrap = styled.div`
+  padding-top: 1.25rem;
 `;
 
 const MobileExpandedContent = styled.div`
   padding-bottom: 2rem;
-`;
-
-const VideoWrapper = styled.div`
-  padding: 0 0.5rem;
-
-  video {
-    width: 100%;
-    height: 40vh;
-    object-fit: cover;
-  }
 `;
 
 const Container = styled.div`
@@ -307,24 +137,15 @@ const Container = styled.div`
   scrollbar-width: none;
   -ms-overflow-style: none;
   background: #f8f7f4;
+  box-shadow: inset 1px 0 0 #000;
 
   &::-webkit-scrollbar {
     display: none;
   }
-
-  @media (max-width: 1200px) {
-    height: calc(100vh - 60px);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
 `;
 
 const ContentBase = styled.div`
-  padding: 2.5rem;
-  height: 100%;
-
-  @media (max-width: 1200px) {
-    padding: 0;
-  }
+  padding: 2.5rem 2.5rem 1rem;
 `;
 
 const Content = motion(ContentBase);
@@ -334,103 +155,156 @@ const ContentSection = styled.div`
   max-width: 640px;
 
   @media (max-width: 768px) {
-    padding: 0 1rem;
+    padding: 1.5rem 1rem 0;
     max-width: 100%;
   }
 `;
 
-const Section = styled.div`
-  margin: 2.5rem 0;
-
-  &:last-child {
-    padding-bottom: 2rem;
-  }
-
-  ${Text} {
-    line-height: 1.7;
-    color: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-const CaseStudy = styled.div`
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-
-  ${Text} {
-    font-size: 1rem;
-  }
-`;
-
-const SectionTitle = styled(H2)`
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1rem;
-  opacity: 0.6;
-`;
-
-const HighlightsList = styled.ul`
-  padding-left: 1.25rem;
-  margin: 0;
-
-  li {
-    margin-bottom: 0.875rem;
-    line-height: 1.6;
-
-    &::marker {
-      color: rgba(0, 0, 0, 0.3);
-    }
-
-    ${Text} {
-      display: inline;
-    }
-  }
-`;
-
-const AvailabilityContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  margin: 1rem 0 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+const Title = styled.h2`
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+  text-wrap: balance;
 
   @media (max-width: 768px) {
-    gap: 1.5rem;
-    margin: 1.5rem 0;
+    font-size: 1.5rem;
   }
 `;
 
-const IconLink = styled.a`
-  color: black;
-  opacity: 0.4;
-  transition: all 0.2s ease;
+const Lede = styled.p`
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: rgba(0, 0, 0, 0.82);
+  margin: 0 0 2rem;
+  text-wrap: pretty;
+`;
+
+const Facts = styled.dl`
+  margin: 0 0 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+  > div {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 1rem;
+    padding: 0.875rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  dt {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.66);
+    padding-top: 0.125rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.82);
+  }
+`;
+
+const Highlights = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.82);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 0.5rem;
+      height: 1px;
+      background: #000;
+    }
+  }
+`;
+
+const Eyebrow = styled.p`
   display: flex;
-  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.66);
 
-  &:hover {
-    opacity: 1;
-    transform: translateY(-1px);
+  span:first-child {
+    font-variant-numeric: tabular-nums;
   }
 `;
 
-const ExpandButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.75rem 0;
-  margin-top: 1.5rem;
-  display: block;
+const LinksRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  margin: 1.5rem 0 0;
+`;
 
-  ${Text} {
-    font-size: 0.875rem;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
+const ExternalAnchor = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  font-size: 0.9375rem;
+  color: #000;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-underline-offset 0.2s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      text-underline-offset: 6px;
+    }
+  }
+`;
+
+const NextLink = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 1rem 0 2rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid #000;
+  color: #000;
+  text-decoration: none;
+
+  .eyebrow {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.66);
   }
 
-  &:hover ${Text} {
-    opacity: 1;
+  .name {
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    span {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover .name span {
+      transform: translateX(0.25rem);
+    }
   }
 `;
 

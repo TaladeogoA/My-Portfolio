@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { Asset, ProjectImagesProps } from "../../types/project";
 import ImageModal from "./ImageModal";
@@ -6,46 +6,54 @@ import { OptimizedImage } from "./OptimizedImage";
 
 const ProjectImages: React.FC<ProjectImagesProps> = ({ project }) => {
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
-
-  const handleAssetClick = (asset: Asset) => {
-    setSelectedAsset(asset);
-  };
+  const handleClose = useCallback(() => setSelectedAsset(null), []);
 
   return (
     <Container>
-      {project.assets.map((asset, index) => (
-        <React.Fragment key={`${project.id}-${index}`}>
-          <AssetContainer onClick={() => handleAssetClick(asset)}>
+      {project.assets.map((asset, index) => {
+        const alt = asset.alt ?? `${project.title} view ${index + 1}`;
+
+        return (
+          <AssetButton
+            key={`${project.id}-${index}`}
+            type="button"
+            onClick={() => setSelectedAsset(asset)}
+            aria-label={`View larger: ${alt}`}
+          >
             {asset.type === "video" ? (
               <ProjectVideo autoPlay muted loop playsInline src={asset.url} />
             ) : (
               <ResponsiveImage
                 src={asset.url}
-                alt={asset.alt ?? `${project.title} view ${index + 1}`}
+                alt=""
                 width={asset.width}
                 height={asset.height}
                 loading={index === 0 ? "eager" : "lazy"}
               />
             )}
-          </AssetContainer>
-        </React.Fragment>
-      ))}
-      <ImageModal
-        asset={selectedAsset!}
-        isOpen={!!selectedAsset}
-        onClose={() => setSelectedAsset(null)}
-      />
+          </AssetButton>
+        );
+      })}
+      <ImageModal asset={selectedAsset} onClose={handleClose} />
     </Container>
   );
 };
 
-const AssetContainer = styled.div`
+const AssetButton = styled.button`
+  display: block;
   width: 100%;
-  cursor: pointer;
+  padding: 0;
+  cursor: zoom-in;
   transition: opacity 0.2s ease;
 
-  &:hover {
-    opacity: 0.9;
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.88;
+    }
+  }
+
+  &:focus-visible {
+    outline-offset: -4px;
   }
 `;
 

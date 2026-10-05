@@ -22,13 +22,13 @@ export interface Project {
   source?: string;
   appStoreUrl?: string;
   playStoreUrl?:  string;
-  duration:  string;
-  year: string;
+  period: string;
 }
 
 export interface ProjectDetailsProps {
   project: Project;
   isMobileExpanded?: boolean;
+  nextProject?: Project;
 }
 
 export interface ProjectImagesProps {

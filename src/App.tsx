@@ -1,3 +1,4 @@
+import { MotionConfig } from "framer-motion";
 import React, { Suspense } from "react";
 import AnimatedCursor from "react-animated-cursor";
 import { HelmetProvider } from "react-helmet-async";
@@ -9,28 +10,32 @@ import PageLayout from "./components/Layout/PageLayout";
 import { useMediaQuery } from "./hooks/useMediaQuery";
 
 const App: React.FC = () => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const hasFinePointer = useMediaQuery("(hover: hover) and (pointer: fine)");
+  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const showCursor = hasFinePointer && !prefersReducedMotion;
 
   return (
     <HelmetProvider>
-      <div className="App" role="main">
-        {!isMobile && (
-          <AnimatedCursor
-            color="0, 0, 0"
-            innerSize={8}
-            outerSize={35}
-            innerScale={1}
-            outerScale={1.7}
-          />
-        )}
-        <ErrorBoundary>
-          <Suspense fallback={<LoadingSpinner />}>
-            <PageLayout>
-              <AppRoutes />
-            </PageLayout>
-          </Suspense>
-        </ErrorBoundary>
-      </div>
+      <MotionConfig reducedMotion="user">
+        <div className="App">
+          {showCursor && (
+            <AnimatedCursor
+              color="0, 0, 0"
+              innerSize={8}
+              outerSize={35}
+              innerScale={1}
+              outerScale={1.7}
+            />
+          )}
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingSpinner />}>
+              <PageLayout>
+                <AppRoutes />
+              </PageLayout>
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+      </MotionConfig>
     </HelmetProvider>
   );
 };

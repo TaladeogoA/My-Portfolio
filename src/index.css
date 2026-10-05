@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&family=Noto+Serif+Display:ital,wght@0,100..900;1,100..900&display=swap");
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
@@ -19,11 +21,13 @@ button {
   font-size: inherit;
   line-height: inherit;
   letter-spacing: inherit;
+  color: inherit;
   border: none;
   background: none;
   padding: 0;
   margin: 0;
   cursor: pointer;
+  text-align: inherit;
   -webkit-font-smoothing: inherit;
   -moz-osx-font-smoothing: inherit;
 }
@@ -46,4 +50,20 @@ p {
 
 h3 {
   font-size: 1rem;
+}
+
+:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
