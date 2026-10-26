@@ -66,6 +66,16 @@ const Home = () => {
 
   const showParticles = particles && !particlesFailed && imageLoaded && box.width > 0;
 
+  // When particles will take over, the photo stays hidden so it never shows
+  // first and then flashes away. It only appears if they fail or are slow.
+  const [particlesSlow, setParticlesSlow] = useState(false);
+  useEffect(() => {
+    if (!particles || particlesReady) return;
+    const timer = window.setTimeout(() => setParticlesSlow(true), 2500);
+    return () => window.clearTimeout(timer);
+  }, [particles, particlesReady]);
+  const hidePhoto = particles && !particlesFailed && (particlesReady || !particlesSlow);
+
   // A cached image can finish loading before React sees it, so check directly too.
   useLayoutEffect(() => {
     const img = imageRef.current;
@@ -180,7 +190,7 @@ const Home = () => {
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageLoaded(true)}
               $loaded={imageLoaded}
-              $hidden={showParticles && particlesReady}
+              $hidden={hidePhoto}
             />
             {showParticles && (
               <Suspense fallback={null}>
