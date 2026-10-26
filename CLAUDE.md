@@ -27,7 +27,7 @@ Without them the site still runs, but submitting the form shows the error state.
 
 **Bootstrapping:** `src/index.tsx` renders `ErrorBoundary > BrowserRouter > App`. `App.tsx` adds `HelmetProvider` and the desktop-only `react-animated-cursor`, and wraps all routes in `PageLayout`.
 
-**Routing** (`src/AppRoutes.tsx`): every page is `React.lazy` and wrapped in `TransitionLayout`, which uses a framer-motion `AnimatePresence` fade keyed on `location.key`.
+**Routing** (`src/AppRoutes.tsx`): every page is `React.lazy` and wrapped in `TransitionLayout`, which uses a framer-motion `AnimatePresence` fade keyed on the top-level path. Its wrapper is `min-height: 100%` and a column flexbox, not a fixed height: a fixed height made tall pages spill past it so their bottom hid under the phone nav. A page fills the screen with `flex: 1` (Home does).
 
 | Path | Component |
 |---|---|
@@ -41,7 +41,7 @@ Without them the site still runs, but submitting the form shows the error state.
 
 - On desktop (>992px), each route is a 50px vertical strip. Routes ordered after the current page stack on the left, and the current and earlier routes stack on the right. The strips animate between sides on navigation.
 - `hooks/useNavPadding.ts` sets the main content's left and right padding to fit those strips (multiples of `NAV_WIDTH = 50`).
-- On mobile (≤992px), a fixed 60px bottom bar replaces the strips.
+- On mobile (≤992px), a fixed 60px bottom bar replaces the strips. It is light: one line per item with a small "00N" before the lowercase label, greyed except the current page, and a short black mark on the top rule above the current page that slides between items (framer-motion `layoutId`). The user rejected a heavier version with ruled cells and a black-filled current cell.
 - **Adding a top-level page requires updating `NAV_ORDER`, `useNavPadding`, and `AppRoutes` together.**
 - `getNavPath` reduces nested paths such as `/work/01` to their top-level path, so `NAV_ORDER` and `useNavPadding` work for them.
 - Nav items are real `NavLink`s (no `preventDefault`). `PageLayout` resets scroll and focuses `<main id="main-content">` on top-level route change and renders a skip link.
@@ -53,7 +53,7 @@ Without them the site still runs, but submitting the form shows the error state.
 - Project IDs are zero-padded strings (`"01"`, `"02"`, …). They appear in URLs and are shown as the list numbers. The Home page's "Selected work" link points to `/work/01`.
 - Images are imported from `src/assets/*.webp` so webpack bundles them.
 - `role` and `platforms` are short labels shown in the list and the case-study facts.
-- `/work` renders `WorkIndex`: a plain list of real links, one row per project, with no images. `/work/:projectId` renders `ProjectCaseStudy`: a single scrolling page with the facts, the first asset as a hero, sections from `description`/`constraints`/`contribution`/`decisions`, the other assets in a grid, every `technicalHighlights` item, and a "Next project" link. An unknown ID redirects to `/work`.
+- `/work` renders `WorkIndex`: a list of real links, one row per project. On hover devices wider than 992px, hovering a row shows that project's first screenshot in `Effects/HoverPreview` following the cursor. On smaller screens each row shows that screenshot as a thumbnail instead. `/work/:projectId` renders `ProjectCaseStudy`: a single scrolling page with the facts, the first asset as a hero, sections from `description`/`constraints`/`contribution`/`decisions`, the other assets in a grid, every `technicalHighlights` item, and a "Next project" link. An unknown ID redirects to `/work`.
 - `live`, `appStoreUrl`, and `playStoreUrl` are optional and render links only when set.
 - Clicking a screenshot opens `ImageModal`, a portal dialog with focus handling.
 - `PageLayout` only resets scroll between top-level pages, so `ProjectCaseStudy` scrolls `#main-content` to the top and focuses its `h1` whenever the project changes.
@@ -63,19 +63,30 @@ Without them the site still runs, but submitting the form shows the error state.
 
 **Animation:**
 
-- GSAP with `split-type` animates the Home heading text (`utils/Animation.js`).
-- framer-motion handles route transitions, the nav, the project list, and modals.
-- CSS keyframes handle the smaller effects: the floating Home illustration, the rotating "Get in touch" badge on `/work`, and the skeleton shimmer.
+- GSAP with `split-type` animates the Home heading text in `Home.tsx`.
+- `hooks/useScrollChoreography.ts` runs the scroll reveals on Work, the case studies, About and Contact. Pages opt in with data attributes (`data-split`, `data-fade`, `data-stagger`, `data-clip`, `data-parallax`, documented in the hook). It uses GSAP ScrollTrigger with `scroller: "#main-content"`. Don't use `clamp()` starts: they keep anything already on screen hidden at scroll 0. A catch-all trigger at the end of the page plays reveals the page can't scroll far enough to reach.
+- framer-motion handles route transitions, the nav, and modals.
+- CSS keyframes handle the smaller effects: the rotating "Get in touch" badge on `/work`, the skeleton shimmer, and the Home illustration's float when WebGL is off.
+- Section labels in the case studies and About stick while their section scrolls past (above 992px).
+
+**WebGL effects** (`components/Effects/`, built on `three`):
+
+- `ParticleFigure`: the Home image (`src/assets/talade-floating.webp`, an 800×881 cut-out photo with transparency) rebuilt as particles. They settle into place as the image crossfades out, part around the cursor and burst on click or tap. A dragged finger leaves a trail that parts them, and they drift back as it fades. Idle motion runs in the vertex shader: a per-particle shimmer, a slow "current" that sways broad patches together, and a few motes that drift up and fade. On a `mono` figure, single particles glint in the photo's real colour, and every few seconds a patch "blooms" into colour from a random point with a ragged edge, then drains back to grey (up to three at once, `uBlooms`). The user likes these and asked for more of them. The user found an earlier top-to-bottom ripple too much. `idle={false}` turns all idle motion off. The whole figure only floats up and down. Don't add rotation or tilt, which the user rejected. A cut-out is sampled by transparency only; an image without transparency falls back to skipping near-white pixels. Home passes `mono`, so the particles (and the `<img>` under them, via a CSS grayscale filter) are black and white. `gather` starts the particles scattered, `onSettled` fires once the intro has played, and `resolve` dissolves the particles one by one in random order. About uses all three with `idle={false}` (which also damps the gather so it doesn't overshoot), so the particles sit exactly on the photo as it fades in underneath. The user rejected both idle drift there and swelling the particles shut, which looked like a bounce. Big figures are sampled more finely (up to 280px wide). If the WebGL context is lost (iOS Safari does this after a few page changes) it calls `onError` and the page shows the plain image again. Home checks WebGL support once per visit and releases the test context.
+- `HoverPreview`: the Work list's cursor-following screenshot. It bends with cursor speed and shows a slight colour split.
+- `DitherPortrait`: the About photo as an ink-on-cream ordered dither. Hovering shows the real photo around the cursor. It only runs on devices with a mouse (`(hover: hover) and (pointer: fine)`); on touch screens the photo instead gathers out of `ParticleFigure` particles, which then fade into the real photo and are removed.
+- Each one is loaded with `React.lazy`, so `three` stays out of the main bundle. Each one sits over a plain image that remains the fallback. They are skipped under `prefers-reduced-motion` or when WebGL isn't available.
+- They cap pixel ratio at 2 and stop rendering when idle, offscreen or hidden. Their shaders write raw sRGB colours, so pass colours as plain 0–1 values rather than `THREE.Color`.
+- The Browser pane throttles `requestAnimationFrame` when it isn't visible, so these effects and GSAP can look frozen or half-finished in its screenshots.
 
 **About page:**
 
 - The name-pronunciation buttons play `src/assets/talade.m4a` and `taladeogo.m4a` through a single shared module-level `Audio` instance.
-- The page is a photo header, then label-on-the-left sections (Hello, Experience, Outside work) in the same layout as the Work case studies. The Experience rows are the `EXPERIENCE` array in `AboutContent.tsx`.
+- The page is a photo header (the `DitherPortrait` effect over the photo; the real photo stays hidden until the dither's first frame, or 3 seconds, so it never flashes first), then label-on-the-left sections (Hello, Experience, Outside work) in the same layout as the Work case studies. The Experience rows are the `EXPERIENCE` array in `AboutContent.tsx`.
 - The résumé link (here and on `/work`) points to `src/assets/Taladeogo-Abraham-Resume.pdf`. To update the résumé, replace that file under the same name.
 
-**Home page:** GSAP animates the two heading lines, and `.reveal` elements fade in after. Content stays hidden until that runs. The "Currently building…" line is hardcoded in `Home.tsx`.
+**Home page:** GSAP animates the two heading lines, and `.reveal` elements fade in after. Content stays hidden until that runs. On phones (≤767px) it is a poster that fits above the nav without scrolling. The particle portrait is a full-bleed backdrop (`min(140vw, 68dvh)` wide, cropped by the screen, up to 13,000 particles), with a cream fade over its lap. The centred text sits on top at the bottom: "Hi, I'm", "Talade." in very large type, the pronunciation, the tagline and the button. The status line is hidden on phones; every placement tried there looked out of place. `HomeText` is `display: contents` there so its children can be ordered around the figure. A `SHORT_PHONE` query tightens it for short screens. The illustration becomes `ParticleFigure` once it's ready; the `<img>` is measured so the particles line up with it. The "Now building PineLeap at Trivalue" status line (plain text, pulsing green dot, no link or border) is hardcoded in `Home.tsx`.
 
-**Contact page:** direct links (email with a Copy button, LinkedIn, GitHub) beside `ContactForm`. The form's EmailJS call is unchanged.
+**Contact page:** direct links (email with a Copy button, LinkedIn, GitHub) beside `ContactForm`. The form fields are ruled lines (a bottom border only, no box or fill) with muted labels, matching the rows beside them. The form's EmailJS call is unchanged.
 
 ## Conventions
 
@@ -83,7 +94,7 @@ Without them the site still runs, but submitting the form shows the error state.
 - **Transient props:** use `$`-prefixed props (`$isLoading`, `$margin`) so they don't reach the DOM.
 - **Animated styled components:** create them with `motion(StyledBase)`, e.g. `const Content = motion(ContentBase)`. The recent commit c6f6668 switched to this pattern to fix TypeScript build errors.
 - **Shared UI:**
-  - `components/Common/theme.tsx`: colour constants, pill and quiet link styles, `ArrowIcon`, and `LinkIcon` (use it for links that leave the site, never a ↗ arrow).
+  - `components/Common/theme.tsx`: colour constants, pill and quiet link styles, `ArrowIcon` (a long thin arrow with curved barbs that slides through on hover of its link or button; sized by font-size; `direction="left"` for back links; the user rejected stock chevron arrows and a single-barb one), and `LinkIcon` (use it for links that leave the site, never a ↗ arrow).
   - `Works/OptimizedImage.tsx`: a lazy image with a skeleton placeholder. It is also used outside the Work page.
 - **Breakpoints:** 992px for the nav and layout switch, and 768px for the cursor and minor tweaks. `useMediaQuery` is the hook for JS-side checks.
 - **Types:** new components should be `.tsx`. Several older components are still `.js`. `tsconfig` is `strict`, with `allowJs`. Module declarations for image and video imports live in `src/types/declarations.d.ts`. Add one there for any new asset type imported from a TS file.

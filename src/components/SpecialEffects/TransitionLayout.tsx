@@ -23,9 +23,15 @@ const TransitionLayout: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
+// Grows with the page instead of being fixed to the screen height, so tall
+// pages keep the space reserved under the phone nav. As a column flexbox it
+// lets a page fill the screen with flex: 1 (Home does).
 const PageContentBase = styled.div`
+  align-self: flex-start;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const PageContent = motion(PageContentBase);

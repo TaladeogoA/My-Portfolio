@@ -108,11 +108,30 @@ const NavBar: React.FC = () => {
       </Navigation>
 
       <MobileNav aria-label="Primary">
-        {Object.entries(NAV_ORDER).map(([path]) => (
-          <MobileLink key={path} to={path} end={path === "/"}>
-            {NAV_LABELS[path]}
-          </MobileLink>
-        ))}
+        {Object.entries(NAV_ORDER).map(([path, order]) => {
+          const active = navPath === path;
+          return (
+            <MobileLink
+              key={path}
+              to={path}
+              end={path === "/"}
+              aria-label={NAV_LABELS[path]}
+              className={active ? "active" : ""}
+            >
+              {/* A short bar on the top rule marks the current page and slides between items. */}
+              {active && (
+                <ActiveMark
+                  layoutId="mobile-nav-active"
+                  transition={{ duration: 0.45, ease: [0.645, 0.045, 0.355, 1] }}
+                />
+              )}
+              <span className="num" aria-hidden="true">{`00${order}`}</span>
+              <span className="label" aria-hidden="true">
+                {path === "/" ? "home" : path.slice(1)}
+              </span>
+            </MobileLink>
+          );
+        })}
       </MobileNav>
     </>
   );
@@ -213,6 +232,8 @@ const NavLink = styled(motion(Link))`
   }
 `;
 
+// Light phone bar: the strips' numbers and lowercase labels on one line,
+// with a sliding mark on the top rule for the current page.
 const MobileNav = styled.nav`
   display: none;
   position: fixed;
@@ -220,35 +241,61 @@ const MobileNav = styled.nav`
   left: 0;
   width: 100%;
   height: calc(60px + env(safe-area-inset-bottom));
-  padding-bottom: env(safe-area-inset-bottom);
-  background: #F8F7F4;
+  padding: 0 0.5rem env(safe-area-inset-bottom);
+  box-sizing: border-box;
+  background: rgba(248, 247, 244, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid #000;
   z-index: 100;
   font-family: "Kodchasan", sans-serif;
 
   @media screen and (max-width: 992px) {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
   }
 `;
 
 const MobileLink = styled(Link)`
+  position: relative;
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0 1rem;
-  color: #000;
-  font-size: 1rem;
-  font-weight: 500;
+  gap: 0.3rem;
+  color: rgba(0, 0, 0, 0.42);
   text-decoration: none;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 1px;
+  transition: color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 
-  &[aria-current="page"] {
-    text-decoration: underline;
+  .num {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 1px;
   }
+
+  .label {
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+
+  &.active {
+    color: #000;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: -6px;
+  }
+`;
+
+const ActiveMark = styled(motion.span)`
+  position: absolute;
+  top: -1px;
+  left: 22%;
+  right: 22%;
+  height: 3px;
+  background: #000;
 `;
 
 export default NavBar;

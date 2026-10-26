@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { HOVER, INK, LINE, LinkIcon, MUTED } from "../Common/theme";
 import { VisuallyHidden } from "../Common/VisuallyHidden";
 import { MetaTags } from "../SEO/MetaTags";
+import { useScrollChoreography } from "../../hooks/useScrollChoreography";
 import ContactForm from "./ContactForm";
 
 const EMAIL = "ataladeogo@gmail.com";
@@ -22,6 +23,8 @@ const LINKS = [
 
 const ContactContent = () => {
   const [copied, setCopied] = useState(false);
+  const pageRef = useRef<HTMLDivElement>(null);
+  useScrollChoreography(pageRef);
   const timer = useRef<number>();
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
@@ -43,10 +46,12 @@ const ContactContent = () => {
         title="Contact | Talade"
         description="Get in touch to discuss your next project or explore collaboration opportunities."
       />
-      <Page>
+      <Page ref={pageRef}>
         <Header>
-          <Title>Contact</Title>
-          <Lede>
+          <Title data-split aria-label="Contact">
+            Contact
+          </Title>
+          <Lede data-fade>
             Don't be a stranger. Email is the fastest way to reach me, or send
             a message here.
           </Lede>
@@ -54,8 +59,10 @@ const ContactContent = () => {
 
         <Columns>
           <section aria-labelledby="contact-direct">
-            <SectionTitle id="contact-direct">Reach me directly</SectionTitle>
-            <Rows>
+            <SectionTitle id="contact-direct" data-fade>
+              Reach me directly
+            </SectionTitle>
+            <Rows data-stagger>
               <EmailRow>
                 <a href={`mailto:${EMAIL}`}>
                   <span className="label">Email</span>
@@ -89,7 +96,7 @@ const ContactContent = () => {
             </VisuallyHidden>
           </section>
 
-          <section aria-labelledby="contact-form">
+          <section aria-labelledby="contact-form" data-fade>
             <SectionTitle id="contact-form">Send a message</SectionTitle>
             <ContactForm />
           </section>
@@ -105,13 +112,15 @@ const Page = styled.div`
   align-self: flex-start;
   width: 100%;
   max-width: 1000px;
-  margin: 0 auto;
-  padding: 6rem 4rem;
+  /* Centred in the screen when there's room; the space around it shrinks
+     with the window height so the page doesn't scroll when it could fit. */
+  margin: auto;
+  padding: clamp(2rem, 6vh, 6rem) 4rem;
   box-sizing: border-box;
   color: ${INK};
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: clamp(2.5rem, 6vh, 4rem);
 
   @media (max-width: 992px) {
     padding: 3rem 1.5rem;

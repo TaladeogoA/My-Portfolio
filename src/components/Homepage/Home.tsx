@@ -1,17 +1,40 @@
 import gsap from "gsap";
-import { useLayoutEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import SplitType from "split-type";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.webp";
 import {
   ArrowIcon,
   INK,
   MUTED,
+  PAPER,
   PillLink,
-  quietLinkStyles,
 } from "../Common/theme";
 import { MetaTags } from "../SEO/MetaTags";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+
+const ParticleFigure = lazy(() => import("../Effects/ParticleFigure"));
+
+// WebGL support is checked once per visit, and the test context is released
+// straight away. Phones only allow a few live contexts, so creating one on
+// every visit to Home could leave none for the particles.
+let webglSupport: boolean | undefined;
+
+const canUseParticles = () => {
+  if (typeof window === "undefined") return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  if (webglSupport === undefined) {
+    try {
+      const canvas = document.createElement("canvas");
+      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      webglSupport = !!gl;
+      gl?.getExtension("WEBGL_lose_context")?.loseContext();
+    } catch {
+      webglSupport = false;
+    }
+  }
+  return webglSupport;
+};
 
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,12 +42,49 @@ const Home = () => {
   const lineTwoRef = useRef<HTMLSpanElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [particles] = useState(canUseParticles);
+  const [particlesReady, setParticlesReady] = useState(false);
+  const [particlesFailed, setParticlesFailed] = useState(false);
+  const [box, setBox] = useState({ width: 0, height: 0 });
+  const isPhone = useMediaQuery("(max-width: 767px)");
 
+  // The particle canvas lines up with the image, so track its rendered size.
+  useEffect(() => {
+    const img = imageRef.current;
+    if (!img || !particles) return;
+    const measure = () => {
+      const width = Math.round(img.clientWidth);
+      const height = Math.round(img.clientHeight);
+      setBox((prev) =>
+        prev.width === width && prev.height === height ? prev : { width, height }
+      );
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(img);
+    return () => observer.disconnect();
+  }, [particles]);
+
+  const showParticles = particles && !particlesFailed && imageLoaded && box.width > 0;
+
+  // A cached image can finish loading before React sees it, so check directly too.
   useLayoutEffect(() => {
     const img = imageRef.current;
-    if (img?.complete && img.naturalWidth > 0) {
+    if (!img) return;
+    if (img.complete && img.naturalWidth > 0) {
       setImageLoaded(true);
+      return;
     }
+    let cancelled = false;
+    img
+      .decode()
+      .catch(() => {})
+      .then(() => {
+        if (!cancelled) setImageLoaded(true);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -98,7 +158,9 @@ const Home = () => {
 
             <Now className="reveal">
               <span className="dot" aria-hidden="true" />
-              Currently building PineLeap at Trivalue
+              <span>
+                Now building <strong>PineLeap</strong> at Trivalue
+              </span>
             </Now>
 
             <Actions className="reveal">
@@ -106,7 +168,6 @@ const Home = () => {
                 See my work
                 <ArrowIcon />
               </PillLink>
-              <QuietLink to="/about">About me</QuietLink>
             </Actions>
           </HomeText>
 
@@ -114,14 +175,29 @@ const Home = () => {
             <HomeImg
               ref={imageRef}
               src={FloatingTalade}
-              alt="Illustration of Talade floating"
+              alt="Talade sitting cross-legged in a meditation pose"
               width={800}
-              height={879}
+              height={881}
               {...{ fetchpriority: "high" }}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageLoaded(true)}
               $loaded={imageLoaded}
+              $hidden={showParticles && particlesReady}
             />
+            {showParticles && (
+              <Suspense fallback={null}>
+                <ParticleFigure
+                  src={FloatingTalade}
+                  boxWidth={box.width}
+                  boxHeight={box.height}
+                  mono
+                  bleed={isPhone ? 0.08 : 0.35}
+                  maxPointsSmall={13000}
+                  onReady={() => setParticlesReady(true)}
+                  onError={() => setParticlesFailed(true)}
+                />
+              </Suspense>
+            )}
             <ShadowOverlay $loaded={imageLoaded} aria-hidden="true" />
           </HomeImgContainer>
         </ContentContainer>
@@ -132,22 +208,24 @@ const Home = () => {
 
 export default Home;
 
+const SHORT_PHONE = "@media (max-width: 767px) and (max-height: 720px)";
+
 const MainContainer = styled.div`
+  flex: 1;
+  display: flex;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
   overflow: hidden;
   color: ${INK};
+  position: relative;
 `;
 
 const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
   width: min(90%, 1400px);
   margin: 0 auto;
-  min-height: 100vh;
-  min-height: 100dvh;
   gap: clamp(2rem, 5vw, 5rem);
   padding: clamp(1rem, 3vw, 3rem);
 
@@ -155,11 +233,20 @@ const ContentContainer = styled.div`
     gap: 3rem;
   }
 
+  /* Phones: a poster. The particle portrait fills the screen behind
+     everything, and the text sits over its lap at the bottom, centred to
+     match the symmetrical pose. HomeText uses display: contents so its
+     children can be ordered and layered over the figure. */
   @media (max-width: 767px) {
-    flex-direction: column-reverse;
-    justify-content: center;
-    padding-bottom: max(7rem, 15vh);
-    gap: 2rem;
+    position: relative;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem 1.5rem 1.5rem;
+    gap: 0;
+    text-align: center;
   }
 `;
 
@@ -168,13 +255,25 @@ const HomeText = styled.div`
   max-width: 600px;
 
   @media (max-width: 767px) {
-    max-width: 100%;
+    display: contents;
+
+    > * {
+      position: relative;
+      z-index: 1;
+    }
   }
 `;
 
 const Heading = styled.h1`
   margin: 0;
   font-weight: 600;
+
+  @media (max-width: 767px) {
+    order: 2;
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+  }
 `;
 
 const Line = styled.span`
@@ -184,12 +283,44 @@ const Line = styled.span`
   letter-spacing: -0.035em;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
   line-height: 1.05;
+
+  @media (max-width: 767px) {
+    &:first-child {
+      font-size: 1.375rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+    &:last-child {
+      font-size: min(24vw, 7.5rem);
+      letter-spacing: -0.055em;
+      line-height: 0.92;
+      padding-bottom: 0.06em;
+
+      /* Split letters lose kerning, so pull the full stop back to the e. */
+      .char:last-child {
+        margin-left: -0.05em;
+      }
+    }
+  }
+
+  ${SHORT_PHONE} {
+    &:last-child {
+      font-size: min(20vw, 6rem);
+    }
+  }
 `;
 
 const Pronunciation = styled.p`
   margin: 0.75rem 0 0;
   font-size: 1.0625rem;
   color: ${MUTED};
+
+  @media (max-width: 767px) {
+    order: 3;
+    margin-top: 0.375rem;
+    font-size: 0.9375rem;
+  }
 `;
 
 const Tagline = styled.p`
@@ -200,8 +331,21 @@ const Tagline = styled.p`
   line-height: 1.4;
   letter-spacing: -0.01em;
   text-wrap: balance;
+
+  @media (max-width: 767px) {
+    order: 4;
+    margin: 1rem auto 0;
+    max-width: 21em;
+    font-size: 1.125rem;
+  }
+
+  ${SHORT_PHONE} {
+    margin-top: 0.75rem;
+    font-size: 1.0625rem;
+  }
 `;
 
+// Plain status line; the dot pulses like a live indicator.
 const Now = styled.p`
   display: flex;
   align-items: center;
@@ -210,12 +354,53 @@ const Now = styled.p`
   font-size: 0.9375rem;
   color: ${MUTED};
 
+  /* On phones it sits last, under the buttons, as a quiet footnote. */
+  /* Phones drop it: a sixth line of text made the screen feel cluttered
+     wherever it went. */
+  @media (max-width: 767px) {
+    display: none;
+  }
+
+  strong {
+    font-weight: 600;
+    color: ${INK};
+  }
+
   .dot {
+    position: relative;
     flex-shrink: 0;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: #2f7d4a;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #2f7d4a;
+      animation: now-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+  }
+
+  @keyframes now-ping {
+    0% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    70%,
+    100% {
+      transform: scale(2.8);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dot::after {
+      animation: none;
+      opacity: 0;
+    }
   }
 `;
 
@@ -225,10 +410,17 @@ const Actions = styled.div`
   align-items: center;
   gap: 0.75rem 2rem;
   margin-top: 2rem;
-`;
 
-const QuietLink = styled(Link)`
-  ${quietLinkStyles}
+  @media (max-width: 767px) {
+    order: 5;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-top: 1.25rem;
+  }
+
+  ${SHORT_PHONE} {
+    margin-top: 1rem;
+  }
 `;
 
 const HomeImgContainer = styled.div`
@@ -236,18 +428,44 @@ const HomeImgContainer = styled.div`
   width: min(35%, 400px);
   aspect-ratio: 1;
 
+  /* On phones the figure is a full-bleed backdrop, cropped by the screen
+     edges, with a cream fade over its lap so the text reads on top. */
   @media (max-width: 767px) {
-    width: min(80%, 300px);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    width: min(140vw, 68dvh);
+    aspect-ratio: 800 / 881;
+    transform: translateX(-50%);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: -20%;
+      right: -20%;
+      bottom: -12%;
+      height: 50%;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(248, 247, 244, 0) 0%,
+        rgba(248, 247, 244, 0.75) 45%,
+        ${PAPER} 80%
+      );
+    }
   }
 `;
 
-const HomeImg = styled.img<{ $loaded: boolean }>`
+const HomeImg = styled.img<{ $loaded: boolean; $hidden: boolean }>`
+  display: block;
   width: 100%;
   height: auto;
   will-change: transform;
   animation: float 6s ease-in-out infinite both;
-  opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
-  transition: opacity 1s ease-in-out;
+  filter: grayscale(1) contrast(1.05);
+  opacity: ${({ $loaded, $hidden }) => ($loaded && !$hidden ? 1 : 0)};
+  transition: opacity ${({ $hidden }) => ($hidden ? "0.6s" : "1s")} ease-in-out;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -276,6 +494,10 @@ const ShadowOverlay = styled.div<{ $loaded: boolean }>`
   opacity: ${({ $loaded }) => ($loaded ? 1 : 0)};
   transition: opacity 1s ease-in-out;
   animation: shadowGrowAndShrink 6s ease-in-out infinite both;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;

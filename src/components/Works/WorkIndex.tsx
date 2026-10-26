@@ -1,10 +1,17 @@
-import React from "react";
+import React, { lazy, Suspense, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
 import { Project } from "../../types/project";
-import { HOVER, INK, LINE, LinkIcon, MUTED } from "../Common/theme";
+import { ArrowIcon, HOVER, INK, LINE, LinkIcon, MUTED } from "../Common/theme";
 import { VisuallyHidden } from "../Common/VisuallyHidden";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { useScrollChoreography } from "../../hooks/useScrollChoreography";
+
+const HoverPreview = lazy(() => import("../Effects/HoverPreview"));
+
+const PREVIEW_QUERY =
+  "(hover: hover) and (pointer: fine) and (min-width: 993px) and (prefers-reduced-motion: no-preference)";
 
 interface WorkIndexProps {
   projects: Project[];
@@ -19,13 +26,24 @@ const yearRange = (projects: Project[]) => {
 
 const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
   const firstYear = yearRange(projects);
+  const pageRef = useRef<HTMLDivElement>(null);
+  useScrollChoreography(pageRef);
+  const canPreview = useMediaQuery(PREVIEW_QUERY);
+  const [hovered, setHovered] = useState<string | null>(null);
+  const previewItems = useMemo(
+    () =>
+      projects
+        .filter((p) => p.assets[0]?.type === "image")
+        .map((p) => ({ id: p.id, url: p.assets[0].url })),
+    [projects]
+  );
 
   return (
-    <Page>
+    <Page ref={pageRef}>
       <Header>
         <Intro>
-          <Title>Work</Title>
-          <Lede>
+          <Title data-split aria-label="Work">Work</Title>
+          <Lede data-fade>
             Product engineering across healthcare, pharmacy operations and B2B
             tools, on web and mobile.
           </Lede>
@@ -48,22 +66,39 @@ const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
               </textPath>
             </text>
           </Ring>
-          <BadgeArrow viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 12h16M14 6l6 6-6 6" />
+          <BadgeArrow>
+            <ArrowIcon />
           </BadgeArrow>
         </ContactBadge>
       </Header>
 
       <section aria-labelledby="selected-projects">
-        <SectionHead>
+        <SectionHead data-fade>
           <h2 id="selected-projects">Selected projects</h2>
           {firstYear && <span>{firstYear} — now</span>}
         </SectionHead>
 
-        <List>
+        <List data-stagger onMouseLeave={() => setHovered(null)}>
           {projects.map((project) => (
             <li key={project.id}>
-              <Row to={`/work/${project.id}`}>
+              <Row
+                to={`/work/${project.id}`}
+                onMouseEnter={() => setHovered(project.id)}
+              >
+                {project.assets[0]?.type === "image" && (
+                  <Thumb
+                    aria-hidden="true"
+                    data-clip
+                    style={{
+                      aspectRatio:
+                        project.assets[0].width && project.assets[0].height
+                          ? `${project.assets[0].width} / ${project.assets[0].height}`
+                          : undefined,
+                    }}
+                  >
+                    <img src={project.assets[0].url} alt="" loading="lazy" />
+                  </Thumb>
+                )}
                 <Num aria-hidden="true">{project.id}</Num>
                 <Main>
                   <Name>{project.title}</Name>
@@ -75,15 +110,15 @@ const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
                     {project.period} · {project.platforms}
                   </span>
                 </Meta>
-                <Arrow viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
+                <Arrow>
+                  <ArrowIcon />
                 </Arrow>
               </Row>
             </li>
           ))}
         </List>
 
-        <Footnote>
+        <Footnote data-fade>
           Earlier roles and the full history are in my{" "}
           <a href={Resume} target="_blank" rel="noopener noreferrer">
             résumé
@@ -92,6 +127,12 @@ const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
           </a>
         </Footnote>
       </section>
+
+      {canPreview && previewItems.length > 0 && (
+        <Suspense fallback={null}>
+          <HoverPreview items={previewItems} activeId={hovered} />
+        </Suspense>
+      )}
     </Page>
   );
 };
@@ -195,22 +236,13 @@ const Ring = styled.svg`
   }
 `;
 
-const BadgeArrow = styled.svg`
+const BadgeArrow = styled.span`
   position: absolute;
-  left: 51px;
-  top: 51px;
-  width: 30px;
-  height: 30px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform 0.2s ease;
-
-  ${ContactBadge}:hover & {
-    transform: translateX(4px);
-  }
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
 `;
 
 const SectionHead = styled.div`
@@ -239,15 +271,9 @@ const List = styled.ul`
   border-top: 1px solid ${LINE};
 `;
 
-const Arrow = styled.svg`
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform 0.2s ease;
+const Arrow = styled.span`
+  display: flex;
+  font-size: 20px;
 
   @media (max-width: 992px) {
     display: none;
@@ -256,7 +282,7 @@ const Arrow = styled.svg`
 
 const Row = styled(Link)`
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) 250px 22px;
+  grid-template-columns: 40px minmax(0, 1fr) 250px 28px;
   gap: 1.5rem;
   align-items: center;
   padding: 1.75rem 1rem;
@@ -271,9 +297,6 @@ const Row = styled(Link)`
     &:hover {
       background: ${HOVER};
     }
-    &:hover ${Arrow} {
-      transform: translateX(4px);
-    }
   }
 
   &:focus-visible {
@@ -284,11 +307,35 @@ const Row = styled(Link)`
   @media (max-width: 992px) {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
+      "thumb thumb"
       "main num"
       "meta meta";
     gap: 0.5rem 1rem;
     padding: 1.375rem 0;
     margin: 0;
+  }
+`;
+
+// Phones get a screenshot in each row instead of the hover preview.
+const Thumb = styled.span`
+  display: none;
+
+  @media (max-width: 992px) {
+    grid-area: thumb;
+    display: block;
+    margin-bottom: 0.75rem;
+    aspect-ratio: 16 / 10;
+    border-radius: 6px;
+    overflow: hidden;
+    background: ${HOVER};
+    border: 1px solid ${LINE};
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 `;
 

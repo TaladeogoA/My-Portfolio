@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaAndroid, FaApple, FaGlobe } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useScrollChoreography } from "../../hooks/useScrollChoreography";
 import { Asset, Project } from "../../types/project";
-import { HOVER, INK, LINE, MUTED } from "../Common/theme";
+import { ArrowIcon, HOVER, INK, LINE, MUTED } from "../Common/theme";
 import { VisuallyHidden } from "../Common/VisuallyHidden";
 import ImageModal from "./ImageModal";
 import { OptimizedImage } from "./OptimizedImage";
@@ -25,6 +26,8 @@ const Shot: React.FC<{
   <Figure>
     <ShotButton
       type="button"
+      data-clip
+      data-parallax={eager ? "" : undefined}
       onClick={() => onOpen(asset)}
       style={{
         aspectRatio:
@@ -58,6 +61,8 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
 }) => {
   const [openAsset, setOpenAsset] = useState<Asset | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const articleRef = useRef<HTMLElement>(null);
+  useScrollChoreography(articleRef, project.id);
 
   // PageLayout only resets scroll between top-level pages, so moving
   // from the list or between projects has to do it here.
@@ -80,12 +85,10 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
   ].filter(Boolean) as { href: string; label: string; icon: React.ReactNode }[];
 
   return (
-    <Article>
+    <Article ref={articleRef}>
       <TopRow>
         <BackLink to="/work">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M19 12H5M11 6l-6 6 6 6" />
-          </svg>
+          <ArrowIcon direction="left" />
           All work
         </BackLink>
         <span>
@@ -94,13 +97,18 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
       </TopRow>
 
       <header>
-        <Title ref={headingRef} tabIndex={-1}>
+        <Title
+          ref={headingRef}
+          tabIndex={-1}
+          aria-label={project.title}
+          data-split
+        >
           {project.title}
         </Title>
-        <Subtitle>{project.subtitle}</Subtitle>
-        <Lede>{project.shortDescription}</Lede>
+        <Subtitle data-fade>{project.subtitle}</Subtitle>
+        <Lede data-fade>{project.shortDescription}</Lede>
 
-        <Facts>
+        <Facts data-stagger>
           <div>
             <dt>Role</dt>
             <dd>{project.role}</dd>
@@ -118,7 +126,7 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
         </Facts>
 
         {links.length > 0 && (
-          <Links>
+          <Links data-fade>
             {links.map((link) => (
               <a
                 key={link.label}
@@ -138,7 +146,7 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
       {hero && <Shot asset={hero} eager onOpen={setOpenAsset} />}
 
       {sections.slice(0, 3).map((section) => (
-        <Section key={section.title}>
+        <Section key={section.title} data-fade>
           <h2>{section.title}</h2>
           <p>{section.body}</p>
         </Section>
@@ -152,28 +160,28 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
         </Gallery>
       )}
 
-      <Section>
+      <Section data-fade>
         <h2>{sections[3].title}</h2>
         <p>{sections[3].body}</p>
       </Section>
 
       <Section>
         <h2>Highlights</h2>
-        <Highlights>
+        <Highlights data-stagger>
           {project.technicalHighlights.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </Highlights>
       </Section>
 
-      <NextLink to={`/work/${nextProject.id}`}>
+      <NextLink to={`/work/${nextProject.id}`} data-fade>
         <span>
           <span className="eyebrow">Next project · {nextProject.id}</span>
-          <span className="name">{nextProject.title}</span>
+          <span className="name" data-split>
+            {nextProject.title}
+          </span>
         </span>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 12h14M13 6l6 6-6 6" />
-        </svg>
+        <ArrowIcon />
       </NextLink>
 
       <ImageModal asset={openAsset} onClose={() => setOpenAsset(null)} />
@@ -214,27 +222,10 @@ const TopRow = styled.div`
 const BackLink = styled(Link)`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
   min-height: 44px;
   color: ${INK};
   text-decoration: none;
-
-  svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: transform 0.2s ease;
-  }
-
-  @media (hover: hover) {
-    &:hover svg {
-      transform: translateX(-4px);
-    }
-  }
 `;
 
 const Title = styled.h1`
@@ -387,6 +378,15 @@ const Section = styled.section`
     font-weight: 600;
   }
 
+  /* The label stays in view while its section scrolls past. */
+  @media (min-width: 993px) {
+    h2 {
+      position: sticky;
+      top: 2rem;
+      align-self: start;
+    }
+  }
+
   p {
     margin: 0;
     font-size: 1.125rem;
@@ -432,7 +432,7 @@ const NextLink = styled(Link)`
   text-decoration: none;
   transition: background 0.2s ease;
 
-  > span {
+  > span:first-child {
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
@@ -450,24 +450,14 @@ const NextLink = styled(Link)`
     line-height: 1.1;
   }
 
-  svg {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: transform 0.2s ease;
+  /* The arrow, sized by font-size. */
+  > span:last-child {
+    font-size: 30px;
   }
 
   @media (hover: hover) {
     &:hover {
       background: ${HOVER};
-    }
-    &:hover svg {
-      transform: translateX(4px);
     }
   }
 

@@ -123,7 +123,7 @@ const ContactForm: React.FC = () => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
 `;
 
 const Pair = styled.div`
@@ -140,41 +140,48 @@ const Pair = styled.div`
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.125rem;
 `;
 
 const Label = styled.label`
   font-size: 0.9375rem;
-  font-weight: 500;
+  color: ${MUTED};
 `;
 
+// Ruled fields, like the rows beside the form: just a line under each one,
+// which turns ink and thickens on focus.
 const Field = styled.input`
   width: 100%;
   box-sizing: border-box;
-  padding: 0.8rem 0.875rem;
+  padding: 0.5rem 0 0.625rem;
   font: inherit;
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   color: ${INK};
   background: transparent;
-  border: 1px solid #c9c5bc;
-  border-radius: 8px;
-  transition: border-color 0.2s ease;
+  border: 0;
+  border-bottom: 1px solid #c9c5bc;
+  border-radius: 0;
+  box-shadow: inset 0 -1px 0 transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   @media (hover: hover) {
     &:hover {
-      border-color: ${MUTED};
+      border-bottom-color: ${MUTED};
     }
   }
 
+  /* Shorter on short windows so the Contact page fits without scrolling. */
   &:is(textarea) {
-    resize: vertical;
-    min-height: 140px;
+    resize: none;
+    height: clamp(5.5rem, 18vh, 10rem);
+    min-height: 5.5rem;
+    line-height: 1.5;
   }
 
   &:focus {
-    outline: 2px solid ${INK};
-    outline-offset: 1px;
-    border-color: ${INK};
+    outline: none;
+    border-bottom-color: ${INK};
+    box-shadow: inset 0 -1px 0 ${INK};
   }
 `;
 

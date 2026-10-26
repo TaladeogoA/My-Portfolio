@@ -24,21 +24,10 @@ export const pillStyles = css`
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  transition: gap 0.2s ease, opacity 0.2s ease;
-
-  svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
+  transition: opacity 0.2s ease;
 
   @media (hover: hover) {
     &:hover {
-      gap: 0.875rem;
       color: ${PAPER};
     }
   }
@@ -97,8 +86,63 @@ export const LinkIcon = () => (
   </svg>
 );
 
-export const ArrowIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M5 12h14M13 6l6 6-6 6" />
-  </svg>
+/**
+ * The site's arrow: a long thin shaft with two barbs that curve back. Sized by font-size
+ * (1.4em wide). When the link or button around it is hovered, it slides out to
+ * the right while a second copy slides in from the left.
+ */
+export const ArrowIcon = ({ direction = "right" }: { direction?: "right" | "left" }) => (
+  <ArrowWrap aria-hidden="true" $left={direction === "left"}>
+    <svg viewBox="0 0 28 16">
+      <path d="M1.5 8h25M26.5 8c-3.4-.7-6.2-2.7-7.6-6M26.5 8c-3.4.7-6.2 2.7-7.6 6" />
+    </svg>
+    <svg viewBox="0 0 28 16">
+      <path d="M1.5 8h25M26.5 8c-3.4-.7-6.2-2.7-7.6-6M26.5 8c-3.4.7-6.2 2.7-7.6 6" />
+    </svg>
+  </ArrowWrap>
 );
+
+const ArrowWrap = styled.span<{ $left: boolean }>`
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.4em;
+  height: 0.8em;
+  overflow: hidden;
+  ${({ $left }) => $left && "transform: scaleX(-1);"}
+
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  svg + svg {
+    transform: translateX(-115%);
+  }
+
+  @media (hover: hover) {
+    a:hover &,
+    button:hover:not(:disabled) & {
+      svg:first-child {
+        transform: translateX(115%);
+      }
+      svg + svg {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    svg {
+      transition: none;
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { css, keyframes } from "styled-components";
 import Portrait from "../../assets/talade-about.webp";
@@ -17,6 +17,23 @@ import {
 import { VisuallyHidden } from "../Common/VisuallyHidden";
 import { MetaTags } from "../SEO/MetaTags";
 import { OptimizedImage } from "../Works/OptimizedImage";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { useScrollChoreography } from "../../hooks/useScrollChoreography";
+
+const DitherPortrait = lazy(() => import("../Effects/DitherPortrait"));
+const ParticleFigure = lazy(() => import("../Effects/ParticleFigure"));
+
+// Phones and tablets get a short particle intro that settles into the photo.
+const canUseWebGL = () => {
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+    gl?.getExtension("WEBGL_lose_context")?.loseContext();
+    return !!gl;
+  } catch {
+    return false;
+  }
+};
 
 let audioInstance: HTMLAudioElement | null = null;
 
@@ -83,6 +100,47 @@ const NameButton = ({ name, isPlaying, onPlay }: NameButtonProps) => (
 
 const AboutContent = () => {
   const [activeAudio, setActiveAudio] = useState<string | null>(null);
+  const articleRef = useRef<HTMLElement>(null);
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [ditherFailed, setDitherFailed] = useState(false);
+  const [ditherReady, setDitherReady] = useState(false);
+  const [ditherSlow, setDitherSlow] = useState(false);
+  // The dither is about revealing the photo on hover, so touch screens
+  // just get the photo.
+  const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
+  const useDither = canHover && !reduceMotion && !ditherFailed;
+
+  // Touch screens: the photo builds itself out of particles, then the
+  // particles fade away and leave the photo.
+  const smallPhoto = useMediaQuery("(max-width: 600px)");
+  const [webgl] = useState(canUseWebGL);
+  const [particleStage, setParticleStage] = useState<
+    "loading" | "playing" | "fading" | "done"
+  >("loading");
+  const useParticles = !canHover && !reduceMotion && webgl && particleStage !== "done";
+  const photoSize = smallPhoto ? 120 : 200;
+
+  useEffect(() => {
+    if (particleStage !== "fading") return;
+    const timer = window.setTimeout(() => setParticleStage("done"), 1800);
+    return () => window.clearTimeout(timer);
+  }, [particleStage]);
+
+  // Never leave the circle empty if the particles are slow to start.
+  useEffect(() => {
+    if (!useParticles || particleStage !== "loading") return;
+    const timer = window.setTimeout(() => setParticleStage("done"), 3000);
+    return () => window.clearTimeout(timer);
+  }, [useParticles, particleStage]);
+
+  // Don't leave a blank circle if the effect is slow: show the photo,
+  // and the dither still covers it whenever it's ready.
+  useEffect(() => {
+    if (!useDither || ditherReady) return;
+    const timer = window.setTimeout(() => setDitherSlow(true), 3000);
+    return () => window.clearTimeout(timer);
+  }, [useDither, ditherReady]);
+  useScrollChoreography(articleRef);
 
   const playAudio = (audioFile: string, id: string) => {
     audioInstance?.pause();
@@ -109,9 +167,15 @@ const AboutContent = () => {
         title="About | Talade"
         description="Learn how Taladeogo approaches product engineering: translating complex, real-world workflows into clear and reliable web and mobile products."
       />
-      <Article>
+      <Article ref={articleRef}>
         <Header>
-          <Photo>
+          <Photo
+            data-fade
+            $hidePhoto={
+              (useDither && !ditherReady && !ditherSlow) ||
+              (useParticles && particleStage !== "fading")
+            }
+          >
             <OptimizedImage
               src={Portrait}
               alt="Taladeogo Abraham"
@@ -119,14 +183,43 @@ const AboutContent = () => {
               height={720}
               loading="eager"
             />
+            {useDither && (
+              <Suspense fallback={null}>
+                <DitherPortrait
+                  src={Portrait}
+                  onReady={() => setDitherReady(true)}
+                  onError={() => setDitherFailed(true)}
+                />
+              </Suspense>
+            )}
+            {useParticles && (
+              <ParticleLayer>
+                <Suspense fallback={null}>
+                  <ParticleFigure
+                    src={Portrait}
+                    boxWidth={photoSize}
+                    boxHeight={photoSize}
+                    bleed={0}
+                    gather
+                    idle={false}
+                    resolve={particleStage === "fading"}
+                    onReady={() => setParticleStage("playing")}
+                    onSettled={() => setParticleStage("fading")}
+                    onError={() => setParticleStage("done")}
+                  />
+                </Suspense>
+              </ParticleLayer>
+            )}
           </Photo>
           <div>
-            <Title>About</Title>
-            <Lead>Product sense with an engineer's hands.</Lead>
+            <Title data-split aria-label="About">
+              About
+            </Title>
+            <Lead data-fade>Product sense with an engineer's hands.</Lead>
           </div>
         </Header>
 
-        <Section>
+        <Section data-fade>
           <h2>Hello</h2>
           <Body>
             <p>
@@ -145,9 +238,9 @@ const AboutContent = () => {
               .
             </p>
             <p>
-              I trained as a quantity surveyor before moving into frontend
-              development. That background is probably why I care so much about
-              the gap between a plan and what actually gets built.
+              I came to software from construction. Working on building
+              projects showed me how much changes between the drawings and what
+              actually gets built, and that gap is still what I care about most.
             </p>
             <p>
               The part I like most is the space between a decision and the
@@ -160,7 +253,7 @@ const AboutContent = () => {
         <Section>
           <h2>Experience</h2>
           <div>
-            <XpList>
+            <XpList data-stagger>
               {EXPERIENCE.map((item) => (
                 <li key={item.company}>
                   <span className="company">{item.company}</span>
@@ -169,26 +262,28 @@ const AboutContent = () => {
                 </li>
               ))}
             </XpList>
-            <Aside>
-              Each project has its own write-up on the{" "}
-              <Link to="/work">Work page</Link>.
+            <Aside data-fade>
+              <Link to="/work">
+                See what I built at each
+                <ArrowIcon />
+              </Link>
             </Aside>
           </div>
         </Section>
 
-        <Section>
+        <Section data-fade>
           <h2>Outside work</h2>
           <Body>
             <p>
-              I play with Three.js, WebGL and animation. I like making things
-              you can move around in, and I'm planning to study Human-Computer
-              Interaction to understand why some of them feel good and others
-              don't.
+              I play with Three.js, WebGL and animation, mostly making things
+              you can move around in. Working out why some of them feel good and
+              others don't is what's drawing me towards Human-Computer
+              Interaction.
             </p>
           </Body>
         </Section>
 
-        <Actions>
+        <Actions data-fade>
           <PillLink to="/contact">
             Get in touch
             <ArrowIcon />
@@ -236,17 +331,33 @@ const Header = styled.header`
   }
 `;
 
-const Photo = styled.div`
+const Photo = styled.div<{ $hidePhoto: boolean }>`
+  position: relative;
   flex-shrink: 0;
-  width: 168px;
-  height: 168px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   overflow: hidden;
+  /* Keeps the round clip on the WebGL canvas in Safari. */
+  isolation: isolate;
+
+  /* The dither draws itself out of the paper, so the photo waits for it
+     instead of flashing first. */
+  > :first-child {
+    opacity: ${({ $hidePhoto }) => ($hidePhoto ? 0 : 1)};
+    transition: opacity 0.8s ease;
+  }
 
   @media (max-width: 600px) {
     width: 120px;
     height: 120px;
   }
+`;
+
+// The particles dissolve themselves while the photo fades in underneath.
+const ParticleLayer = styled.div`
+  position: absolute;
+  inset: 0;
 `;
 
 const Title = styled.h1`
@@ -283,6 +394,15 @@ const Section = styled.section`
     margin: 0;
     font-size: 1.0625rem;
     font-weight: 600;
+  }
+
+  /* The label stays in view while its section scrolls past. */
+  @media (min-width: 993px) {
+    h2 {
+      position: sticky;
+      top: 2rem;
+      align-self: start;
+    }
   }
 
   @media (max-width: 992px) {
@@ -357,13 +477,11 @@ const XpList = styled.ul`
 
 const Aside = styled.p`
   margin: 1.25rem 0 0;
-  font-size: 1rem;
-  color: ${MUTED};
 
   a {
-    color: ${INK};
-    font-weight: 500;
-    text-underline-offset: 4px;
+    ${quietLinkStyles}
+    font-size: 1rem;
+    gap: 0.5rem;
   }
 `;
 
