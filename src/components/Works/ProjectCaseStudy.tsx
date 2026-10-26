@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { FaAndroid, FaApple, FaGlobe } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useScrollChoreography } from "../../hooks/useScrollChoreography";
 import { Asset, Project } from "../../types/project";
-import { ArrowIcon, HOVER, INK, LINE, MUTED } from "../Common/theme";
+import { ArrowIcon, HOVER, INK, LINE, MUTED, PAPER } from "../Common/theme";
 import { VisuallyHidden } from "../Common/VisuallyHidden";
 import ImageModal from "./ImageModal";
 import { OptimizedImage } from "./OptimizedImage";
@@ -18,40 +18,52 @@ interface ProjectCaseStudyProps {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+/**
+ * Every screenshot sits on the same cream plate, centred and scaled to fit,
+ * so projects with very different artwork still read as one set.
+ */
 const Shot: React.FC<{
   asset: Asset;
+  number: number;
   eager?: boolean;
   onOpen: (asset: Asset) => void;
-}> = ({ asset, eager, onOpen }) => (
-  <Figure>
-    <ShotButton
-      type="button"
-      data-clip
-      data-parallax={eager ? "" : undefined}
-      onClick={() => onOpen(asset)}
-      style={{
-        aspectRatio:
-          asset.width && asset.height
-            ? `${asset.width} / ${asset.height}`
-            : "16 / 10",
-      }}
-    >
-      {asset.type === "video" ? (
-        <video src={asset.url} autoPlay muted loop playsInline />
-      ) : (
-        <OptimizedImage
-          src={asset.url}
-          alt={asset.alt ?? ""}
-          width={asset.width}
-          height={asset.height}
-          loading={eager ? "eager" : "lazy"}
-        />
+}> = ({ asset, number, eager, onOpen }) => {
+  const ratio = asset.width && asset.height ? asset.width / asset.height : 16 / 10;
+  const caption = asset.caption ?? asset.alt;
+  return (
+    <Figure>
+      <Plate
+        type="button"
+        data-clip
+        data-parallax={eager ? "" : undefined}
+        onClick={() => onOpen(asset)}
+        $hero={!!eager}
+        $bare={!!asset.bare}
+      >
+        <Frame $bare={!!asset.bare} style={{ "--ratio": ratio } as React.CSSProperties}>
+          {asset.type === "video" ? (
+            <video src={asset.url} autoPlay muted loop playsInline />
+          ) : (
+            <OptimizedImage
+              src={asset.url}
+              alt={asset.alt ?? ""}
+              width={asset.width}
+              height={asset.height}
+              loading={eager ? "eager" : "lazy"}
+            />
+          )}
+        </Frame>
+        <VisuallyHidden>Enlarge image</VisuallyHidden>
+      </Plate>
+      {caption && (
+        <figcaption>
+          <span className="num">{pad(number)}</span>
+          <span>{caption}</span>
+        </figcaption>
       )}
-      <VisuallyHidden>Enlarge image</VisuallyHidden>
-    </ShotButton>
-    {asset.alt && <figcaption>{asset.alt}</figcaption>}
-  </Figure>
-);
+    </Figure>
+  );
+};
 
 const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
   project,
@@ -62,14 +74,16 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
   const [openAsset, setOpenAsset] = useState<Asset | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const articleRef = useRef<HTMLElement>(null);
-  useScrollChoreography(articleRef, project.id);
 
   // PageLayout only resets scroll between top-level pages, so moving
-  // from the list or between projects has to do it here.
-  useEffect(() => {
+  // from the list or between projects has to do it here. It must run before
+  // the scroll animations are set up: built while still scrolled to the
+  // bottom of the last project, they fire mid-setup and GSAP crashes.
+  useLayoutEffect(() => {
     document.getElementById("main-content")?.scrollTo({ top: 0, left: 0 });
     headingRef.current?.focus({ preventScroll: true });
   }, [project.id]);
+  useScrollChoreography(articleRef, project.id);
 
   const [hero, ...rest] = project.assets;
   const sections = [
@@ -143,7 +157,7 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
         )}
       </header>
 
-      {hero && <Shot asset={hero} eager onOpen={setOpenAsset} />}
+      {hero && <Shot asset={hero} number={1} eager onOpen={setOpenAsset} />}
 
       {sections.slice(0, 3).map((section) => (
         <Section key={section.title} data-fade>
@@ -154,8 +168,8 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
 
       {rest.length > 0 && (
         <Gallery>
-          {rest.map((asset) => (
-            <Shot key={asset.url} asset={asset} onOpen={setOpenAsset} />
+          {rest.map((asset, i) => (
+            <Shot key={asset.url} asset={asset} number={i + 2} onOpen={setOpenAsset} />
           ))}
         </Gallery>
       )}
@@ -328,28 +342,38 @@ const Figure = styled.figure`
   gap: 0.75rem;
 
   figcaption {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
     font-size: 0.875rem;
     line-height: 1.5;
     color: ${MUTED};
+
+    .num {
+      color: ${INK};
+      font-variant-numeric: tabular-nums;
+    }
   }
 `;
 
-const ShotButton = styled.button`
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 1px solid ${LINE};
-  border-radius: 10px;
-  overflow: hidden;
-  background: #eeece7;
-  cursor: zoom-in;
+const PLATE = "#ECE9E2";
 
-  video {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+// A fixed-ratio plate; the image is scaled to fit inside it, whatever its shape.
+const Plate = styled.button<{ $hero: boolean; $bare: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: ${({ $hero }) => ($hero ? "16 / 9" : "3 / 2")};
+  box-sizing: border-box;
+  padding: ${({ $hero, $bare }) =>
+    $bare ? "0" : $hero ? "clamp(1rem, 5%, 3.5rem)" : "clamp(0.875rem, 6%, 2.25rem)"};
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: ${PLATE};
+  cursor: zoom-in;
+  container-type: size;
 
   &:focus-visible {
     outline: 2px solid ${INK};
@@ -357,13 +381,50 @@ const ShotButton = styled.button`
   }
 `;
 
+// Sized to the image's own ratio, as large as the plate allows. A bare image
+// already carries the plate colour and its own shadows, so it gets no frame.
+const Frame = styled.div<{ $bare: boolean }>`
+  width: min(100cqw, calc(100cqh * var(--ratio)));
+  aspect-ratio: var(--ratio);
+  border-radius: ${({ $bare }) => ($bare ? "0" : "4px")};
+  overflow: hidden;
+  background: ${({ $bare }) => ($bare ? PLATE : PAPER)};
+  box-shadow: ${({ $bare }) =>
+    $bare
+      ? "none"
+      : "0 1px 2px rgba(17, 17, 16, 0.06), 0 14px 32px -14px rgba(17, 17, 16, 0.22)"};
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  ${Plate}:hover & {
+    transform: translateY(-3px);
+  }
+
+  > *,
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+// Two per row; an odd one out at the end takes the full width.
 const Gallery = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem 1rem;
+  gap: 2.5rem 1rem;
+
+  > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+
+    ${Plate} {
+      aspect-ratio: 16 / 9;
+    }
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
   }
 `;
 

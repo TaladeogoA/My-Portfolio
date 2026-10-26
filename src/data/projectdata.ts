@@ -2,14 +2,15 @@ import CompreFour from "../assets/compre-four.webp";
 import CompreOne from "../assets/compre-one.webp";
 import CompreThree from "../assets/compre-three.webp";
 import CompreTwo from "../assets/compre-two.webp";
-import DispensaryFour from "../assets/dispensary-four.webp";
-import DispensaryOne from "../assets/dispensary-one.webp";
-import DispensaryThree from "../assets/dispensary-three.webp";
-import DispensaryTwo from "../assets/dispensary-two.webp";
-import FamasiFour from "../assets/famasi-four.webp";
-import FamasiOne from "../assets/famasi-one.webp";
-import FamasiThree from "../assets/famasi-three.webp";
-import FamasiTwo from "../assets/famasi-two.webp";
+import DispensaryCustomersSuppliers from "../assets/dispensary-customers-suppliers.webp";
+import DispensaryDevices from "../assets/dispensary-devices.webp";
+import DispensaryHomeRequest from "../assets/dispensary-home-request.webp";
+import DispensaryInventoryBranches from "../assets/dispensary-inventory-branches.webp";
+import DispensaryNewOrder from "../assets/dispensary-new-order.mp4";
+import FamasiHomePlans from "../assets/famasi-home-plans.webp";
+import FamasiOrder from "../assets/famasi-order.webp";
+import FamasiWrapped from "../assets/famasi-wrapped.webp";
+import FamasiWrappedVideo from "../assets/famasi-wrapped.mp4";
 import PineLeapGoal from "../assets/pineleap-goal.webp";
 import PineLeapDashboard from "../assets/pineleap-dashboard.webp";
 import PineLeapGoals from "../assets/pineleap-goals.webp";
@@ -53,6 +54,7 @@ export const data: Project[] = [
         width: 1668,
         height: 1014,
         alt: "Goal page for Secure Pilot Customers, with its stats and ordered actions",
+        caption: "A goal and its ordered actions, with live stats on conversations and conversion.",
       },
       {
         type: "image",
@@ -60,6 +62,7 @@ export const data: Project[] = [
         width: 1668,
         height: 1014,
         alt: "Dashboard with active goals, conversations, meetings and recent activity",
+        caption: "The dashboard brings active goals, conversations, meetings and recent activity into one view.",
       },
       {
         type: "image",
@@ -67,6 +70,7 @@ export const data: Project[] = [
         width: 1668,
         height: 1014,
         alt: "Goals list showing active, draft and archived goals",
+        caption: "Goals, split into active, draft and archived.",
       },
       {
         type: "image",
@@ -74,6 +78,7 @@ export const data: Project[] = [
         width: 1668,
         height: 1014,
         alt: "Conversations table with stakeholder, event, goal and outcome",
+        caption: "Every conversation is tied to a stakeholder, an event, a goal and an outcome.",
       },
       {
         type: "image",
@@ -81,6 +86,7 @@ export const data: Project[] = [
         width: 1668,
         height: 1014,
         alt: "Meetings bookings list, with calendar, templates and availability tabs",
+        caption: "Bookings, with the calendar, templates and availability one tab away.",
       },
       {
         type: "image",
@@ -88,6 +94,7 @@ export const data: Project[] = [
         width: 1668,
         height: 1014,
         alt: "Activity feed of meetings booked, forms submitted and links clicked",
+        caption: "The activity feed: meetings booked, forms submitted and links clicked.",
       },
     ],
     live: "",
@@ -128,6 +135,7 @@ export const data: Project[] = [
         width: 1024,
         height: 500,
         alt: "Compre mobile app ordering screens",
+        caption: "Pharmacies browse distributors and order straight from their catalogues.",
       },
       {
         type: "image",
@@ -135,6 +143,7 @@ export const data: Project[] = [
         width: 1024,
         height: 500,
         alt: "Compre mobile app distributor list",
+        caption: "The distributor list, with search and a direct line to each one.",
       },
       {
         type: "image",
@@ -142,6 +151,7 @@ export const data: Project[] = [
         width: 1024,
         height: 500,
         alt: "Compre mobile app order tracking",
+        caption: "Following an order after it has been placed.",
       },
       {
         type: "image",
@@ -149,6 +159,7 @@ export const data: Project[] = [
         width: 1024,
         height: 500,
         alt: "Compre mobile app business overview",
+        caption: "A business overview for the pharmacy.",
       },
     ],
     live: "https://distributor.getcompre.com",
@@ -160,58 +171,66 @@ export const data: Project[] = [
   },
   {
     id: "03",
-    role: "Sole mobile engineer",
+    role: "Sole frontend engineer",
     platforms: "iOS · Android · Web",
     title: "Famasi",
     subtitle: "Consumer Pharmacy Platform",
     shortDescription:
       "A consumer pharmacy platform for discovering, ordering and receiving medication through a network of pharmacies.",
     description:
-      "Famasi connects customers with pharmacies for medication discovery, ordering and delivery. I worked across several of its web and mobile products, with much of the work centred around making the customer experience reliable at the points where people search, order and pay.",
+      "Famasi connects customers with pharmacies for medication discovery, ordering and delivery. It started as a web platform. I built its mobile app and worked across several of its products, with much of the work centred on making the customer experience reliable at the points where people search, order and pay.",
     constraints:
-      "The products ran across web, iOS and Android and were being actively used while they continued to evolve. That meant new features often had to fit into existing production systems, while bugs and reliability issues still needed to be dealt with.",
+      "The web platform's ordering flow was unstable, with checkout and payment bugs, and it had to keep taking real orders while it was being fixed. The mobile app had to match a web platform that already existed, while still working the way people expect a phone app to work. New features had to fit into production systems that were in daily use.",
     contribution:
-      "I was the sole mobile engineer across multiple Famasi products, building and maintaining the React Native applications, and also contributed to the web platform. I handled production releases, updates and ongoing fixes across the products.",
+      "I was the sole frontend engineer across several production products. I built the mobile version of the web platform, working towards feature parity with mobile-first performance work. On the web, I refactored the legacy order flows and fixed critical checkout and payment bugs. I also built curated medication plans and Famasi Wrapped, integrated Remi, and handled releases, updates and production support.",
     decisions:
-      "I worked on the checkout and payment flows to fix issues affecting a particularly important part of the customer journey. I also built Famasi Wrapped as an animated, personalised experience using Reanimated, and worked on an AI-assisted conversational experience for collecting user feedback.",
+      "I treated checkout as one transaction rather than a set of separate screens: validation and guards stop the flow moving from medication to delivery details to payment in an invalid state. Curated plans let people buy several products together in a single checkout instead of placing separate orders. Wrapped turned a year of orders into a personalised, animated story. Remi, built on LiveKit, asks users in conversation what a personal pharmacy means to them, so the answers can shape the product.",
     technicalHighlights: [
-      "Built and shipped the iOS and Android consumer application with React Native and Expo",
-      "Worked across multiple production web and mobile products",
-      "Refactored checkout flows and fixed critical payment issues",
-      "Built the animated Famasi Wrapped experience with Reanimated",
-      "Integrated a LiveKit-powered conversational experience for user feedback",
-      "Managed production releases and updates across the mobile products",
+      "Built the mobile version of the web platform with React Native and Expo, aiming for feature parity",
+      "Refactored legacy order flows and fixed critical checkout and payment bugs",
+      "Added validation and guards so the ordering flow can't reach an invalid state",
+      "Built curated medication plans: several products bought in one checkout",
+      "Built Famasi Wrapped, an animated year-in-review, with Reanimated",
+      "Integrated Remi, a LiveKit conversational experience for user feedback",
+      "Managed production releases and updates across the products",
     ],
     techStack:
       "React Native • React • TypeScript • Expo • Reanimated • Zustand • Firebase • Tailwind CSS • Socket.IO • LiveKit",
     assets: [
       {
         type: "image",
-        url: FamasiOne,
-        width: 1920,
-        height: 1080,
-        alt: "Famasi mobile app",
+        url: FamasiWrapped,
+        width: 2400,
+        height: 1350,
+        bare: true,
+        alt: "Four Famasi Wrapped screens: 2025 was a big year, top five medications, money saved, and the year's persona",
+        caption: "Famasi Wrapped: a customer's year of orders told as an animated story, built from static Figma designs.",
       },
       {
         type: "image",
-        url: FamasiTwo,
-        width: 1920,
-        height: 1080,
-        alt: "Famasi mobile app medication search",
+        url: FamasiHomePlans,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Famasi app home screen with a medication shelf and refill countdown, next to the curated plans list",
+        caption: "Home is a medication shelf that counts down to each refill. Curated plans bundle several products into one purchase.",
       },
       {
         type: "image",
-        url: FamasiThree,
-        width: 1920,
-        height: 1080,
-        alt: "Famasi mobile app pharmacy results",
+        url: FamasiOrder,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Famasi order flow: the medication tray, a countdown while pharmacies send offers, and the offers to choose from",
+        caption: "Ordering: add medications to a tray, nearby pharmacies have a minute to send offers, then pick one by price, time and rating.",
       },
       {
-        type: "image",
-        url: FamasiFour,
-        width: 1920,
-        height: 1080,
-        alt: "Famasi mobile app care plan",
+        type: "video",
+        url: FamasiWrappedVideo,
+        width: 640,
+        height: 1270,
+        alt: "Screen recording of Famasi Wrapped playing through its screens",
+        caption: "Wrapped in motion. The transitions between screens run on Reanimated.",
       },
     ],
     live: "https://famasi.africa",
@@ -234,47 +253,65 @@ export const data: Project[] = [
     constraints:
       "The app needed a substantial UI reimplementation, had to continue supporting a live business, and needed to go through its first App Store and Google Play submissions. The product also needed to work beyond the original mobile application.",
     contribution:
-      "I took over the existing React Native application and implemented the new product design across the app. I owned the first App Store and Google Play submissions, release pipelines, OTA updates and ongoing production support. I also extended the application to the web.",
+      "I took over the existing React Native application and implemented the new product design across the app. I owned the first App Store and Google Play submissions, release pipelines, OTA updates and production support. I extended the app to the web with Expo for Web and hosted it on DigitalOcean. I also built the storefront configuration system, and built and deployed a storefront for each pharmacy, including subdomain provisioning and hosting.",
     decisions:
-      "I used Expo for Web to extend the application beyond mobile, and built self-service storefront configuration so pharmacies could manage their branding, domains, business details and operating hours themselves rather than relying on manual setup.",
+      "I used Expo for Web to bring the existing app to the browser rather than building a separate web frontend. Pharmacies set their own branding, custom domain, business details and opening hours in the app, and those settings feed straight into how their storefront renders, so what they enter is what customers see. Each pharmacy gets its own storefront on its own subdomain, all running on shared software instead of manual setup.",
     technicalHighlights: [
       "Reimplemented the application UI based on the new product design",
       "Took the application through its first App Store and Google Play submissions",
       "Set up OTA updates and production release pipelines",
       "Extended the React Native application to the web with Expo for Web",
-      "Built self-service storefront configuration for pharmacies",
-      "Supported the application in production across mobile and web",
+      "Built self-service storefront configuration: branding, domains, business details and hours",
+      "Connected storefront settings to how each storefront renders",
+      "Built and deployed multi-tenant pharmacy storefronts with subdomain provisioning",
+      "Hosted the web app on DigitalOcean and supported it in production across mobile and web",
     ],
     techStack:
       "React Native • Expo • TypeScript • Zustand • Socket.IO • DigitalOcean",
     assets: [
       {
         type: "image",
-        url: DispensaryOne,
-        width: 2868,
-        height: 1320,
-        alt: "Dispensary pharmacy operations app sales overview",
+        url: DispensaryDevices,
+        width: 2400,
+        height: 1350,
+        bare: true,
+        alt: "Dispensary on desktop, tablet and phone: the web dashboard, a new order on the tablet, and the mobile home screen",
+        caption: "The same app on the web, a tablet and a phone. I brought the existing mobile app to the browser with Expo for Web.",
       },
       {
         type: "image",
-        url: DispensaryTwo,
-        width: 2868,
-        height: 1320,
-        alt: "Dispensary pharmacy operations app",
+        url: DispensaryHomeRequest,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Dispensary home screen with sales analytics, next to an incoming medication request to accept or decline",
+        caption: "Home shows sales and top sellers. An online request comes in with its delivery address and items, to accept or decline.",
       },
       {
         type: "image",
-        url: DispensaryThree,
-        width: 2868,
-        height: 1320,
-        alt: "Dispensary pharmacy operations app inventory alerts",
+        url: DispensaryInventoryBranches,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Dispensary inventory with stock alerts for low and expiring items, next to the branches list",
+        caption: "Inventory flags low and expiring stock. Pharmacies with several branches manage them from one account.",
       },
       {
         type: "image",
-        url: DispensaryFour,
-        width: 2868,
-        height: 1320,
-        alt: "Dispensary pharmacy operations app",
+        url: DispensaryCustomersSuppliers,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Dispensary customer details and supplier details, each with its order history",
+        caption: "Customers and suppliers each keep their details and order history.",
+      },
+      {
+        type: "video",
+        url: DispensaryNewOrder,
+        width: 960,
+        height: 960,
+        alt: "Screen recording of a sale at the counter: adding items, picking a customer, reviewing, taking payment and the receipt",
+        caption: "A sale at the counter: add items, attach a customer, take cash, card, transfer or QR, and send the receipt.",
       },
     ],
     live: "",
@@ -316,6 +353,7 @@ export const data: Project[] = [
         width: 900,
         height: 690,
         alt: "Octodoc mobile app screens",
+        caption: "Screens from the Octodoc mobile app.",
       },
       {
         type: "image",
@@ -323,6 +361,7 @@ export const data: Project[] = [
         width: 900,
         height: 702,
         alt: "Octodoc mobile app",
+        caption: "The Octodoc mobile app.",
       },
       {
         type: "image",
@@ -330,6 +369,7 @@ export const data: Project[] = [
         width: 900,
         height: 702,
         alt: "Octodoc health plans website",
+        caption: "Comparing health plans side by side on the web marketplace.",
       },
     ],
     live: "https://www.octodoc.com/",

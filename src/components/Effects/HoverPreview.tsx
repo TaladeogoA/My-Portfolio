@@ -34,6 +34,7 @@ const FRAGMENT = /* glsl */ `
   uniform float uAlpha;
   uniform vec2 uVelocity;
   uniform vec2 uSize;
+  uniform float uColor; // 0..1, how far colour has spread from the centre
   varying vec2 vUv;
 
   vec3 sampleSplit(sampler2D tex, vec2 uv, vec2 shift) {
@@ -51,6 +52,15 @@ const FRAGMENT = /* glsl */ `
       sampleSplit(uCurrent, vUv, shift),
       uMix
     );
+
+    // Each preview arrives in warm greys, then colour spreads out from the
+    // centre with a soft, uneven edge, like the blooms on the Home figure.
+    float grey = dot(color, vec3(0.299, 0.587, 0.114));
+    vec2 p = (vUv - 0.5) * vec2(uSize.x / uSize.y, 1.0);
+    float wobble = sin(atan(p.y, p.x) * 5.0 + uColor * 4.0) * 0.04;
+    float reach = uColor * 1.2;
+    float colorAmount = 1.0 - smoothstep(reach - 0.22, reach, length(p) + wobble);
+    color = mix(vec3(grey) * vec3(1.0, 0.985, 0.96), color, colorAmount);
 
     // Rounded corners, 8px in CSS pixels.
     float radius = 8.0;
@@ -129,6 +139,7 @@ const HoverPreview: React.FC<HoverPreviewProps> = ({ items, activeId }) => {
       uAlpha: { value: 0 },
       uVelocity: { value: new THREE.Vector2() },
       uSize: { value: new THREE.Vector2(WIDTH, WIDTH * 0.62) },
+      uColor: { value: 0 },
     };
     const material = new THREE.ShaderMaterial({
       vertexShader: VERTEX,
@@ -175,6 +186,7 @@ const HoverPreview: React.FC<HoverPreviewProps> = ({ items, activeId }) => {
         uniforms.uPrevious.value = shown > 0.05 ? uniforms.uCurrent.value : texture;
         uniforms.uCurrent.value = texture;
         uniforms.uMix.value = shown > 0.05 ? 0 : 1;
+        uniforms.uColor.value = 0;
         currentId = id;
         const image = texture.image as { width: number; height: number };
         targetHeight = WIDTH * (image.height / image.width);
@@ -207,6 +219,10 @@ const HoverPreview: React.FC<HoverPreviewProps> = ({ items, activeId }) => {
 
       shown += (wantShown - shown) * ease(0.12);
       uniforms.uMix.value += (1 - uniforms.uMix.value) * ease(0.12);
+      // Colour spreads out over about a second and a half while the row is hovered.
+      if (wantShown > 0) {
+        uniforms.uColor.value = Math.min(1.3, uniforms.uColor.value + (step / 60) * 0.9);
+      }
       height += (targetHeight - height) * ease(0.15);
 
       const scale = 0.75 + shown * 0.25;
@@ -220,7 +236,8 @@ const HoverPreview: React.FC<HoverPreviewProps> = ({ items, activeId }) => {
 
       const moving = Math.abs(velocity.x) + Math.abs(velocity.y) > 0.0005;
       const fading = Math.abs(wantShown - shown) > 0.002;
-      if (wantShown > 0 || fading || moving) {
+      const coloring = wantShown > 0 && uniforms.uColor.value < 1.3;
+      if (wantShown > 0 || fading || moving || coloring) {
         frame = requestAnimationFrame(tick);
       } else {
         shown = 0;

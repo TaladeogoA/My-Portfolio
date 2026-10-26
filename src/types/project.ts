@@ -2,8 +2,12 @@ export interface Asset {
   type: "image" | "video";
   url: string;
   alt?: string;
+  /** Shown under the image in the case study: what the screen does. Falls back to alt. */
+  caption?: string;
   width?: number;
   height?: number;
+  /** The image already has its own plate colour and shadows (a composite of several screens), so it fills the plate with no frame. */
+  bare?: boolean;
 }
 
 export interface Project {
