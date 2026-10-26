@@ -21,7 +21,6 @@ const FRAGMENT = /* glsl */ `
   uniform vec2 uResolution;
   uniform vec2 uPointer;
   uniform float uRadius;
-  uniform float uProgress;
   uniform float uCell;
   uniform vec3 uInk;
   uniform vec3 uPaper;
@@ -36,24 +35,22 @@ const FRAGMENT = /* glsl */ `
     vec2 cell = floor(gl_FragCoord.xy / uCell);
     // Sample the photo at the centre of each dither cell so it reads as pixels.
     vec2 cellUv = (cell + 0.5) * uCell / uResolution;
-    vec3 photo = texture2D(uTexture, vUv).rgb;
     vec3 cellColor = texture2D(uTexture, cellUv).rgb;
 
     float luma = dot(cellColor, vec3(0.299, 0.587, 0.114));
     // Lift the midtones so faces keep their detail, then add a little contrast.
     luma = pow(luma, 0.7);
     luma = clamp((luma - 0.5) * 1.3 + 0.55, 0.0, 1.0);
-    // On load the portrait develops out of the paper.
-    luma = mix(1.0, luma, uProgress);
     float ink = step(luma, bayer8(cell) * 0.98 + 0.01);
     vec3 dithered = mix(uPaper, uInk, ink);
 
-    // Around the pointer, the real photo shows through.
+    // The dither only shows around the pointer; everywhere else the canvas
+    // is clear, so the photo underneath shows. Output is premultiplied.
     float aspect = uResolution.x / uResolution.y;
     vec2 delta = (vUv - uPointer) * vec2(aspect, 1.0);
     float reveal = 1.0 - smoothstep(uRadius * 0.55, uRadius, length(delta));
 
-    gl_FragColor = vec4(mix(dithered, photo, reveal), 1.0);
+    gl_FragColor = vec4(dithered * reveal, reveal);
   }
 `;
 
@@ -82,7 +79,7 @@ const DitherPortrait: React.FC<DitherPortraitProps> = ({ src, onReady, onError }
 
         let renderer: THREE.WebGLRenderer;
         try {
-          renderer = new THREE.WebGLRenderer({ antialias: false });
+          renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
         } catch {
           texture.dispose();
           callbacks.current.onError?.();
@@ -103,7 +100,6 @@ const DitherPortrait: React.FC<DitherPortraitProps> = ({ src, onReady, onError }
           uResolution: { value: new THREE.Vector2(1, 1) },
           uPointer: { value: new THREE.Vector2(0.5, 0.5) },
           uRadius: { value: 0 },
-          uProgress: { value: 0 },
           uCell: { value: 2 * dpr },
           // Raw sRGB values: this shader writes colours straight to the screen.
           uInk: { value: new THREE.Vector3(0x11 / 255, 0x11 / 255, 0x10 / 255) },
@@ -176,7 +172,6 @@ const DitherPortrait: React.FC<DitherPortraitProps> = ({ src, onReady, onError }
           const step = Math.min(clock.getDelta(), 0.05) * 60;
           const ease = (k: number) => 1 - (1 - k) ** step;
 
-          uniforms.uProgress.value = Math.min(1, uniforms.uProgress.value + 0.012 * step);
           uniforms.uRadius.value += (radiusTarget - uniforms.uRadius.value) * ease(0.12);
           uniforms.uPointer.value.lerp(pointerTarget, ease(0.2));
           renderer.render(scene, camera);
@@ -187,7 +182,6 @@ const DitherPortrait: React.FC<DitherPortraitProps> = ({ src, onReady, onError }
           }
 
           const settling =
-            uniforms.uProgress.value < 1 ||
             Math.abs(radiusTarget - uniforms.uRadius.value) > 0.001 ||
             uniforms.uPointer.value.distanceToSquared(pointerTarget) > 1e-6;
           if (settling) frame = requestAnimationFrame(tick);

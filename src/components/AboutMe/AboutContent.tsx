@@ -23,7 +23,7 @@ import { useScrollChoreography } from "../../hooks/useScrollChoreography";
 const DitherPortrait = lazy(() => import("../Effects/DitherPortrait"));
 const ParticleFigure = lazy(() => import("../Effects/ParticleFigure"));
 
-// Phones and tablets get a short particle intro that settles into the photo.
+// Every device gets a short particle intro that settles into the photo.
 const canUseWebGL = () => {
   try {
     const canvas = document.createElement("canvas");
@@ -103,26 +103,25 @@ const AboutContent = () => {
   const articleRef = useRef<HTMLElement>(null);
   const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [ditherFailed, setDitherFailed] = useState(false);
-  const [ditherReady, setDitherReady] = useState(false);
-  const [ditherSlow, setDitherSlow] = useState(false);
-  // The dither is about revealing the photo on hover, so touch screens
-  // just get the photo.
+  // Hovering the photo turns the area around the cursor into a dot pattern,
+  // so only devices with a mouse get it.
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
-  const useDither = canHover && !reduceMotion && !ditherFailed;
 
-  // Touch screens: the photo builds itself out of particles, then the
-  // particles fade away and leave the photo.
+  // On load the photo builds itself out of particles, then the particles
+  // dissolve and leave the photo, which is the resting state.
   const smallPhoto = useMediaQuery("(max-width: 600px)");
   const [webgl] = useState(canUseWebGL);
   const [particleStage, setParticleStage] = useState<
     "loading" | "playing" | "fading" | "done"
   >("loading");
-  const useParticles = !canHover && !reduceMotion && webgl && particleStage !== "done";
+  const useParticles = !reduceMotion && webgl && particleStage !== "done";
+  // The hover dither waits for the intro to finish.
+  const useDither = canHover && !reduceMotion && !ditherFailed && !useParticles;
   const photoSize = smallPhoto ? 120 : 200;
 
   useEffect(() => {
     if (particleStage !== "fading") return;
-    const timer = window.setTimeout(() => setParticleStage("done"), 1800);
+    const timer = window.setTimeout(() => setParticleStage("done"), 1000);
     return () => window.clearTimeout(timer);
   }, [particleStage]);
 
@@ -133,13 +132,6 @@ const AboutContent = () => {
     return () => window.clearTimeout(timer);
   }, [useParticles, particleStage]);
 
-  // Don't leave a blank circle if the effect is slow: show the photo,
-  // and the dither still covers it whenever it's ready.
-  useEffect(() => {
-    if (!useDither || ditherReady) return;
-    const timer = window.setTimeout(() => setDitherSlow(true), 3000);
-    return () => window.clearTimeout(timer);
-  }, [useDither, ditherReady]);
   useScrollChoreography(articleRef);
 
   const playAudio = (audioFile: string, id: string) => {
@@ -171,10 +163,7 @@ const AboutContent = () => {
         <Header>
           <Photo
             data-fade
-            $hidePhoto={
-              (useDither && !ditherReady && !ditherSlow) ||
-              (useParticles && particleStage !== "fading")
-            }
+            $hidePhoto={useParticles && particleStage !== "fading"}
           >
             <OptimizedImage
               src={Portrait}
@@ -187,7 +176,6 @@ const AboutContent = () => {
               <Suspense fallback={null}>
                 <DitherPortrait
                   src={Portrait}
-                  onReady={() => setDitherReady(true)}
                   onError={() => setDitherFailed(true)}
                 />
               </Suspense>
@@ -286,7 +274,6 @@ const AboutContent = () => {
         <Actions data-fade>
           <PillLink to="/contact">
             Get in touch
-            <ArrowIcon />
           </PillLink>
           <ResumeLink href={Resume} target="_blank" rel="noopener noreferrer">
             Résumé (PDF)
@@ -341,11 +328,10 @@ const Photo = styled.div<{ $hidePhoto: boolean }>`
   /* Keeps the round clip on the WebGL canvas in Safari. */
   isolation: isolate;
 
-  /* The dither draws itself out of the paper, so the photo waits for it
-     instead of flashing first. */
+  /* The photo waits for the particle intro instead of flashing first. */
   > :first-child {
     opacity: ${({ $hidePhoto }) => ($hidePhoto ? 0 : 1)};
-    transition: opacity 0.8s ease;
+    transition: opacity 0.6s ease;
   }
 
   @media (max-width: 600px) {

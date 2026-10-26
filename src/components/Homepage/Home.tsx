@@ -4,7 +4,6 @@ import SplitType from "split-type";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.webp";
 import {
-  ArrowIcon,
   INK,
   MUTED,
   PAPER,
@@ -166,7 +165,6 @@ const Home = () => {
             <Actions className="reveal">
               <PillLink to="/work">
                 See my work
-                <ArrowIcon />
               </PillLink>
             </Actions>
           </HomeText>
@@ -312,13 +310,13 @@ const Line = styled.span`
 `;
 
 const Pronunciation = styled.p`
-  margin: 0.75rem 0 0;
+  margin: 0.25rem 0 0;
   font-size: 1.0625rem;
   color: ${MUTED};
 
   @media (max-width: 767px) {
     order: 3;
-    margin-top: 0.375rem;
+    margin-top: 0;
     font-size: 0.9375rem;
   }
 `;

@@ -1,7 +1,7 @@
 import emailjs from "@emailjs/browser";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { ArrowIcon, INK, MUTED, pillStyles } from "../Common/theme";
+import { INK, MUTED, pillStyles } from "../Common/theme";
 
 interface FormData {
   name: string;
@@ -100,7 +100,6 @@ const ContactForm: React.FC = () => {
       <Actions>
         <SubmitButton type="submit" disabled={isLoading}>
           {isLoading ? "Sending…" : "Send message"}
-          {!isLoading && <ArrowIcon />}
         </SubmitButton>
         <Hint>I usually reply within a few days.</Hint>
       </Actions>

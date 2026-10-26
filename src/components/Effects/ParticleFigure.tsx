@@ -86,7 +86,6 @@ const VERTEX = /* glsl */ `
     float glint = pow(max(0.0, sin(uTime * 0.6 + seed * 113.0)), 90.0);
     float tint = max(bloom, glint) * uIdle * uColorize;
     color = mix(color, aTrue, tint);
-    size *= 1.0 + (glint * 0.7 + bloom * 0.12) * uIdle;
 
     // Rising motes: a few particles at a time lift off, drift up and fade,
     // then fade back in at their spot.
@@ -96,7 +95,6 @@ const VERTEX = /* glsl */ `
       p.y += rise * span * 0.45;
       p.x += sin(phase * 9.0 + seed * 90.0) * 0.06 * rise;
       alpha = phase < 0.45 ? 1.0 - rise : smoothstep(0.8, 1.0, phase);
-      size *= 1.0 - rise * 0.4;
     }
 
     // Dissolve: each particle fades at its own moment as uFade runs 0 to 1.
@@ -203,7 +201,8 @@ const sampleImage = (
       colors[n * 3 + 1] = data[i + 1] / 255;
       colors[n * 3 + 2] = data[i + 2] / 255;
     }
-    sizes[n] = 0.75 + Math.random() * 0.55;
+    // Every particle is the same size; mixed sizes looked like old film grain.
+    sizes[n] = 1;
     seeds[n] = Math.random();
     bottom = Math.min(bottom, home[n * 3 + 1]);
     top = Math.max(top, home[n * 3 + 1]);
@@ -426,9 +425,9 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
         const dt = Math.min(clock.getDelta(), 0.05);
         const t = clock.elapsedTime;
         const step = dt * 60;
-        const pull = 0.07 * step;
-        // A still figure is damped harder, so it gathers without overshooting.
-        const damping = (idle ? 0.8 : 0.68) ** step;
+        // A still figure eases in more gently, without overshooting.
+        const pull = (idle ? 0.07 : 0.035) * step;
+        const damping = (idle ? 0.8 : 0.74) ** step;
         const r2 = baseRadius * baseRadius;
         const burstRadius = baseRadius * 2.2;
         const burstR2 = burstRadius * burstRadius;
@@ -438,7 +437,7 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
         for (const p of trail) p.life -= dt * 0.7;
         while (trail.length && trail[0].life <= 0) trail.shift();
         const fade = material.uniforms.uFade;
-        if (callbacks.current.resolve) fade.value = Math.min(1, fade.value + dt * 0.8);
+        if (callbacks.current.resolve) fade.value = Math.min(1, fade.value + dt * 1.5);
 
         // Start a new colour bloom every few seconds, centred on a random particle.
         if (mono && idle && t > nextBloom) {
@@ -449,6 +448,7 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
           nextBloom = t + 2.2 + Math.random() * 2.2;
         }
 
+        let motion = 0;
         for (let n = 0; n < count; n++) {
           const i = n * 3;
           const hx = home[i];
@@ -505,6 +505,10 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
           velocity[i] = vx;
           velocity[i + 1] = vy;
           velocity[i + 2] = vz;
+          motion +=
+            Math.abs(positions[i] - tx) +
+            Math.abs(positions[i + 1] - ty) +
+            Math.abs(positions[i + 2] - tz);
           positions[i] += vx * step;
           positions[i + 1] += vy * step;
           positions[i + 2] += vz * step;
@@ -521,7 +525,11 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
           canvas.style.opacity = "1";
           callbacks.current.onReady?.();
         }
-        if (!settledSent && t > 2.2) {
+        // A still figure hands over as soon as its particles stop moving;
+        // an idle one keeps moving, so it waits a fixed time.
+        // (motion is each particle's average distance from its spot, world units.)
+        const settled = idle ? t > 2.2 : t > 0.4 && motion / count < 0.006;
+        if (!settledSent && settled) {
           settledSent = true;
           callbacks.current.onSettled?.();
         }
