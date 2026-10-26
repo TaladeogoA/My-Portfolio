@@ -21,6 +21,8 @@ import { Project } from "../types/project";
 export const data: Project[] = [
   {
     id: "01",
+    role: "Frontend, built from scratch",
+    platforms: "Web",
     title: "PineLeap",
     subtitle: "From Conversation to Outcome",
     shortDescription:
@@ -94,6 +96,8 @@ export const data: Project[] = [
   },
   {
     id: "02",
+    role: "Founding mobile engineer",
+    platforms: "iOS · Android · Web",
     title: "Compre",
     subtitle: "Distributor Infrastructure for Pharmaceuticals",
     shortDescription:
@@ -156,6 +160,8 @@ export const data: Project[] = [
   },
   {
     id: "03",
+    role: "Sole mobile engineer",
+    platforms: "iOS · Android · Web",
     title: "Famasi",
     subtitle: "Consumer Pharmacy Platform",
     shortDescription:
@@ -165,7 +171,7 @@ export const data: Project[] = [
     constraints:
       "The products ran across web, iOS and Android and were being actively used while they continued to evolve. That meant new features often had to fit into existing production systems, while bugs and reliability issues still needed to be dealt with.",
     contribution:
-      "I worked as the sole frontend engineer across multiple Famasi products, building and maintaining the React Native applications alongside the web platform. I also handled production releases, updates and ongoing fixes across the products.",
+      "I was the sole mobile engineer across multiple Famasi products, building and maintaining the React Native applications, and also contributed to the web platform. I handled production releases, updates and ongoing fixes across the products.",
     decisions:
       "I worked on the checkout and payment flows to fix issues affecting a particularly important part of the customer journey. I also built Famasi Wrapped as an animated, personalised experience using Reanimated, and worked on an AI-assisted conversational experience for collecting user feedback.",
     technicalHighlights: [
@@ -217,6 +223,8 @@ export const data: Project[] = [
   },
   {
     id: "04",
+    role: "Mobile and web, end to end",
+    platforms: "iOS · Android · Web",
     title: "Dispensary",
     subtitle: "Pharmacy Operations App",
     shortDescription:
@@ -279,6 +287,8 @@ export const data: Project[] = [
   },
   {
     id: "05",
+    role: "Mobile engineer",
+    platforms: "iOS · Android",
     title: "Octosoft Technologies",
     subtitle: "Telemedicine & Digital Health",
     shortDescription:

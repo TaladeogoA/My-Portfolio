@@ -51,12 +51,12 @@ Without them the site still runs, but submitting the form shows the error state.
 - All project content lives in `src/data/projectdata.ts`, typed by `Project` in `src/types/project.ts`.
 - Project IDs are zero-padded strings (`"01"`, `"02"`, …). They appear in URLs and are shown as the list numbers. The Home page's "Selected work" link points to `/work/01`.
 - Images are imported from `src/assets/*.webp` so webpack bundles them.
-- The first three `technicalHighlights` are always shown; the rest appear behind "Read Full Case Study".
-- `live`, `appStoreUrl`, and `playStoreUrl` are optional and render icon links only when set.
-- The selector is a list of real links on desktop (`/work/:id`) and an `aria-expanded` accordion on mobile. Screenshots on mobile use the scroll-snap `ProjectGallery` (react-slick is no longer imported). `ImageModal` is a portal dialog with focus handling.
-- Layout switches at 1200px:
-  - Desktop is a three-column grid: `ProjectList`, `ProjectDetails`, and `ProjectImages`. Clicking an image in `ProjectImages` opens `ImageModal`.
-  - Mobile is an accordion: `ProjectList` expands `ProjectDetails` inline with `isMobileExpanded`, using the scroll-snap `ProjectGallery`.
+- `role` and `platforms` are short labels shown in the list and the case-study facts.
+- `/work` renders `WorkIndex`: a plain list of real links, one row per project, with no images. `/work/:projectId` renders `ProjectCaseStudy`: a single scrolling page with the facts, the first asset as a hero, sections from `description`/`constraints`/`contribution`/`decisions`, the other assets in a grid, every `technicalHighlights` item, and a "Next project" link. An unknown ID redirects to `/work`.
+- `live`, `appStoreUrl`, and `playStoreUrl` are optional and render links only when set.
+- Clicking a screenshot opens `ImageModal`, a portal dialog with focus handling.
+- `PageLayout` only resets scroll between top-level pages, so `ProjectCaseStudy` scrolls `#main-content` to the top and focuses its `h1` whenever the project changes.
+- Both pages use `align-self: flex-start`, because `<main>` centres its content vertically and a tall centred child can't be scrolled to its top.
 
 **SEO:** each page renders `<MetaTags>` (`components/SEO/MetaTags.tsx`, built on react-helmet-async) with its own title and description. `SITE_URL` and the default OG and Twitter values are defined there. `public/index.html` holds the static fallback title and description.
 
@@ -74,13 +74,13 @@ Without them the site still runs, but submitting the form shows the error state.
 ## Conventions
 
 - **Styling:** styled-components v5 only, with components defined in the same file below the React component. `App.css` and `index.css` hold only resets and global fonts. There is no theme provider; colors are hardcoded, mainly black `#000` on off-white `#F8F7F4`.
-- **Transient props:** use `$`-prefixed props (`$isLoading`, `$margin`) so they don't reach the DOM. `ProjectList.tsx` still uses a bare `isSelected`; don't copy that pattern.
+- **Transient props:** use `$`-prefixed props (`$isLoading`, `$margin`) so they don't reach the DOM.
 - **Animated styled components:** create them with `motion(StyledBase)`, e.g. `const Content = motion(ContentBase)`. The recent commit c6f6668 switched to this pattern to fix TypeScript build errors.
 - **Shared UI:**
   - `components/Common/Typography.tsx`: `H1`–`H4` and `Text`, which take `$margin`, `$size`, `$color`, and similar props.
   - `Common/Button.tsx`: `variant="primary" | "secondary"`.
   - `Common/StyledLink.tsx`
   - `Works/OptimizedImage.tsx`: a lazy image with a skeleton placeholder. It is also used outside the Work page.
-- **Breakpoints:** 992px for the nav and layout switch, 1200px for the Work page desktop/mobile switch, and 768px for the cursor and minor tweaks. `useMediaQuery` is the hook for JS-side checks.
+- **Breakpoints:** 992px for the nav and layout switch, and 768px for the cursor and minor tweaks. `useMediaQuery` is the hook for JS-side checks.
 - **Types:** new components should be `.tsx`. Several older components are still `.js`. `tsconfig` is `strict`, with `allowJs`. Module declarations for image and video imports live in `src/types/declarations.d.ts`. Add one there for any new asset type imported from a TS file.
-- **Fonts:** DM Sans is the body font, Kodchasan is used for the nav and Home page, and Noto Serif Display is also loaded. All come from Google Fonts in `index.css` and `public/index.html`. `ProjectList` references "Neue Montreal", which is never loaded, so it falls back to sans-serif.
+- **Fonts:** DM Sans is the body font, Kodchasan is used for the nav and Home page, and Noto Serif Display is also loaded. All come from Google Fonts in `index.css` and `public/index.html`.
