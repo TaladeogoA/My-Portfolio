@@ -165,13 +165,6 @@ const Home = () => {
               and mobile.
             </Tagline>
 
-            <Now className="reveal">
-              <span className="dot" aria-hidden="true" />
-              <span>
-                Now building <strong>PineLeap</strong> at Trivalue
-              </span>
-            </Now>
-
             <Actions className="reveal">
               <PillLink to="/work">
                 See my work
@@ -350,65 +343,6 @@ const Tagline = styled.p`
   ${SHORT_PHONE} {
     margin-top: 0.75rem;
     font-size: 1.0625rem;
-  }
-`;
-
-// Plain status line; the dot pulses like a live indicator.
-const Now = styled.p`
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  margin: 1.5rem 0 0;
-  font-size: 0.9375rem;
-  color: ${MUTED};
-
-  /* On phones it sits last, under the buttons, as a quiet footnote. */
-  /* Phones drop it: a sixth line of text made the screen feel cluttered
-     wherever it went. */
-  @media (max-width: 767px) {
-    display: none;
-  }
-
-  strong {
-    font-weight: 600;
-    color: ${INK};
-  }
-
-  .dot {
-    position: relative;
-    flex-shrink: 0;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #2f7d4a;
-
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: #2f7d4a;
-      animation: now-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
-    }
-  }
-
-  @keyframes now-ping {
-    0% {
-      transform: scale(1);
-      opacity: 0.6;
-    }
-    70%,
-    100% {
-      transform: scale(2.8);
-      opacity: 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .dot::after {
-      animation: none;
-      opacity: 0;
-    }
   }
 `;
 

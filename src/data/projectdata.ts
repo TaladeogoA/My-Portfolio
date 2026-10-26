@@ -11,6 +11,10 @@ import FamasiHomePlans from "../assets/famasi-home-plans.webp";
 import FamasiOrder from "../assets/famasi-order.webp";
 import FamasiWrapped from "../assets/famasi-wrapped.webp";
 import FamasiWrappedVideo from "../assets/famasi-wrapped.mp4";
+import OctodocApp from "../assets/octodoc-app.webp";
+import OctodocCompare from "../assets/octodoc-compare.webp";
+import OctodocPicker from "../assets/octodoc-picker.webp";
+import OctodocPlans from "../assets/octodoc-plans.webp";
 import PineLeapGoal from "../assets/pineleap-goal.webp";
 import PineLeapDashboard from "../assets/pineleap-dashboard.webp";
 import PineLeapGoals from "../assets/pineleap-goals.webp";
@@ -349,27 +353,37 @@ export const data: Project[] = [
     assets: [
       {
         type: "image",
-        url: "https://res.cloudinary.com/dp1067dhj/image/upload/f_auto,q_auto,w_1200/v1761088036/octodoc-two_wfkbvr.jpg",
-        width: 900,
-        height: 690,
-        alt: "Octodoc mobile app screens",
-        caption: "Screens from the Octodoc mobile app.",
+        url: OctodocPlans,
+        width: 2880,
+        height: 1410,
+        alt: "Octodoc health plan marketplace listing plans for individuals, with search and an HMO filter",
+        caption: "The health plan marketplace: plans from several HMOs for individuals, families and seniors, with search and an HMO filter.",
       },
       {
         type: "image",
-        url: "https://res.cloudinary.com/dp1067dhj/image/upload/f_auto,q_auto,w_1200/v1761088033/octodoc-one_mhfuhr.png",
-        width: 900,
-        height: 702,
-        alt: "Octodoc mobile app",
-        caption: "The Octodoc mobile app.",
+        url: OctodocCompare,
+        width: 2304,
+        height: 1800,
+        alt: "Three health plans compared side by side with their prices, exclusions and benefits",
+        caption: "Plans side by side: price, exclusions and benefits in one view, so the differences are easy to see.",
       },
       {
         type: "image",
-        url: "https://res.cloudinary.com/dp1067dhj/image/upload/f_auto,q_auto,w_1200/v1761088021/marketplace-four_fmwlpn.png",
-        width: 900,
-        height: 702,
-        alt: "Octodoc health plans website",
-        caption: "Comparing health plans side by side on the web marketplace.",
+        url: OctodocPicker,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Dialog for picking similar plans to compare with the one being viewed",
+        caption: "From any plan, pick similar ones to compare it with.",
+      },
+      {
+        type: "image",
+        url: OctodocApp,
+        width: 2400,
+        height: 1350,
+        bare: true,
+        alt: "Octodoc app home screen, the list of specialties, and choosing a date and doctor",
+        caption: "The app: services on the home screen, then booking a consultation by specialty, date and doctor.",
       },
     ],
     live: "https://www.octodoc.com/",
