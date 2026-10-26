@@ -1,15 +1,47 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { css, keyframes } from "styled-components";
+import Portrait from "../../assets/talade-about.webp";
 import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
 import taladeAudio from "../../assets/talade.m4a";
 import taladeogoAudio from "../../assets/taladeogo.m4a";
-import { Button } from "../Common/Button";
-import { H1, Text } from "../Common/Typography";
+import {
+  ArrowIcon,
+  INK,
+  LINE,
+  LinkIcon,
+  MUTED,
+  PillLink,
+  quietLinkStyles,
+} from "../Common/theme";
+import { VisuallyHidden } from "../Common/VisuallyHidden";
 import { MetaTags } from "../SEO/MetaTags";
-import PictureAnimation from "./PictureAnimation";
+import { OptimizedImage } from "../Works/OptimizedImage";
 
 let audioInstance: HTMLAudioElement | null = null;
+
+const EXPERIENCE = [
+  {
+    company: "Trivalue",
+    role: "Built PineLeap's frontend from scratch",
+    period: "2026 – now",
+  },
+  {
+    company: "Compre",
+    role: "Founding mobile engineer, across web and backend too",
+    period: "2024 – now",
+  },
+  {
+    company: "Famasi Africa",
+    role: "Sole mobile engineer on Famasi and Dispensary",
+    period: "2025 – 2026",
+  },
+  {
+    company: "Octosoft",
+    role: "Mobile engineer on Octodoc",
+    period: "2023 – 2025",
+  },
+];
 
 const SpeakerSvg = () => (
   <svg
@@ -71,181 +103,281 @@ const AboutContent = () => {
     };
   }, []);
 
-  const handleResumeClick = () => {
-    window.open(Resume, "_blank", "noopener,noreferrer");
-  };
-
   return (
     <>
       <MetaTags
         title="About | Talade"
         description="Learn how Taladeogo approaches product engineering: translating complex, real-world workflows into clear and reliable web and mobile products."
       />
-      <Container>
-        <PictureContainer>
-          <PictureAnimation />
-          <Button
-            onClick={handleResumeClick}
-            aria-label="Open resume in new tab"
-          >
-            View Resume
-          </Button>
-        </PictureContainer>
-
-        <AboutText>
-          <H1>Product Engineer</H1>
-
-          <Text $margin="0 0 1.5rem">
-            My name is{" "}
-            <NameButton
-              name="Taládéògo"
-              isPlaying={activeAudio === "taladeogo"}
-              onPlay={() => playAudio(taladeogoAudio, "taladeogo")}
+      <Article>
+        <Header>
+          <Photo>
+            <OptimizedImage
+              src={Portrait}
+              alt="Taladeogo Abraham"
+              width={720}
+              height={720}
+              loading="eager"
             />
-            . Most people call me{" "}
-            <NameButton
-              name="Talade"
-              isPlaying={activeAudio === "talade"}
-              onPlay={() => playAudio(taladeAudio, "talade")}
-            />
-            .
-          </Text>
+          </Photo>
+          <div>
+            <Title>About</Title>
+            <Lead>Product sense with an engineer's hands.</Lead>
+          </div>
+        </Header>
 
-          <Lead>Product sense with an engineer's hands.</Lead>
+        <Section>
+          <h2>Hello</h2>
+          <Body>
+            <p>
+              My name is{" "}
+              <NameButton
+                name="Taládéògo"
+                isPlaying={activeAudio === "taladeogo"}
+                onPlay={() => playAudio(taladeogoAudio, "taladeogo")}
+              />
+              . Most people call me{" "}
+              <NameButton
+                name="Talade"
+                isPlaying={activeAudio === "talade"}
+                onPlay={() => playAudio(taladeAudio, "talade")}
+              />
+              .
+            </p>
+            <p>
+              I trained as a quantity surveyor before moving into frontend
+              development. That background is probably why I care so much about
+              the gap between a plan and what actually gets built.
+            </p>
+            <p>
+              The part I like most is the space between a decision and the
+              screen that carries it out: whether a flow makes sense, what
+              someone sees when something goes wrong, how an interaction feels.
+            </p>
+          </Body>
+        </Section>
 
-          <Text $margin="0 0 1.25rem">
-            I trained as a quantity surveyor before moving into frontend development.
-            That background is probably why I care so much about the gap between a plan
-            and what actually gets built.
-          </Text>
+        <Section>
+          <h2>Experience</h2>
+          <div>
+            <XpList>
+              {EXPERIENCE.map((item) => (
+                <li key={item.company}>
+                  <span className="company">{item.company}</span>
+                  <span className="role">{item.role}</span>
+                  <span className="period">{item.period}</span>
+                </li>
+              ))}
+            </XpList>
+            <Aside>
+              Each project has its own write-up on the{" "}
+              <Link to="/work">Work page</Link>.
+            </Aside>
+          </div>
+        </Section>
 
-          <Text $margin="0 0 1.25rem">
-            Now I work on products where the hard part is out of sight. At <strong>Trivalue</strong>, I built PineLeap's frontend from scratch, a platform
-            that turns conversations into goals, actions and meetings. At <strong>Compre</strong>, I work across the mobile app, web and backend services
-            that connect pharmacies with distributors. Before that, at <strong>Famasi Africa</strong>, I built and shipped features across several
-            healthcare products.
-          </Text>
+        <Section>
+          <h2>Outside work</h2>
+          <Body>
+            <p>
+              I play with Three.js, WebGL and animation. I like making things
+              you can move around in, and I'm planning to study Human-Computer
+              Interaction to understand why some of them feel good and others
+              don't.
+            </p>
+          </Body>
+        </Section>
 
-          <Text $margin="0 0 1.25rem">
-            The part I like most is the space between a decision and the screen that
-            carries it out: whether a flow makes sense, what someone sees when something
-            goes wrong, how an interaction feels. I like being in that space.
-          </Text>
-
-          <Text $margin="0 0 1.25rem">
-            Outside of work I play with <strong>Three.js</strong>, <strong>WebGL</strong> and animation. I like making things you can move around in, and I'm planning
-            to study Human-Computer Interaction to understand why some of them feel good
-            and others don't.
-          </Text>
-
-          <NextSteps>
-            <Link to="/contact">
-              Get in touch <span aria-hidden="true">→</span>
-            </Link>
-          </NextSteps>
-        </AboutText>
-      </Container>
+        <Actions>
+          <PillLink to="/contact">
+            Get in touch
+            <ArrowIcon />
+          </PillLink>
+          <ResumeLink href={Resume} target="_blank" rel="noopener noreferrer">
+            Résumé (PDF)
+            <LinkIcon />
+            <VisuallyHidden> (opens in a new tab)</VisuallyHidden>
+          </ResumeLink>
+        </Actions>
+      </Article>
     </>
   );
 };
 
 export default AboutContent;
 
-const Container = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: clamp(2rem, 5vw, 5rem);
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: clamp(1.5rem, 3vw, 3rem);
-
-  @media screen and (max-width: 992px) {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-`;
-
-const PictureContainer = styled.div`
-  position: sticky;
-  top: 3rem;
+const Article = styled.article`
+  align-self: flex-start;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 6rem 4rem;
+  box-sizing: border-box;
+  color: ${INK};
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  width: min(35%, 400px);
+  gap: 4.5rem;
 
-  @media screen and (max-width: 992px) {
-    position: static;
-    width: min(100%, 300px);
-    margin-bottom: 1rem;
-    gap: 1rem;
-
-    > div:first-child {
-      transform: scale(0.8);
-      margin: -2rem 0;
-    }
+  @media (max-width: 992px) {
+    padding: 3rem 1.5rem;
+    gap: 3rem;
   }
 `;
 
-const AboutText = styled.article`
-  width: min(65%, 720px);
-  padding-bottom: 3rem;
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
 
-  @media screen and (max-width: 992px) {
-    width: 100%;
-    padding-bottom: 2rem;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
   }
+`;
 
-  h1 {
-    margin-bottom: 1.25rem;
+const Photo = styled.div`
+  flex-shrink: 0;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    width: 120px;
+    height: 120px;
+  }
+`;
+
+const Title = styled.h1`
+  margin: 0;
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+
+  @media (max-width: 992px) {
+    font-size: 3rem;
   }
 `;
 
 const Lead = styled.p`
-  margin: 0 0 1rem;
-  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
-  font-weight: 500;
+  margin: 0.875rem 0 0;
+  font-size: 1.5rem;
   line-height: 1.35;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  color: ${MUTED};
   text-wrap: balance;
+
+  @media (max-width: 992px) {
+    font-size: 1.25rem;
+  }
 `;
 
-const NextSteps = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 2rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #000;
+const Section = styled.section`
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 2.5rem;
 
-  a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 44px;
-    color: #000;
+  h2 {
+    margin: 0;
     font-size: 1.0625rem;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
+    font-weight: 600;
+  }
 
-    span {
-      transition: transform 0.2s ease;
-    }
+  @media (max-width: 992px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+`;
 
-    &:hover,
-    &:focus-visible {
-      border-bottom-color: #000;
-    }
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 
-    @media (hover: hover) {
-      &:hover span {
-        transform: translateX(0.25rem);
-      }
+  p {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 992px) {
+    p {
+      font-size: 1.0625rem;
     }
   }
+`;
+
+const XpList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid ${LINE};
+
+  li {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr) auto;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    padding: 1.125rem 0;
+    border-bottom: 1px solid ${LINE};
+  }
+
+  .company {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .role {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: ${MUTED};
+  }
+
+  .period {
+    font-size: 0.875rem;
+    color: ${MUTED};
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    li {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .role {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+`;
+
+const Aside = styled.p`
+  margin: 1.25rem 0 0;
+  font-size: 1rem;
+  color: ${MUTED};
+
+  a {
+    color: ${INK};
+    font-weight: 500;
+    text-underline-offset: 4px;
+  }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid ${LINE};
+`;
+
+const ResumeLink = styled.a`
+  ${quietLinkStyles}
 `;
 
 const speakerPulse = keyframes`
@@ -258,7 +390,7 @@ const SpeakerIcon = styled.span<{ $isPlaying: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
+  color: ${INK};
 
   svg {
     width: 1.1rem;
@@ -280,8 +412,10 @@ const NameContainer = styled.button<{ $isPlaying: boolean }>`
   gap: 0.35rem;
   padding: 0 0.2rem;
   margin: 0 -0.2rem;
+  border: 0;
   border-radius: 4px;
   font: inherit;
+  color: inherit;
   letter-spacing: inherit;
   vertical-align: baseline;
   cursor: pointer;
@@ -330,14 +464,10 @@ const NameContainer = styled.button<{ $isPlaying: boolean }>`
     visibility: visible;
     transform: translateX(-50%) translateY(0);
   }
-
-  @media (max-width: 768px) {
-    padding: 0.2rem 0.4rem;
-  }
 `;
 
 const Highlight = styled.span`
-  color: #000;
+  color: ${INK};
   font-weight: 600;
   text-decoration: underline;
   text-decoration-thickness: 1px;

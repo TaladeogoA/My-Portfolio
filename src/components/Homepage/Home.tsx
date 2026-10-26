@@ -1,8 +1,16 @@
 import gsap from "gsap";
 import { useLayoutEffect, useRef, useState } from "react";
 import SplitType from "split-type";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FloatingTalade from "../../assets/talade-floating.webp";
+import {
+  ArrowIcon,
+  INK,
+  MUTED,
+  PillLink,
+  quietLinkStyles,
+} from "../Common/theme";
 import { MetaTags } from "../SEO/MetaTags";
 
 const Home = () => {
@@ -88,6 +96,18 @@ const Home = () => {
               and mobile.
             </Tagline>
 
+            <Now className="reveal">
+              <span className="dot" aria-hidden="true" />
+              Currently building PineLeap at Trivalue
+            </Now>
+
+            <Actions className="reveal">
+              <PillLink to="/work">
+                See my work
+                <ArrowIcon />
+              </PillLink>
+              <QuietLink to="/about">About me</QuietLink>
+            </Actions>
           </HomeText>
 
           <HomeImgContainer>
@@ -117,7 +137,7 @@ const MainContainer = styled.div`
   min-height: 100vh;
   min-height: 100dvh;
   overflow: hidden;
-  font-family: "Kodchasan", sans-serif;
+  color: ${INK};
 `;
 
 const ContentContainer = styled.div`
@@ -148,45 +168,67 @@ const HomeText = styled.div`
   max-width: 600px;
 
   @media (max-width: 767px) {
-    text-align: center;
     max-width: 100%;
   }
 `;
 
 const Heading = styled.h1`
-  font-weight: 400;
+  margin: 0;
+  font-weight: 600;
 `;
 
 const Line = styled.span`
   display: block;
-  text-transform: uppercase;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 400;
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-  line-height: 1.1;
-
-  @media (max-width: 767px) {
-    font-size: 3rem;
-  }
+  line-height: 1.05;
 `;
 
 const Pronunciation = styled.p`
-  margin-top: 0.5rem;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
-  font-weight: 400;
+  margin: 0.75rem 0 0;
+  font-size: 1.0625rem;
+  color: ${MUTED};
 `;
 
-const Tagline = styled.h2`
-  margin-top: clamp(1rem, 2vw, 1.5rem);
-  max-width: 28em;
-  font-size: clamp(1.0625rem, 1.5vw, 1.375rem);
+const Tagline = styled.p`
+  margin: 1.75rem 0 0;
+  max-width: 24em;
+  font-size: clamp(1.1875rem, 1.8vw, 1.5rem);
   font-weight: 400;
   line-height: 1.4;
+  letter-spacing: -0.01em;
   text-wrap: balance;
+`;
 
-  @media (max-width: 767px) {
-    margin-inline: auto;
+const Now = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 1.5rem 0 0;
+  font-size: 0.9375rem;
+  color: ${MUTED};
+
+  .dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2f7d4a;
   }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 2rem;
+  margin-top: 2rem;
+`;
+
+const QuietLink = styled(Link)`
+  ${quietLinkStyles}
 `;
 
 const HomeImgContainer = styled.div`

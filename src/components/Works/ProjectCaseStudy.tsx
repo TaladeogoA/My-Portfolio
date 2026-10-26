@@ -3,6 +3,7 @@ import { FaAndroid, FaApple, FaGlobe } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Asset, Project } from "../../types/project";
+import { HOVER, INK, LINE, MUTED } from "../Common/theme";
 import { VisuallyHidden } from "../Common/VisuallyHidden";
 import ImageModal from "./ImageModal";
 import { OptimizedImage } from "./OptimizedImage";
@@ -179,10 +180,6 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
     </Article>
   );
 };
-
-const INK = "#111110";
-const MUTED = "#5F5E5A";
-const LINE = "#E2E0DA";
 
 const Article = styled.article`
   align-self: flex-start;
@@ -467,7 +464,7 @@ const NextLink = styled(Link)`
 
   @media (hover: hover) {
     &:hover {
-      background: #f0eee9;
+      background: ${HOVER};
     }
     &:hover svg {
       transform: translateX(4px);

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Resume from "../../assets/Taladeogo-Abraham-Resume.pdf";
 import { Project } from "../../types/project";
+import { HOVER, INK, LINE, LinkIcon, MUTED } from "../Common/theme";
 import { VisuallyHidden } from "../Common/VisuallyHidden";
 
 interface WorkIndexProps {
@@ -85,17 +86,15 @@ const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
         <Footnote>
           Earlier roles and the full history are in my{" "}
           <a href={Resume} target="_blank" rel="noopener noreferrer">
-            résumé ↗<VisuallyHidden> (opens in a new tab)</VisuallyHidden>
+            résumé
+            <LinkIcon />
+            <VisuallyHidden> (opens in a new tab)</VisuallyHidden>
           </a>
         </Footnote>
       </section>
     </Page>
   );
 };
-
-const INK = "#111110";
-const MUTED = "#5F5E5A";
-const LINE = "#E2E0DA";
 
 const Page = styled.div`
   align-self: flex-start;
@@ -270,7 +269,7 @@ const Row = styled(Link)`
 
   @media (hover: hover) {
     &:hover {
-      background: #f0eee9;
+      background: ${HOVER};
     }
     &:hover ${Arrow} {
       transform: translateX(4px);
@@ -371,6 +370,9 @@ const Footnote = styled.p`
   color: ${MUTED};
 
   a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
     color: ${INK};
     font-weight: 500;
     text-underline-offset: 4px;

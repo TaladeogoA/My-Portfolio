@@ -45,6 +45,7 @@ Without them the site still runs, but submitting the form shows the error state.
 - **Adding a top-level page requires updating `NAV_ORDER`, `useNavPadding`, and `AppRoutes` together.**
 - `getNavPath` reduces nested paths such as `/work/01` to their top-level path, so `NAV_ORDER` and `useNavPadding` work for them.
 - Nav items are real `NavLink`s (no `preventDefault`). `PageLayout` resets scroll and focuses `<main id="main-content">` on top-level route change and renders a skip link.
+- `<main>` is the only scroll container (fixed 100dvh, `overflow: auto`) and is `position: relative`. Keep it positioned: without it, absolutely positioned children such as `VisuallyHidden` labels stretch the document, so the window scrolls too and blank space shows under the page.
 
 **Work page:**
 
@@ -64,23 +65,26 @@ Without them the site still runs, but submitting the form shows the error state.
 
 - GSAP with `split-type` animates the Home heading text (`utils/Animation.js`).
 - framer-motion handles route transitions, the nav, the project list, and modals.
-- CSS keyframes handle the smaller effects: floating avatar, rotating About text, and the skeleton shimmer.
+- CSS keyframes handle the smaller effects: the floating Home illustration, the rotating "Get in touch" badge on `/work`, and the skeleton shimmer.
 
 **About page:**
 
 - The name-pronunciation buttons play `src/assets/talade.m4a` and `taladeogo.m4a` through a single shared module-level `Audio` instance.
-- "View Resume" opens `src/assets/Taladeogo-Abraham-Resume.pdf`. To update the résumé, replace that file under the same name.
+- The page is a photo header, then label-on-the-left sections (Hello, Experience, Outside work) in the same layout as the Work case studies. The Experience rows are the `EXPERIENCE` array in `AboutContent.tsx`.
+- The résumé link (here and on `/work`) points to `src/assets/Taladeogo-Abraham-Resume.pdf`. To update the résumé, replace that file under the same name.
+
+**Home page:** GSAP animates the two heading lines, and `.reveal` elements fade in after. Content stays hidden until that runs. The "Currently building…" line is hardcoded in `Home.tsx`.
+
+**Contact page:** direct links (email with a Copy button, LinkedIn, GitHub) beside `ContactForm`. The form's EmailJS call is unchanged.
 
 ## Conventions
 
-- **Styling:** styled-components v5 only, with components defined in the same file below the React component. `App.css` and `index.css` hold only resets and global fonts. There is no theme provider; colors are hardcoded, mainly black `#000` on off-white `#F8F7F4`.
+- **Styling:** styled-components v5 only, with components defined in the same file below the React component. `App.css` and `index.css` hold only resets and global fonts. There is no theme provider. Page content takes its colours, the rounded `PillLink` / `pillStyles` call-to-action and `quietLinkStyles` from `components/Common/theme.tsx`. The nav keeps its own hardcoded `#000` on `#F8F7F4`; don't restyle it.
 - **Transient props:** use `$`-prefixed props (`$isLoading`, `$margin`) so they don't reach the DOM.
 - **Animated styled components:** create them with `motion(StyledBase)`, e.g. `const Content = motion(ContentBase)`. The recent commit c6f6668 switched to this pattern to fix TypeScript build errors.
 - **Shared UI:**
-  - `components/Common/Typography.tsx`: `H1`–`H4` and `Text`, which take `$margin`, `$size`, `$color`, and similar props.
-  - `Common/Button.tsx`: `variant="primary" | "secondary"`.
-  - `Common/StyledLink.tsx`
+  - `components/Common/theme.tsx`: colour constants, pill and quiet link styles, `ArrowIcon`, and `LinkIcon` (use it for links that leave the site, never a ↗ arrow).
   - `Works/OptimizedImage.tsx`: a lazy image with a skeleton placeholder. It is also used outside the Work page.
 - **Breakpoints:** 992px for the nav and layout switch, and 768px for the cursor and minor tweaks. `useMediaQuery` is the hook for JS-side checks.
 - **Types:** new components should be `.tsx`. Several older components are still `.js`. `tsconfig` is `strict`, with `allowJs`. Module declarations for image and video imports live in `src/types/declarations.d.ts`. Add one there for any new asset type imported from a TS file.
-- **Fonts:** DM Sans is the body font, Kodchasan is used for the nav and Home page, and Noto Serif Display is also loaded. All come from Google Fonts in `index.css` and `public/index.html`.
+- **Fonts:** DM Sans is the body and heading font, Kodchasan is used only for the nav and the Work badge, and Noto Serif Display is also loaded but unused. All come from Google Fonts in `index.css` and `public/index.html`.

@@ -88,6 +88,10 @@ const MainContent = styled.main<{
   $leftPadding: number;
   $rightPadding: number;
 }>`
+  /* Keeps absolutely positioned children (e.g. VisuallyHidden labels) inside
+     this scroll box. Without it they extend the document and the window
+     scrolls too, leaving blank space under the page. */
+  position: relative;
   padding-left: ${({ $leftPadding }) => $leftPadding}px;
   padding-right: ${({ $rightPadding }) => $rightPadding}px;
   display: flex;

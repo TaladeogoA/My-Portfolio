@@ -1,8 +1,7 @@
 import emailjs from "@emailjs/browser";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Button } from "../Common/Button";
-import { Text } from "../Common/Typography";
+import { ArrowIcon, INK, MUTED, pillStyles } from "../Common/theme";
 
 interface FormData {
   name: string;
@@ -54,66 +53,69 @@ const ContactForm: React.FC = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          type="text"
-          autoComplete="name"
-          value={formData.name}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, name: e.target.value }))
-          }
-          required
-        />
-      </FormGroup>
+      <Pair>
+        <FormGroup>
+          <Label htmlFor="name">Name</Label>
+          <Field
+            id="name"
+            type="text"
+            autoComplete="name"
+            value={formData.name}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, name: e.target.value }))
+            }
+            required
+          />
+        </FormGroup>
 
-      <FormGroup>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          autoComplete="email"
-          value={formData.email}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, email: e.target.value }))
-          }
-          required
-        />
-      </FormGroup>
+        <FormGroup>
+          <Label htmlFor="email">Email</Label>
+          <Field
+            id="email"
+            type="email"
+            autoComplete="email"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, email: e.target.value }))
+            }
+            required
+          />
+        </FormGroup>
+      </Pair>
 
       <FormGroup>
         <Label htmlFor="message">Message</Label>
-        <TextArea
+        <Field
+          as="textarea"
           id="message"
           value={formData.message}
-          onChange={(e) =>
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setFormData((prev) => ({ ...prev, message: e.target.value }))
           }
           required
-          rows={5}
+          rows={6}
         />
       </FormGroup>
 
       <Actions>
-        <Button type="submit" variant="primary" disabled={isLoading}>
-          {isLoading ? "Sending..." : "Send Message"}
-        </Button>
+        <SubmitButton type="submit" disabled={isLoading}>
+          {isLoading ? "Sending…" : "Send message"}
+          {!isLoading && <ArrowIcon />}
+        </SubmitButton>
+        <Hint>I usually reply within a few days.</Hint>
       </Actions>
 
-      <div role="status" aria-live="polite">
+      <Status role="status" aria-live="polite">
         {status === "success" && (
-          <Text $color="#1a6b2f" $margin="0">
-            Message sent successfully!
-          </Text>
+          <span className="success">Message sent. Thank you!</span>
         )}
         {status === "error" && (
-          <Text $color="#b00020" $margin="0">
+          <span className="error">
             Failed to send message. Please try again, or email me directly at
             ataladeogo@gmail.com.
-          </Text>
+          </span>
         )}
-      </div>
+      </Status>
     </Form>
   );
 };
@@ -121,7 +123,18 @@ const ContactForm: React.FC = () => {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
+`;
+
+const Pair = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
 `;
 
 const FormGroup = styled.div`
@@ -130,46 +143,68 @@ const FormGroup = styled.div`
   gap: 0.5rem;
 `;
 
-const Actions = styled.div`
-  display: flex;
-`;
-
 const Label = styled.label`
-  font-size: 1.2rem;
+  font-size: 0.9375rem;
   font-weight: 500;
 `;
 
-const Input = styled.input`
-  padding: 0.8rem 0;
-  border: none;
-  border-bottom: 1px solid #000;
-  font-size: 1.2rem;
-  font-family: inherit;
+const Field = styled.input`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 0.875rem;
+  font: inherit;
+  font-size: 1.0625rem;
+  color: ${INK};
   background: transparent;
-  transition: border-color 0.3s ease;
+  border: 1px solid #c9c5bc;
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${MUTED};
+    }
+  }
+
+  &:is(textarea) {
+    resize: vertical;
+    min-height: 140px;
+  }
 
   &:focus {
-    outline: none;
-    background: rgba(0, 0, 0, 0.04);
-    box-shadow: 0 1px 0 0 #000;
+    outline: 2px solid ${INK};
+    outline-offset: 1px;
+    border-color: ${INK};
   }
 `;
 
-const TextArea = styled.textarea`
-  padding: 0.8rem 0;
-  border: none;
-  border-bottom: 1px solid #000;
-  font-size: 1.2rem;
-  font-family: inherit;
-  resize: vertical;
-  background: transparent;
-  transition: border-color 0.3s ease;
-  height: 100px;
+const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+`;
 
-  &:focus {
-    outline: none;
-    background: rgba(0, 0, 0, 0.04);
-    box-shadow: 0 1px 0 0 #000;
+const SubmitButton = styled.button`
+  ${pillStyles}
+`;
+
+const Hint = styled.span`
+  font-size: 0.875rem;
+  color: ${MUTED};
+`;
+
+const Status = styled.div`
+  font-size: 1rem;
+  line-height: 1.5;
+
+  .success {
+    color: #1a6b2f;
+  }
+
+  .error {
+    color: #b00020;
   }
 `;
 
