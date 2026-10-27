@@ -20,6 +20,8 @@ interface ParticleFigureProps {
   resolve?: boolean;
   /** Most particles to draw on phones. */
   maxPointsSmall?: number;
+  /** Particle size as a multiple of the gap between them. Above 1 they overlap into a solid image. */
+  pointScale?: number;
   onReady?: () => void;
   /** Called once, when the intro has settled. */
   onSettled?: () => void;
@@ -230,6 +232,7 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
   idle = true,
   resolve = false,
   maxPointsSmall = 6000,
+  pointScale = 1.35,
   onReady,
   onSettled,
   onError,
@@ -326,7 +329,7 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
         uniforms: {
           uPixelRatio: { value: dpr },
           uDistance: { value: distance },
-          uPointSize: { value: Math.max(2, spacing * 1.35) },
+          uPointSize: { value: Math.max(1.5, spacing * pointScale) },
           uTime: { value: 0 },
           uIdle: { value: idle ? 1 : 0 },
           uFade: { value: 0 },

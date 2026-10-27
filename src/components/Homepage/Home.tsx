@@ -194,6 +194,7 @@ const Home = () => {
                   mono
                   bleed={isPhone ? 0.08 : 0.35}
                   maxPointsSmall={13000}
+                  pointScale={1}
                   onReady={() => setParticlesReady(true)}
                   onError={() => setParticlesFailed(true)}
                 />

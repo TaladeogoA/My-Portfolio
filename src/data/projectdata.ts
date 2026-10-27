@@ -1,10 +1,8 @@
-import CompreFour from "../assets/compre-four.webp";
-import CompreOne from "../assets/compre-one.webp";
-import CompreThree from "../assets/compre-three.webp";
-import CompreTwo from "../assets/compre-two.webp";
+import CompreDashboard from "../assets/compre-dashboard.webp";
+import CompreOrderPayment from "../assets/compre-order-payment.webp";
+import CompreOrders from "../assets/compre-orders.webp";
 import DispensaryCustomersSuppliers from "../assets/dispensary-customers-suppliers.webp";
 import DispensaryDevices from "../assets/dispensary-devices.webp";
-import DispensaryHomeRequest from "../assets/dispensary-home-request.webp";
 import DispensaryInventoryBranches from "../assets/dispensary-inventory-branches.webp";
 import DispensaryNewOrder from "../assets/dispensary-new-order.mp4";
 import FamasiHomePlans from "../assets/famasi-home-plans.webp";
@@ -135,35 +133,33 @@ export const data: Project[] = [
     assets: [
       {
         type: "image",
-        url: CompreOne,
-        width: 1024,
-        height: 500,
-        alt: "Compre mobile app ordering screens",
-        caption: "Pharmacies browse distributors and order straight from their catalogues.",
+        url: CompreOrders,
+        width: 2400,
+        height: 1350,
+        bare: true,
+        alt: "Compre supplier dashboard orders page",
+        caption:
+          "The supplier dashboard's orders page: incoming pharmacy orders with their items, source, totals and status, split by delivery and pick-up.",
       },
       {
         type: "image",
-        url: CompreTwo,
-        width: 1024,
-        height: 500,
-        alt: "Compre mobile app distributor list",
-        caption: "The distributor list, with search and a direct line to each one.",
+        url: CompreDashboard,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Compre supplier dashboard overview",
+        caption:
+          "The distributor's overview: what needs attention today, then income, orders, customers and items sold against the last period.",
       },
       {
         type: "image",
-        url: CompreThree,
-        width: 1024,
-        height: 500,
-        alt: "Compre mobile app order tracking",
-        caption: "Following an order after it has been placed.",
-      },
-      {
-        type: "image",
-        url: CompreFour,
-        width: 1024,
-        height: 500,
-        alt: "Compre mobile app business overview",
-        caption: "A business overview for the pharmacy.",
+        url: CompreOrderPayment,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Compre mobile app order details and payment screens",
+        caption:
+          "A pharmacy's order in the mobile app, and paying for it by bank transfer, with a countdown and the option to ask for more time.",
       },
     ],
     live: "https://distributor.getcompre.com",
@@ -279,17 +275,8 @@ export const data: Project[] = [
         width: 2400,
         height: 1350,
         bare: true,
-        alt: "Dispensary on desktop, tablet and phone: the web dashboard, a new order on the tablet, and the mobile home screen",
-        caption: "The same app on the web, a tablet and a phone. I brought the existing mobile app to the browser with Expo for Web.",
-      },
-      {
-        type: "image",
-        url: DispensaryHomeRequest,
-        width: 1800,
-        height: 1200,
-        bare: true,
-        alt: "Dispensary home screen with sales analytics, next to an incoming medication request to accept or decline",
-        caption: "Home shows sales and top sellers. An online request comes in with its delivery address and items, to accept or decline.",
+        alt: "Dispensary home screen with sales analytics, an incoming medication request to accept or decline, and an order review with payment methods",
+        caption: "Home shows sales and top sellers. An online request comes in with its delivery address and items, to accept or decline. A sale is reviewed with its totals before payment.",
       },
       {
         type: "image",
