@@ -582,7 +582,7 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
       img.onerror = null;
       cleanup();
     };
-  }, [src, boxWidth, boxHeight, bleed, mono, gather, idle, maxPointsSmall]);
+  }, [src, boxWidth, boxHeight, bleed, mono, gather, idle, maxPointsSmall, pointScale]);
 
   return (
     <Host
