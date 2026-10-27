@@ -12,22 +12,27 @@ import {
 import { MetaTags } from "../SEO/MetaTags";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 
-// Home starts fetching the particle code as soon as it mounts, so the code is
-// usually ready by the time the image has loaded.
-const loadParticleFigure = () => import("../Effects/ParticleFigure");
-const ParticleFigure = lazy(loadParticleFigure);
+const ParticleFigure = lazy(() => import("../Effects/ParticleFigure"));
 
-// How long the figure can stay empty after Home opens. If the particles aren't
-// drawing by then, the photo stands in until they are.
-const PARTICLE_WAIT_MS = 2000;
+// WebGL support is checked once per visit, and the test context is released
+// straight away. Phones only allow a few live contexts, so creating one on
+// every visit to Home could leave none for the particles.
+let webglSupport: boolean | undefined;
 
-// No test WebGL context here: creating and destroying one right before the
-// particles create theirs left the figure blank on a first visit in Chrome on
-// Android. ParticleFigure reports a missing or broken context through onError.
 const canUseParticles = () => {
   if (typeof window === "undefined") return false;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  return "WebGLRenderingContext" in window;
+  if (webglSupport === undefined) {
+    try {
+      const canvas = document.createElement("canvas");
+      const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      webglSupport = !!gl;
+      gl?.getExtension("WEBGL_lose_context")?.loseContext();
+    } catch {
+      webglSupport = false;
+    }
+  }
+  return webglSupport;
 };
 
 const Home = () => {
@@ -59,24 +64,16 @@ const Home = () => {
     return () => observer.disconnect();
   }, [particles]);
 
-  useEffect(() => {
-    if (particles) loadParticleFigure().catch(() => setParticlesFailed(true));
-  }, [particles]);
+  const showParticles = particles && !particlesFailed && imageLoaded && box.width > 0;
 
-  // The particles always take over. The photo stays hidden while they start so
-  // it doesn't show first, but only briefly: if they aren't drawing within
-  // PARTICLE_WAIT_MS of Home opening (a cold load on a phone usually still has
-  // three.js downloading), the photo stands in until they are, then hands over.
-  // The timer doesn't wait for the photo's load event, so a missed event can't
-  // leave the figure empty.
+  // When particles will take over, the photo stays hidden so it never shows
+  // first and then flashes away. It only appears if they fail or are slow.
   const [particlesSlow, setParticlesSlow] = useState(false);
   useEffect(() => {
     if (!particles || particlesReady) return;
-    const timer = window.setTimeout(() => setParticlesSlow(true), PARTICLE_WAIT_MS);
+    const timer = window.setTimeout(() => setParticlesSlow(true), 2500);
     return () => window.clearTimeout(timer);
   }, [particles, particlesReady]);
-  const showParticles =
-    particles && !particlesFailed && (imageLoaded || particlesSlow) && box.width > 0;
   const hidePhoto = particles && !particlesFailed && (particlesReady || !particlesSlow);
 
   // A cached image can finish loading before React sees it, so check directly too.
@@ -185,7 +182,7 @@ const Home = () => {
               {...{ fetchpriority: "high" }}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageLoaded(true)}
-              $loaded={imageLoaded || particlesSlow}
+              $loaded={imageLoaded}
               $hidden={hidePhoto}
             />
             {showParticles && (

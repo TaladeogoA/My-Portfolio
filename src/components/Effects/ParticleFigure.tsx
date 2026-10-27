@@ -122,17 +122,6 @@ const FRAGMENT = /* glsl */ `
   }
 `;
 
-/** True if the frame just drawn has any visible pixels. Read right after drawing. */
-const hasPixels = (gl: WebGLRenderingContext | WebGL2RenderingContext) => {
-  const w = gl.drawingBufferWidth;
-  const h = gl.drawingBufferHeight;
-  if (!w || !h) return false;
-  const pixels = new Uint8Array(w * h * 4);
-  gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-  for (let i = 3; i < pixels.length; i += 4) if (pixels[i] > 8) return true;
-  return false;
-};
-
 const FOV = 35;
 const PX = 100; // CSS px per world unit
 
@@ -428,7 +417,6 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
       const baseRadius = Math.max(0.3, (boxWidth / PX) * 0.17);
       const clock = new THREE.Clock();
       let readySent = false;
-      let blankFrames = 0;
       let settledSent = false;
       let nextBloom = 1.5;
       let bloomSlot = 0;
@@ -536,20 +524,9 @@ const ParticleFigure: React.FC<ParticleFigureProps> = ({
 
         renderer.render(scene, camera);
         if (!readySent) {
-          // Only hand over once particles are really on the canvas. A context
-          // can render without error yet draw nothing, which would leave the
-          // page empty with the photo hidden. Read the frame back to check.
-          if (!hasPixels(renderer.getContext())) {
-            if (++blankFrames > 30) {
-              disposed = true;
-              callbacks.current.onError?.();
-              return;
-            }
-          } else {
-            readySent = true;
-            canvas.style.opacity = "1";
-            callbacks.current.onReady?.();
-          }
+          readySent = true;
+          canvas.style.opacity = "1";
+          callbacks.current.onReady?.();
         }
         // A still figure hands over as soon as its particles stop moving;
         // an idle one keeps moving, so it waits a fixed time.
