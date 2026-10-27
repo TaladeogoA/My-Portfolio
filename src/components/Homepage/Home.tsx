@@ -12,7 +12,10 @@ import {
 import { MetaTags } from "../SEO/MetaTags";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 
-const ParticleFigure = lazy(() => import("../Effects/ParticleFigure"));
+// Home starts fetching the particle code as soon as it mounts, so the code is
+// usually ready by the time the image has loaded.
+const loadParticleFigure = () => import("../Effects/ParticleFigure");
+const ParticleFigure = lazy(loadParticleFigure);
 
 // WebGL support is checked once per visit, and the test context is released
 // straight away. Phones only allow a few live contexts, so creating one on
@@ -64,17 +67,23 @@ const Home = () => {
     return () => observer.disconnect();
   }, [particles]);
 
-  const showParticles = particles && !particlesFailed && imageLoaded && box.width > 0;
+  useEffect(() => {
+    if (particles) loadParticleFigure().catch(() => setParticlesFailed(true));
+  }, [particles]);
 
   // When particles will take over, the photo stays hidden so it never shows
-  // first and then flashes away. It only appears if they fail or are slow.
+  // first and then flashes away. If they aren't ready in time, the photo is
+  // shown and the particles are dropped for this visit, so the photo is never
+  // swapped out once it's on screen.
   const [particlesSlow, setParticlesSlow] = useState(false);
   useEffect(() => {
     if (!particles || particlesReady) return;
-    const timer = window.setTimeout(() => setParticlesSlow(true), 2500);
+    const timer = window.setTimeout(() => setParticlesSlow(true), 4000);
     return () => window.clearTimeout(timer);
   }, [particles, particlesReady]);
-  const hidePhoto = particles && !particlesFailed && (particlesReady || !particlesSlow);
+  const useParticles = particles && !particlesFailed && !particlesSlow;
+  const showParticles = useParticles && imageLoaded && box.width > 0;
+  const hidePhoto = useParticles;
 
   // A cached image can finish loading before React sees it, so check directly too.
   useLayoutEffect(() => {
