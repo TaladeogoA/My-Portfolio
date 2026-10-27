@@ -11,6 +11,17 @@ const loadContact = () => import("./components/Contact/ContactContent");
 const loadWork = () => import("./components/Works/WorksContent");
 const loadNotFound = () => import("./components/Common/NotFound");
 
+// Home's particle figure pulls in three.js, a large download. When a visit
+// lands on Home, start fetching it alongside the Home chunk so the particles
+// are usually ready by the time the photo has loaded.
+if (
+  typeof window !== "undefined" &&
+  window.location.pathname === "/" &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+) {
+  import("./components/Effects/ParticleFigure").catch(() => {});
+}
+
 const Home = React.lazy(loadHome);
 const About = React.lazy(loadAbout);
 const Contact = React.lazy(loadContact);

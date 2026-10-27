@@ -22,6 +22,9 @@ const ParticleFigure = lazy(loadParticleFigure);
 // every visit to Home could leave none for the particles.
 let webglSupport: boolean | undefined;
 
+// How long the hidden photo waits for the particles after it has loaded.
+const PARTICLE_WAIT_MS = 1500;
+
 const canUseParticles = () => {
   if (typeof window === "undefined") return false;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
@@ -71,19 +74,18 @@ const Home = () => {
     if (particles) loadParticleFigure().catch(() => setParticlesFailed(true));
   }, [particles]);
 
-  // When particles will take over, the photo stays hidden so it never shows
-  // first and then flashes away. If they aren't ready in time, the photo is
-  // shown and the particles are dropped for this visit, so the photo is never
-  // swapped out once it's on screen.
+  // The particles always take over. The photo stays hidden while they start so
+  // it doesn't show first, but only briefly after it has loaded: if they aren't
+  // drawing by then (a cold load on a phone usually still has three.js
+  // downloading), the photo stands in until they are, then hands over.
   const [particlesSlow, setParticlesSlow] = useState(false);
   useEffect(() => {
-    if (!particles || particlesReady) return;
-    const timer = window.setTimeout(() => setParticlesSlow(true), 4000);
+    if (!particles || particlesReady || !imageLoaded) return;
+    const timer = window.setTimeout(() => setParticlesSlow(true), PARTICLE_WAIT_MS);
     return () => window.clearTimeout(timer);
-  }, [particles, particlesReady]);
-  const useParticles = particles && !particlesFailed && !particlesSlow;
-  const showParticles = useParticles && imageLoaded && box.width > 0;
-  const hidePhoto = useParticles;
+  }, [particles, particlesReady, imageLoaded]);
+  const showParticles = particles && !particlesFailed && imageLoaded && box.width > 0;
+  const hidePhoto = particles && !particlesFailed && (particlesReady || !particlesSlow);
 
   // A cached image can finish loading before React sees it, so check directly too.
   useLayoutEffect(() => {
@@ -166,7 +168,7 @@ const Home = () => {
               <Line ref={lineTwoRef}>Talade.</Line>
             </Heading>
             <Pronunciation className="reveal">
-              (Taládéògo if you're feeling brave.)
+              (Taládéògo if you're brave.)
             </Pronunciation>
 
             <Tagline className="reveal">
