@@ -31,4 +31,6 @@ export interface Project {
   appStoreUrl?: string;
   playStoreUrl?:  string;
   period: string;
+  /** Made on my own rather than for a client or employer. Listed under "Personal" on the Work page. */
+  personal?: boolean;
 }

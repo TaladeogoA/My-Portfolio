@@ -25,7 +25,9 @@ const yearRange = (projects: Project[]) => {
 };
 
 const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
-  const firstYear = yearRange(projects);
+  const clientWork = projects.filter((p) => !p.personal);
+  const personalWork = projects.filter((p) => p.personal);
+  const firstYear = yearRange(clientWork);
   const pageRef = useRef<HTMLDivElement>(null);
   useScrollChoreography(pageRef);
   const canPreview = useMediaQuery(PREVIEW_QUERY);
@@ -79,42 +81,8 @@ const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
         </SectionHead>
 
         <List data-stagger onMouseLeave={() => setHovered(null)}>
-          {projects.map((project) => (
-            <li key={project.id}>
-              <Row
-                to={`/work/${project.id}`}
-                onMouseEnter={() => setHovered(project.id)}
-              >
-                {project.assets[0]?.type === "image" && (
-                  <Thumb
-                    aria-hidden="true"
-                    data-clip
-                    style={{
-                      aspectRatio:
-                        project.assets[0].width && project.assets[0].height
-                          ? `${project.assets[0].width} / ${project.assets[0].height}`
-                          : undefined,
-                    }}
-                  >
-                    <img src={project.assets[0].url} alt="" loading="lazy" />
-                  </Thumb>
-                )}
-                <Num aria-hidden="true">{project.id}</Num>
-                <Main>
-                  <Name>{project.title}</Name>
-                  <Blurb>{project.shortDescription}</Blurb>
-                </Main>
-                <Meta>
-                  <span>{project.role}</span>
-                  <span className="muted">
-                    {project.period} · {project.platforms}
-                  </span>
-                </Meta>
-                <Arrow>
-                  <ArrowIcon />
-                </Arrow>
-              </Row>
-            </li>
+          {clientWork.map((project) => (
+            <ProjectRow key={project.id} project={project} onHover={setHovered} />
           ))}
         </List>
 
@@ -128,12 +96,65 @@ const WorkIndex: React.FC<WorkIndexProps> = ({ projects }) => {
         </Footnote>
       </section>
 
+      {personalWork.length > 0 && (
+        <section aria-labelledby="personal-projects">
+          <SectionHead data-fade>
+            <h2 id="personal-projects">Personal</h2>
+            <span>Made on my own</span>
+          </SectionHead>
+          <List data-stagger onMouseLeave={() => setHovered(null)}>
+            {personalWork.map((project) => (
+              <ProjectRow key={project.id} project={project} onHover={setHovered} />
+            ))}
+          </List>
+        </section>
+      )}
+
       {canPreview && previewItems.length > 0 && (
         <Suspense fallback={null}>
           <HoverPreview items={previewItems} activeId={hovered} />
         </Suspense>
       )}
     </Page>
+  );
+};
+
+const ProjectRow: React.FC<{
+  project: Project;
+  onHover: (id: string) => void;
+}> = ({ project, onHover }) => {
+  const first = project.assets[0];
+  return (
+    <li>
+      <Row to={`/work/${project.id}`} onMouseEnter={() => onHover(project.id)}>
+        {first?.type === "image" && (
+          <Thumb
+            aria-hidden="true"
+            data-clip
+            style={{
+              aspectRatio:
+                first.width && first.height ? `${first.width} / ${first.height}` : undefined,
+            }}
+          >
+            <img src={first.url} alt="" loading="lazy" />
+          </Thumb>
+        )}
+        <Num aria-hidden="true">{project.id}</Num>
+        <Main>
+          <Name>{project.title}</Name>
+          <Blurb>{project.shortDescription}</Blurb>
+        </Main>
+        <Meta>
+          <span>{project.role}</span>
+          <span className="muted">
+            {project.period} · {project.platforms}
+          </span>
+        </Meta>
+        <Arrow>
+          <ArrowIcon />
+        </Arrow>
+      </Row>
+    </li>
   );
 };
 

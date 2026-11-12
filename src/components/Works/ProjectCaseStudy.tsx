@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { FaAndroid, FaApple, FaGlobe } from "react-icons/fa";
+import { FaAndroid, FaApple, FaGithub, FaGlobe } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useScrollChoreography } from "../../hooks/useScrollChoreography";
@@ -96,6 +96,7 @@ const ProjectCaseStudy: React.FC<ProjectCaseStudyProps> = ({
     project.live && { href: project.live, label: "Website", icon: <FaGlobe size={14} /> },
     project.appStoreUrl && { href: project.appStoreUrl, label: "App Store", icon: <FaApple size={16} /> },
     project.playStoreUrl && { href: project.playStoreUrl, label: "Google Play", icon: <FaAndroid size={16} /> },
+    project.source && { href: project.source, label: "Code", icon: <FaGithub size={15} /> },
   ].filter(Boolean) as { href: string; label: string; icon: React.ReactNode }[];
 
   return (

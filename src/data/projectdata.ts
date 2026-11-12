@@ -9,6 +9,11 @@ import FamasiHomePlans from "../assets/famasi-home-plans.webp";
 import FamasiOrder from "../assets/famasi-order.webp";
 import FamasiWrapped from "../assets/famasi-wrapped.webp";
 import FamasiWrappedVideo from "../assets/famasi-wrapped.mp4";
+import FourMaysChoice from "../assets/fourmays-choice.webp";
+import FourMaysEnding from "../assets/fourmays-ending.webp";
+import FourMaysEvening from "../assets/fourmays-evening.webp";
+import FourMaysFamily from "../assets/fourmays-family.webp";
+import FourMaysYear from "../assets/fourmays-year.webp";
 import OctodocApp from "../assets/octodoc-app.webp";
 import OctodocCompare from "../assets/octodoc-compare.webp";
 import OctodocPicker from "../assets/octodoc-picker.webp";
@@ -379,5 +384,84 @@ export const data: Project[] = [
     playStoreUrl:
       "https://play.google.com/store/apps/details?id=ai.octosoft.octodoc",
     period: "2023 – 2025",
+  },
+  {
+    id: "06",
+    personal: true,
+    role: "Design and engineering, solo",
+    platforms: "Web",
+    title: "Four Mays",
+    subtitle: "One Lagos Family, Four Years of Prices",
+    shortDescription:
+      "A small web game that shows what the last few years of prices and policy changes did to everyday life, through one Lagos family on the same day in May, 2023 to 2026.",
+    description:
+      "Four Mays follows a fictional Lagos family on the same day in May, four years running. Father drives a danfo, Mother runs a roadside kiosk, Sister works in a factory and Junior is in secondary school. The player makes each person's big choice of the day: food or rent, clinic or chemist, bus or walk. Between the years, dated and sourced changes are dealt like cards. The run ends with a note from the family, four evening photos and the date Nigeria next votes.",
+    constraints:
+      "Figures like \"petrol is up six times\" are hard to feel. I wanted to turn them into one household's month without telling anyone who to blame. So the game shows conditions and effects, never culprits. The prices had to be real and sourced, mostly from the National Bureau of Statistics, while the family and its money stay clearly illustrative. And it had to run well in a phone browser as well as on a desktop.",
+    contribution:
+      "I made it alone over a month: the concept, the research, the interface, the 3D street and house, the game logic, the sound and the deployment. Every model is original, built in Blender with Python scripts in a boxy low-poly style. The game runs in the browser with Three.js and has no backend or accounts.",
+    decisions:
+      "Every figure on screen comes from a typed data file with a source id, and a figure marked as a gap can't reach the screen. Choices carry into later years, and someone who gives up too much rest or food can fall ill, so the cost of a choice shows up in the house, not just in a number. To keep it smooth on phones, static meshes are merged at load to keep draw calls low, and the pixel ratio is capped. The start screen doubles as the loading screen, with the Begin button filling as the scene loads.",
+    technicalHighlights: [
+      "Built a 3D street and house in Three.js with an orthographic camera that eases to whoever's turn it is",
+      "Modelled every asset in Blender with Python scripts and exported it as glTF",
+      "Merged static meshes at load, aiming for under about 100 draw calls and 150k triangles",
+      "Wrote pathfinding with A* over a 0.2 m grid, so people walk round furniture and each other",
+      "Kept every price in a typed, sourced data file, with gaps blocked from the screen",
+      "Added one random emergency per run, choices that carry across years and breaking points for rest and food",
+      "Scored it with a synthesized highlife-style track that changes each year, and voiced the opening radio news with YarnGPT, a Nigerian-accented text-to-speech model",
+      "Laid it out for phones with a bottom sheet, and for tablets and desktop",
+    ],
+    techStack: "Three.js • TypeScript • Vite • GSAP • Blender • Python • glTF • Vercel",
+    assets: [
+      {
+        type: "image",
+        url: FourMaysFamily,
+        width: 2400,
+        height: 1350,
+        bare: true,
+        alt: "Four Mays: a cut-away 3D house with the family labelled Mother, Father, Sister and Junior",
+        caption: "Meeting the family in the opening, inside their house.",
+      },
+      {
+        type: "image",
+        url: FourMaysChoice,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "Father beside his danfo in May 2025, choosing how long to drive, with the household money above",
+        caption: "Each person's choice of the day, with what changed since last May and what each option costs in money or rest.",
+      },
+      {
+        type: "image",
+        url: FourMaysEvening,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "The family at dinner in the evening, next to the End of May slip listing the month's money in and out",
+        caption: "Evening: the family at dinner and the month's slip, from pay day to what is left for next May.",
+      },
+      {
+        type: "image",
+        url: FourMaysYear,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "A year passing: calendars flip from May to December 2024 and a sourced card shows the naira's rate against the dollar",
+        caption: "Between the years, dated and sourced changes are dealt one at a time, beside last May's month at the new prices.",
+      },
+      {
+        type: "image",
+        url: FourMaysEnding,
+        width: 1800,
+        height: 1200,
+        bare: true,
+        alt: "The ending: a note from the household between four evening photos, with the date Nigeria next votes",
+        caption: "The ending: a note from the family, the four dinner photos the game took, and the date Nigeria next votes.",
+      },
+    ],
+    live: "https://fourmays.talade.name.ng",
+    source: "https://github.com/TaladeogoA/four-mays",
+    period: "2026",
   },
 ];
