@@ -50,12 +50,12 @@ const EXPERIENCE = [
   },
   {
     company: "Famasi Africa",
-    role: "Sole mobile engineer on Famasi and Dispensary",
+    role: "Product engineer on Famasi and Dispensary",
     period: "2025 – 2026",
   },
   {
     company: "Octosoft",
-    role: "Mobile engineer on Octodoc",
+    role: "Frontend developer on Octodoc",
     period: "2023 – 2025",
   },
 ];

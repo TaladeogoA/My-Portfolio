@@ -12,7 +12,7 @@ const LINKS = [
   {
     label: "LinkedIn",
     value: "Taladeogo Abraham",
-    href: "https://www.linkedin.com/in/taladeogo-abraham-b058b1166/",
+    href: "https://www.linkedin.com/in/taladeogo-abraham/",
   },
   {
     label: "GitHub",

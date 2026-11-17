@@ -176,7 +176,7 @@ export const data: Project[] = [
   },
   {
     id: "03",
-    role: "Sole frontend engineer",
+    role: "Product engineer, mobile",
     platforms: "iOS · Android · Web",
     title: "Famasi",
     subtitle: "Consumer Pharmacy Platform",
@@ -187,7 +187,7 @@ export const data: Project[] = [
     constraints:
       "The web platform's ordering flow was unstable, with checkout and payment bugs, and it had to keep taking real orders while it was being fixed. The mobile app had to match a web platform that already existed, while still working the way people expect a phone app to work. New features had to fit into production systems that were in daily use.",
     contribution:
-      "I was the sole frontend engineer across several production products. I built the mobile version of the web platform, working towards feature parity with mobile-first performance work. On the web, I refactored the legacy order flows and fixed critical checkout and payment bugs. I also built curated medication plans and Famasi Wrapped, integrated Remi, and handled releases, updates and production support.",
+      "As a product engineer, I scoped, built and released features across several production products. I built the mobile version of the web platform, working towards feature parity with mobile-first performance work. On the web, I refactored the legacy order flows and fixed critical checkout and payment bugs. I also built curated medication plans and Famasi Wrapped, integrated Remi, and handled releases, updates and production support.",
     decisions:
       "I treated checkout as one transaction rather than a set of separate screens: validation and guards stop the flow moving from medication to delivery details to payment in an invalid state. Curated plans let people buy several products together in a single checkout instead of placing separate orders. Wrapped turned a year of orders into a personalised, animated story. Remi, built on LiveKit, asks users in conversation what a personal pharmacy means to them, so the answers can shape the product.",
     technicalHighlights: [
@@ -320,7 +320,7 @@ export const data: Project[] = [
   },
   {
     id: "05",
-    role: "Mobile engineer",
+    role: "Frontend developer",
     platforms: "iOS · Android",
     title: "Octosoft Technologies",
     subtitle: "Telemedicine & Digital Health",
